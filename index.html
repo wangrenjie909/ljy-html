@@ -5,43 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>甜甜蜜蜜的彩虹乐园</title>
     <style>
+        @keyframes candySky {
+            0%  { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100%{ background-position: 0% 50%; }
+        }
         body {
-            background: 
-                linear-gradient(135deg, rgba(255,210,225,0.5), rgba(210,235,255,0.45), rgba(255,225,185,0.45)),
-                url('https://safebooru.org/images/1321/074a44f12b99e0742683789edf23c53c52061e6a.png');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            color: #4a3060;
+            background: linear-gradient(135deg, #ffb8d4 0%, #ffd3a8 25%, #ffe8a0 50%, #d8c8ff 75%, #ffb8d4 100%);
+            background-size: 400% 400%;
+            animation: candySky 18s ease infinite;
+            color: #7a2050;
             font-family: "微软雅黑", sans-serif;
             min-height: 100vh;
             margin: 0;
-            padding: 20px;
+            padding: 20px 20px 80px;
         }
-        /* 真实彩虹弧线 */
-        .rainbow-wrap {
+        /* 漂浮糖果 */
+        .pet {
             position: fixed;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 750px;
-            height: 750px;
-            z-index: 0;
             pointer-events: none;
+            z-index: 0;
+            animation: floatCandy 3s infinite ease-in-out;
         }
-        .rainbow-real {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            background: transparent;
-            box-shadow: 
-                inset 0 0 0 4px rgba(255,45,40,0.85),
-                inset 0 0 0 11px rgba(255,140,10,0.82),
-                inset 0 0 0 18px rgba(255,205,35,0.8),
-                inset 0 0 0 25px rgba(50,185,55,0.78),
-                inset 0 0 0 32px rgba(35,145,248,0.8),
-                inset 0 0 0 39px rgba(110,50,230,0.78);
-            clip-path: inset(0 0 420px 0);
+        @keyframes floatCandy {
+            0%, 100% { transform: translateY(0) rotate(-3deg); }
+            50%      { transform: translateY(-16px) rotate(3deg); }
         }
         /* 公主 */
         .princess {
@@ -61,12 +49,30 @@
             0%, 100% { transform: translateY(0); }
             50%      { transform: translateY(-10px); }
         }
+        /* 专属糖果公主 */
+        .cat-princess {
+            position: fixed;
+            bottom: 10px;
+            left: 15px;
+            z-index: 0;
+            pointer-events: none;
+        }
+        .cat-princess img {
+            width: 260px;
+            height: auto;
+            filter: drop-shadow(0 8px 20px rgba(255,180,200,0.5));
+            animation: floatC 3.5s infinite ease-in-out;
+        }
+        @keyframes floatC {
+            0%, 100% { transform: translateY(0); }
+            50%      { transform: translateY(-12px); }
+        }
         /* 3D 翻转卡片 */
         .flip-card {
             position: relative;
             z-index: 1;
             max-width: 700px;
-            height: 580px;
+            height: 560px;
             margin: 60px auto;
             perspective: 1500px;
             cursor: pointer;
@@ -106,38 +112,108 @@
         h1:hover { transform: scale(1.03); }
         a { color: #d84b8a; text-decoration: none; font-weight: bold; transition: all 0.3s; }
         a:hover { color: #ff6ba0; text-shadow: 0 0 10px rgba(255,107,160,0.6); transform: translateY(-2px); display: inline-block; }
+        .section { display: none; animation: flipIn 0.5s ease; }
+        @keyframes flipIn {
+            0% { transform: rotateY(80deg) scale(0.9); opacity: 0; }
+            100%{ transform: rotateY(0deg) scale(1); opacity: 1; }
+        }
+        @keyframes pulse {
+            0%,100%{ opacity:1; } 50%{ opacity:0.5; }
+        }
+        /* ===== 导航栏 Flexbox ===== */
+        .navbar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(90deg, #ffb8d4, #ffd3a8, #ffe8a0, #d8c8ff);
+            padding: 16px 30px;
+            border-radius: 18px;
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 2;
+            box-shadow: 0 6px 25px rgba(255,150,180,0.3);
+        }
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        .nav-links a {
+            color: #7a2050;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 20px;
+            padding: 10px 20px;
+            border-radius: 12px;
+            transition: all 0.3s;
+        }
+        .nav-links a:hover {
+            background: rgba(255,255,255,0.5);
+            color: #d84b8a;
+            transform: translateY(-2px);
+        }
+        /* ===== Flexbox 三连卡片 ===== */
+        .card-row {
+            display: flex;
+            gap: 20px;
+            max-width: 700px;
+            margin: 25px auto;
+            position: relative;
+            z-index: 1;
+            flex-wrap: wrap;
+        }
+        .mini-card {
+            flex: 1;
+            min-width: 180px;
+            height: 250px;
+            perspective: 800px;
+            cursor: pointer;
+        }
+        .mini-inner {
+            width: 100%; height: 100%;
+            transform-style: preserve-3d;
+            transition: transform 0.8s;
+        }
+        .mini-card.toggled .mini-inner {
+            transform: rotateY(180deg);
+        }
+        .mini-front, .mini-back {
+            position: absolute; inset: 0;
+            backface-visibility: hidden;
+            border-radius: 20px;
+            padding: 20px;
+            box-sizing: border-box;
+            overflow: auto;
+        }
+        .mini-front {
+            background: rgba(255,255,255,0.65);
+            backdrop-filter: blur(6px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        .mini-back {
+            background: linear-gradient(135deg, #ffd3e8, #ffe8a0, #d8c8ff);
+            transform: rotateY(180deg);
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
         /* ===== 手机端适配 ===== */
         @media (max-width: 768px) {
             body { padding: 10px; }
-            .rainbow-wrap { width: 400px; height: 400px; }
-            .rainbow-real {
-                box-shadow: 
-                    inset 0 0 0 3px rgba(255,45,40,0.85),
-                    inset 0 0 0 8px rgba(255,140,10,0.82),
-                    inset 0 0 0 13px rgba(255,205,35,0.8),
-                    inset 0 0 0 18px rgba(50,185,55,0.78),
-                    inset 0 0 0 23px rgba(35,145,248,0.8),
-                    inset 0 0 0 28px rgba(110,50,230,0.78);
-                clip-path: inset(0 0 230px 0);
-            }
+            .pet { font-size: 60px !important; }
             .flip-card { height: 520px; margin: 30px auto; }
             .flip-front, .flip-back { padding: 20px 22px; border-radius: 18px; }
             h1 { font-size: 22px; }
             h2 { font-size: 16px; }
             h3 { font-size: 14px; }
+            .navbar { padding: 10px 15px; flex-wrap: wrap; gap: 8px; }
+            .nav-links { gap: 6px; }
+            .nav-links a { font-size: 14px; padding: 6px 10px; }
         }
         @media (max-width: 480px) {
-            .rainbow-wrap { width: 300px; height: 300px; }
-            .rainbow-real {
-                box-shadow: 
-                    inset 0 0 0 2px rgba(255,45,40,0.8),
-                    inset 0 0 0 6px rgba(255,140,10,0.78),
-                    inset 0 0 0 10px rgba(255,205,35,0.75),
-                    inset 0 0 0 14px rgba(50,185,55,0.72),
-                    inset 0 0 0 18px rgba(35,145,248,0.75),
-                    inset 0 0 0 22px rgba(110,50,230,0.72);
-                clip-path: inset(0 0 170px 0);
-            }
+            .pet { font-size: 45px !important; }
             .flip-card { height: 480px; margin: 20px auto; }
             .flip-front, .flip-back { padding: 15px 16px; }
             h1 { font-size: 18px; }
@@ -147,19 +223,38 @@
     </style>
 </head>
 <body>
-    <div class="rainbow-wrap"><div class="rainbow-real"></div></div>
+    <!-- ====== 装饰层：漂浮糖果 + 公主 ====== -->
+    <span class="pet" style="top: 10%; left: 5%; font-size: 100px;">🍬</span>
+    <span class="pet" style="top: 8%; right: 8%; animation-delay: 0.5s; font-size: 85px;">🍭</span>
+    <span class="pet" style="top: 45%; right: 12%; animation-delay: 1s; font-size: 75px;">🍩</span>
     <div class="princess">
         <img src="https://safebooru.org/images/1290/8010a15f91ccbe4a5bddaa928caed91f85e740fb.png" alt="糖果公主">
     </div>
+
+    <!-- ====== 导航栏 ====== -->
+    <nav class="navbar">
+        <ul class="nav-links">
+            <li><a href="#" onclick="flipTo('home');return false;">🏠 首页</a></li>
+            <li><a href="#" onclick="flipTo('about');return false;">👩‍🎨 关于我</a></li>
+            <li><a href="#" onclick="flipTo('works');return false;">🎨 作品集</a></li>
+        </ul>
+    </nav>
+    <p style="text-align:center; z-index:1; position:relative; color:#d84b8a; font-size:20px; margin:8px 0 12px; font-weight:bold;">👆 点击首页、作品集、关于我，可以查看不同的内容</p>
+    <div class="princess">
+        <img src="https://safebooru.org/images/1290/8010a15f91ccbe4a5bddaa928caed91f85e740fb.png" alt="糖果公主">
+    </div>
+    <div id="section-home" class="section" style="display:block;">
     <div class="flip-card">
         <div class="flip-inner">
             <div class="flip-front">
                 <h1>🍭 甜甜蜜蜜的彩虹乐园</h1>
                 <p>欢迎来到糖果世界，快开启你的甜蜜之旅吧！</p>
+                <p style="text-align:center; font-size:20px; color:#d84b8a; animation:pulse 2s infinite;">👆 点我翻面有惊喜！👆</p>
                 <h2>🧚 乐园的主人</h2>
                 <p>大家好！我是会施展魔法的精灵——<strong>繁星浅梦</strong>！</p>
-                <img src="https://api.dicebear.com/7.x/fun-emoji/svg?seed=lollipop" alt="彩虹棒棒糖" class="avatar">
-                <p>我的吉祥物——<strong>彩虹棒棒糖</strong>！🍭</p>
+                <img src="https://safebooru.org/images/57/fd4d964bf0a918ea64597ec3d091dd48015cfc8f.png" alt="兔耳公主" style="width:260px; border-radius:50%; box-shadow:0 8px 25px rgba(200,180,255,0.5);">
+                <img src="https://safebooru.org/images/34/5387f275040ceca0b676e399dc6e541d96cee53e.jpg" alt="橙发糖果公主" style="width:260px; border-radius:50%; box-shadow:0 8px 25px rgba(255,180,140,0.5);">
+                <p>我的吉祥物——<strong>卡皮巴拉</strong>！🍭</p>
                 <h2>🍰 我的爱好小怪兽</h2>
                 <p>它叫<strong>提拉米苏</strong>，可可爱爱！</p>
                 <h2>🌈 我的爱好</h2>
@@ -175,20 +270,153 @@
                 <h4>h4 — 比 h3 小一点</h4>
                 <h5>h5 — 更小了</h5>
                 <h6>h6 — 超级迷你！</h6>
+                <h2>🎉 本月主题活动</h2>
+                <p>🎃 <strong>糖果万圣节</strong> — 10月限定！</p>
+                <p>🎄 <strong>圣诞糖果屋</strong> — 12月暖心上线</p>
+                <p>🌸 <strong>樱花甜品季</strong> — 3月浪漫开幕</p>
+                <h2>👑 VIP 会员特权</h2>
+                <p>🥇 黄金会员：每月免费领1个云端草莓蛋糕</p>
+                <p>🥈 白银会员：曲奇买三送一</p>
+                <p>🥉 青铜会员：甜甜圈第二个半价</p>
                 <h2>🚪 传送门</h2>
                 <p><a href="https://www.bilibili.com" target="_blank">点这里开启糖果之旅</a></p>
+                <p style="text-align:center; color:#e8709a;">🏰 已有 <strong>1,288</strong> 位小伙伴来过乐园！</p>
+                <p style="text-align:center;">⭐⭐⭐⭐⭐ 4.9分好评</p>
             </div>
             <div class="flip-back">
                 <h2>✨ 魔法糖果宝库 ✨</h2>
                 <p style="font-size:50px;">🍬🍭🍩🧁🍪</p>
                 <p style="font-size:22px;">恭喜！你发现了秘密宝藏！</p>
                 <p>🍫 巧克力瀑布 | 🌟 星光棉花糖 | 🎂 彩虹蛋糕</p>
+                <p>🦄 独角兽奶昔 | 🍇 魔法果冻 | 🍯 蜂蜜星星糖</p>
                 <p style="margin-top:20px; color:#888;">👆 点击卡片可以手动翻转哦～</p>
             </div>
         </div>
     </div>
+    </div><!-- /home -->
+    <div id="section-about" class="section">
+    <!-- ===== 关于我 ===== -->
+    <h2 style="text-align:center; z-index:1; position:relative; color:#d84b8a; margin-top:40px; font-size:28px;">👩‍🎨 关于我</h2>
+    <!-- Flexbox 三连小翻转卡片 -->
+    <div class="card-row">
+        <div class="mini-card">
+            <div class="mini-inner">
+                <div class="mini-front">
+                    <h3>🍫 糖果菜单</h3>
+                    <ul>
+                        <li>🍩 彩虹甜甜圈 — ¥5</li>
+                        <li>☁️ 云朵咖啡 — ¥10</li>
+                        <li>🧁 魔法纸杯蛋糕 — ¥15</li>
+                        <li>🍪 曲奇家族 — ¥15/袋（开心果💚草莓💗巧克力🤎香芋💜 🌈彩虹糖果🆕）</li>
+                        <li>🍰 云端草莓蛋糕 — ¥25</li>
+                    </ul>
+                </div>
+                <div class="mini-back">
+                    <p style="font-size:36px;">🍬🍭</p>
+                    <p>今日特供：提拉米苏亲手做的神秘甜品！</p>
+                </div>
+            </div>
+        </div>
+        <div class="mini-card">
+            <div class="mini-inner">
+                <div class="mini-front">
+                    <h3>📢 乐园公告</h3>
+                    <p>🌟 新朋友入园免费领一根彩虹棒棒糖！</p>
+                    <p>🎪 周末：糖果城堡开放参观～</p>
+                    <h3>🧑‍🍳 招聘员工</h3>
+                    <p>🍩 甜甜圈师傅 ×2 | 🍪 曲奇师 ×1</p>
+                    <p>☕ 咖啡调配师 ×1 | 🧁 蛋糕装饰师 ×1</p>
+                    <p>📿 手串师 ×1 | 🧩 拼豆师 ×1 | 🔥 火漆印章师 ×1</p>
+                    <p>📅 上班：周二三四+周六日 | 周一周五放假</p>
+                    <p>💰 月薪 ¥10,000 或 🌈彩虹币</p>
+                    <p>🎁 集齐1万彩虹币（打卡100天）→员工放假5天！游客免费领曲奇每种口味3个！</p>
+                </div>
+                <div class="mini-back">
+                    <p style="font-size:36px;">🎉🎁</p>
+                    <p>隐藏福利：说"芝麻开门"可获赠神秘糖果礼包！</p>
+                </div>
+            </div>
+        </div>
+        <div class="mini-card">
+            <div class="mini-inner">
+                <div class="mini-front">
+                    <h3>🌟 每日打卡</h3>
+                    <ol>
+                        <li>🍬 吃一颗糖</li>
+                        <li>🎨 画一朵花</li>
+                        <li>💌 请朋友来玩</li>
+                    </ol>
+                    <p style="text-align:center; color:#e8709a; font-weight:bold;">✅ 3项全完成 → 得 🌈×100 彩虹币！</p>
+                </div>
+                <div class="mini-back">
+                    <p style="font-size:36px;">⭐🏆</p>
+                    <p>连续打卡7天：获得"糖果大师"称号！</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div><!-- /about -->
+    <div id="section-works" class="section">
+    <!-- ===== 作品集 ===== -->
+    <h2 style="text-align:center; z-index:1; position:relative; color:#8b5cf6; margin-top:40px; font-size:28px;">🎨 作品集</h2>
+    <!-- 第二行卡片 -->
+    <div class="card-row">
+        <div class="mini-card">
+            <div class="mini-inner">
+                <div class="mini-front">
+                    <h3>💬 游客好评</h3>
+                    <p>⭐ "这里的甜甜圈太好吃啦！" — 小美</p>
+                    <p>⭐ "提拉米苏超可爱！" — 阿杰</p>
+                    <p>⭐ "云朵咖啡让我飘起来了～" — 糖果控</p>
+                </div>
+                <div class="mini-back">
+                    <p style="font-size:36px;">💌</p>
+                    <p>写一条好评 → 送 🌈×50 彩虹币！</p>
+                </div>
+            </div>
+        </div>
+        <div class="mini-card">
+            <div class="mini-inner">
+                <div class="mini-front">
+                    <h3>🎨 糖果DIY工坊</h3>
+                    <p>🕐 每周六下午2-4点</p>
+                    <p>🧑‍🏫 曲奇师亲自教学</p>
+                    <p>🎟️ 门票：¥30/人</p>
+                </div>
+                <div class="mini-back">
+                    <p style="font-size:36px;">🎪</p>
+                    <p>DIY成品可带回家！<br>还能获得 🌈×200！</p>
+                </div>
+            </div>
+        </div>
+        <div class="mini-card">
+            <div class="mini-inner">
+                <div class="mini-front">
+                    <h3>🎂 生日派对预订</h3>
+                    <p>🎈 定制专属糖果蛋糕</p>
+                    <p>🎁 寿星免费领礼包</p>
+                    <p>📞 提前3天预约哟～</p>
+                </div>
+                <div class="mini-back">
+                    <p style="font-size:36px;">🎉🎊</p>
+                    <p>派对套餐 ¥188 起！<br>含蛋糕+饮品+DIY体验！</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div><!-- /works -->
+
+    <!-- ====== 脚本：翻转切换 ====== -->
     <script>
+        function flipTo(id) {
+            document.querySelectorAll('.section').forEach(s => s.style.display = 'none');
+            document.getElementById('section-'+id).style.display = 'block';
+            document.getElementById('section-'+id).style.animation = 'none';
+            setTimeout(function(){ document.getElementById('section-'+id).style.animation = 'flipIn 0.5s ease'; },10);
+        }
+        flipTo('home');
         document.querySelector('.flip-card').addEventListener('click',function(){this.classList.toggle('toggled')});
+        document.querySelectorAll('.mini-card').forEach(function(c){c.addEventListener('click',function(){this.classList.toggle('toggled')})});
     </script>
 </body>
 </html>
