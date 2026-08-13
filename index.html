@@ -81,12 +81,9 @@
             width: 100%; height: 100%;
             text-align: left;
             transform-style: preserve-3d;
-            animation: flip 10s infinite;
+            transition: transform 1s;
         }
-        .flip-card.toggled .flip-inner { animation: none; transform: rotateY(180deg); transition: transform 1s; }
-        @keyframes flip {
-            0%,35%{transform:rotateY(0deg)} 50%,85%{transform:rotateY(180deg)} 100%{transform:rotateY(0deg)}
-        }
+        .flip-card.toggled .flip-inner { transform: rotateY(180deg); }
         .flip-front, .flip-back {
             position: absolute; inset: 0;
             backface-visibility: hidden;
@@ -355,6 +352,108 @@
             </div>
         </div>
     </div>
+    <!-- 关于我：好物推荐 -->
+    <div class="card-row">
+        <div class="mini-card">
+            <div class="mini-inner">
+                <div class="mini-front">
+                    <h3>🥤 卖饮料</h3>
+                    <p>🧃 彩虹果汁 ¥8 | 🥤 珍珠奶茶 ¥12</p>
+                    <p>🍵 草莓奶盖 ¥14 | 🫧 气泡魔法水 ¥9</p>
+                    <p>🍋 柠檬苏打 ¥7 | 🍑 蜜桃乌龙 ¥11</p>
+                    <p>🥛 香蕉奶昔 ¥10 | 🍫 热可可 ¥10</p>
+                </div>
+                <div class="mini-back">
+                    <p style="font-size:36px;">🥤🧃</p>
+                    <p>第二杯半价！</p>
+                </div>
+            </div>
+        </div>
+        <div class="mini-card">
+            <div class="mini-inner">
+                <div class="mini-front">
+                    <h3>🍓 卖水果</h3>
+                    <p>🍓 草莓 ¥12/盒 | 🍇 葡萄 ¥10/串</p>
+                    <p>🍊 橙子 ¥8/斤 | 🍉 西瓜 ¥15/个</p>
+                    <p>🍎 苹果 ¥6/斤 | 🍌 香蕉 ¥5/把</p>
+                    <p>🍑 水蜜桃 ¥9/个 | 🥝 猕猴桃 ¥8/盒</p>
+                </div>
+                <div class="mini-back">
+                    <p style="font-size:36px;">🍓🍉</p>
+                    <p>新鲜现摘，买2送1！</p>
+                </div>
+            </div>
+        </div>
+        <div class="mini-card">
+            <div class="mini-inner">
+                <div class="mini-front">
+                    <h3>🍿 卖零食</h3>
+                    <p>🍿 彩虹爆米花 ¥8 | 🥨 巧克力脆棒 ¥10</p>
+                    <p>🍘 草莓米饼 ¥6 | 🫘 焦糖爆豆 ¥7</p>
+                    <p>🍪 曲奇饼干 ¥12 | 🍫 夹心巧克力 ¥9</p>
+                    <p>🌰 糖炒栗子 ¥13 | 🍡 果味软糖 ¥5</p>
+                </div>
+                <div class="mini-back">
+                    <p style="font-size:36px;">🍿🍫</p>
+                    <p>买3包送1包！</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 关于我：好物推荐第二排 -->
+    <div class="card-row">
+        <div class="mini-card">
+            <div class="mini-inner">
+                <div class="mini-front">
+                    <h3>🎁 礼物店</h3>
+                    <p>🧸 糖果玩偶 ¥25 | 🎀 蝴蝶结发饰 ¥8</p>
+                    <p>📿 手工手链 ¥20 | 🖼️ 糖果贴画 ¥12</p>
+                    <p>🎈 生日气球 ¥15 | 🕯️ 香薰蜡烛 ¥18</p>
+                    <p>🎁 礼品盒 ¥10 | 💌 手写贺卡 ¥5</p>
+                </div>
+                <div class="mini-back">
+                    <p style="font-size:36px;">🎁🧸</p>
+                    <p>满 ¥50 免费包装！</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 关于我：糖果乐园专区 -->
+    <div class="card-row">
+        <div class="mini-card">
+            <div class="mini-inner">
+                <div class="mini-front">
+                    <h3>🍭 棒棒糖屋</h3>
+                    <p>🍭 彩虹棒棒糖 ¥3 | 🌀 螺旋棒棒糖 ¥4</p>
+                    <p>💗 爱心棒棒糖 ¥5 | 🌟 星星棒棒糖 ¥5</p>
+                    <p>🦄 独角兽棒棒糖 ¥8 | 🍇 葡萄棒棒糖 ¥4</p>
+                </div>
+                <div class="mini-back"><p style="font-size:36px;">🍭🍬</p><p>买10根送1根！</p></div>
+            </div>
+        </div>
+        <div class="mini-card">
+            <div class="mini-inner">
+                <div class="mini-front">
+                    <h3>🍫 巧克力工坊</h3>
+                    <p>🍫 牛奶巧克力 ¥10 | 🤎 黑巧克力 ¥12</p>
+                    <p>🍓 草莓夹心 ¥13 | 🌰 榛果脆心 ¥14</p>
+                    <p>⚪ 白巧克力 ¥11 | 🍊 橙香巧克力 ¥12</p>
+                </div>
+                <div class="mini-back"><p style="font-size:36px;">🍫🤎</p><p>巧克力礼盒 ¥68！</p></div>
+            </div>
+        </div>
+        <div class="mini-card">
+            <div class="mini-inner">
+                <div class="mini-front">
+                    <h3>🍬 软糖世界</h3>
+                    <p>🐻 小熊软糖 ¥6 | 🍇 果味软糖 ¥5</p>
+                    <p>🍡 棉花糖串 ¥5 | 🌈 彩虹软糖 ¥7</p>
+                    <p>🍥 棉花糖 ¥4 | 🍯 蜂蜜糖 ¥6</p>
+                </div>
+                <div class="mini-back"><p style="font-size:36px;">🐻🍬</p><p>软糖大礼包 ¥25！</p></div>
+            </div>
+        </div>
+    </div>
     </div><!-- /about -->
     <div id="section-works" class="section">
     <!-- ===== 作品集 ===== -->
@@ -382,6 +481,13 @@
                     <p>🕐 每周六下午2-4点</p>
                     <p>🧑‍🏫 曲奇师亲自教学</p>
                     <p>🎟️ 门票：¥30/人</p>
+                    <p>🔥 DIY火漆印章：国庆期间 10:00上课 ¥35/节</p>
+                    <p>🧩 拼豆工坊：国庆期间 14:00上课 ¥28/节</p>
+                    <p>🪄 手串工坊：国庆期间 16:00上课 ¥40/节</p>
+                    <p>🎂 蛋糕装饰工坊：国庆 9:00上课 ¥45/节</p>
+                    <p>🍪 曲奇烘焙工坊：国庆 11:00上课 ¥38/节</p>
+                    <p>💅 美甲糖果工坊：国庆 15:00上课 ¥30/节</p>
+                    <p style="color:#e8709a; font-weight:bold;">🎁 报5节送1节 / 报10节送3节<br>或直接减钱：报5节减¥30，报10节减¥80！</p>
                 </div>
                 <div class="mini-back">
                     <p style="font-size:36px;">🎪</p>
@@ -401,6 +507,107 @@
                     <p style="font-size:36px;">🎉🎊</p>
                     <p>派对套餐 ¥188 起！<br>含蛋糕+饮品+DIY体验！</p>
                 </div>
+            </div>
+        </div>
+    </div>
+    <!-- 作品集：冰淇淋 + 图书角 -->
+    <div class="card-row">
+        <div class="mini-card">
+            <div class="mini-inner">
+                <div class="mini-front">
+                    <h3>🍦 冰淇淋店</h3>
+                    <p>🍓 草莓绵绵冰 ¥15</p>
+                    <p>🍊 橙汁绵绵冰 ¥13</p>
+                    <p>🍦 香草甜筒 ¥6 | 🍧 草莓圣代 ¥12</p>
+                    <p>🍨 彩虹冰淇淋杯 ¥15 | 🥭 芒果冰沙 ¥10</p>
+                    <p>🍫 巧克力圣代 ¥13 | 🍵 抹茶冰淇淋 ¥11</p>
+                    <p>🍇 葡萄冰沙 ¥10 | 🥥 椰香雪糕 ¥9</p>
+                </div>
+                <div class="mini-back">
+                    <p style="font-size:36px;">🍦🍨</p>
+                    <p>双球第二个半价！</p>
+                </div>
+            </div>
+        </div>
+        <div class="mini-card">
+            <div class="mini-inner">
+                <div class="mini-front">
+                    <h3>📚 图书角</h3>
+                    <p>📖 糖果童话书 ¥15 | 📕 手作教程 ¥20</p>
+                    <p>🎨 涂色本 ¥10 | 🧩 拼图书 ¥18</p>
+                    <p>📗 科普绘本 ¥22 | 📘 英文故事书 ¥25</p>
+                    <p>📙 迷宫游戏书 ¥12 | ✏️ 练习册 ¥8</p>
+                </div>
+                <div class="mini-back">
+                    <p style="font-size:36px;">📚🎨</p>
+                    <p>买书送书签！</p>
+                </div>
+            </div>
+        </div>
+        <div class="mini-card">
+            <div class="mini-inner">
+                <div class="mini-front">
+                    <h3>📅 营业时间</h3>
+                    <p>🍦 冰淇淋店：10:00-20:00</p>
+                    <p>📚 图书角：9:00-18:00</p>
+                    <p>🎨 工坊：国庆 9:00-17:00</p>
+                </div>
+                <div class="mini-back">
+                    <p style="font-size:36px;">⏰</p>
+                    <p>记得来玩呀！</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 作品集：零食区 -->
+    <div class="card-row">
+        <div class="mini-card">
+            <div class="mini-inner">
+                <div class="mini-front">
+                    <h3>🍿 零食区</h3>
+                    <p>🍿 彩虹爆米花 ¥8 | 🥨 巧克力脆棒 ¥10</p>
+                    <p>🍘 草莓米饼 ¥6 | 🫘 焦糖爆豆 ¥7</p>
+                    <p>🍪 曲奇饼干 ¥12 | 🍫 夹心巧克力 ¥9</p>
+                    <p>🌰 糖炒栗子 ¥13 | 🍡 果味软糖 ¥5</p>
+                </div>
+                <div class="mini-back">
+                    <p style="font-size:36px;">🍿🍫</p>
+                    <p>买3包送1包！</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 作品集：糖果图标墙 -->
+    <div class="card-row">
+        <div class="mini-card">
+            <div class="mini-inner">
+                <div class="mini-front" style="text-align:center;">
+                    <h3>🍬 糖果图标</h3>
+                    <p style="font-size:30px; margin:5px 0;">🍭🍬🍫🍩🧁</p>
+                    <p>棒棒糖 ¥3 · 软糖 ¥5 · 巧克力 ¥8 · 甜甜圈 ¥5 · 蛋糕 ¥25</p>
+                </div>
+                <div class="mini-back"><p style="font-size:36px;">🍬</p><p>甜蜜系列图标！</p></div>
+            </div>
+        </div>
+        <div class="mini-card">
+            <div class="mini-inner">
+                <div class="mini-front" style="text-align:center;">
+                    <h3>🥤 饮品图标</h3>
+                    <img src="image_477408556514120.png" alt="桂花树" style="width:60px; border-radius:12px; display:inline-block; margin:4px 3px; vertical-align:middle;">
+                    <p style="font-size:30px; margin:5px 0; display:inline-block;">🧃🥤🍵🍋🥛</p>
+                    <p>果汁 ¥8 · 奶茶 ¥12 · 奶盖 ¥14 · 苏打 ¥7 · 奶昔 ¥10</p>
+                </div>
+                <div class="mini-back"><p style="font-size:36px;">🥤</p><p>清凉系列图标！</p></div>
+            </div>
+        </div>
+        <div class="mini-card">
+            <div class="mini-inner">
+                <div class="mini-front" style="text-align:center;">
+                    <h3>🍰 甜品图标</h3>
+                    <p style="font-size:30px; margin:5px 0;">🍰🍦🍨🍧🥭</p>
+                    <p>蛋糕 ¥25 · 甜筒 ¥6 · 圣代 ¥12 · 冰沙 ¥10</p>
+                </div>
+                <div class="mini-back"><p style="font-size:36px;">🍰</p><p>甜点系列图标！</p></div>
             </div>
         </div>
     </div>
