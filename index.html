@@ -19,7 +19,11 @@
             min-height: 100vh;
             margin: 0;
             padding: 20px 20px 80px;
+            overflow-x: hidden;
         }
+        /* 隐藏滚动条 */
+        *::-webkit-scrollbar { display: none; }
+        * { scrollbar-width: none; -ms-overflow-style: none; }
         /* 漂浮糖果 */
         .pet {
             position: fixed;
@@ -68,6 +72,13 @@
             50%      { transform: translateY(-12px); }
         }
         /* 3D 翻转卡片 */
+        .home-tag {
+            position: fixed;
+            top: 20%;
+            left: 20px;
+            z-index: 1;
+            pointer-events: none;
+        }
         .flip-card {
             position: relative;
             z-index: 1;
@@ -196,6 +207,219 @@
             text-align: center;
             box-shadow: 0 8px 25px rgba(0,0,0,0.1);
         }
+        /* ===== Hero 区域（第7课）===== */
+        .hero {
+            max-width: 700px;
+            margin: 30px auto 0;
+            padding: 50px 30px 45px;
+            text-align: center;
+            border-radius: 30px;
+            background: linear-gradient(135deg, #ff9ec4 0%, #ffd3a8 40%, #d8c8ff 100%);
+            box-shadow: 0 12px 40px rgba(255,150,180,0.35);
+            position: relative;
+            z-index: 1;
+            color: #7a2050;
+        }
+        .avatar-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            background: rgba(255,255,255,0.75);
+            box-shadow: 0 8px 25px rgba(255,150,200,0.5);
+            animation: floatAvatar 3s infinite ease-in-out;
+        }
+        @keyframes floatAvatar {
+            0%, 100% { transform: translateY(0); }
+            50%      { transform: translateY(-12px); }
+        }
+        .hero h1 { margin: 0 0 8px; font-size: 34px; }
+        .hero .subtitle { margin: 0 0 6px; font-size: 18px; font-weight: bold; color: #d84b8a; }
+        .hero .desc { margin: 0 0 22px; font-size: 15px; }
+        .btn-primary {
+            background: #fff;
+            color: #d84b8a;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0 6px 18px rgba(255,150,180,0.4);
+            transition: all 0.3s;
+        }
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 28px rgba(255,150,180,0.55);
+        }
+        /* ===== 技能徽章（第7课）===== */
+        .skills {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 15px;
+        }
+        .badge {
+            display: inline-block;
+            padding: 8px 18px;
+            background: linear-gradient(135deg, #ffb8d4, #d8c8ff);
+            color: #7a2050;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        .badge:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 5px 15px rgba(255,150,200,0.5);
+        }
+
+        /* ===== 作品集网格 + 灯箱（第8课）===== */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            max-width: 900px;
+            margin: 25px auto;
+            position: relative;
+            z-index: 1;
+        }
+        .card {
+            background: rgba(255,255,255,0.75);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(255,150,180,0.25);
+            cursor: pointer;
+            transition: all 0.4s;
+            border: 2px solid rgba(255,255,255,0.8);
+        }
+        .card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+        }
+        .card-body {
+            padding: 15px;
+            text-align: center;
+            color: #7a2050;
+        }
+        .card-body h3 { margin: 0 0 6px; }
+        .card-body p { margin: 0; font-size: 14px; color: #d84b8a; }
+        .card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(255,150,180,0.4);
+        }
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9);
+            text-align: center;
+            z-index: 999;
+        }
+        .lightbox.active { display: block; }
+        .lightbox img {
+            max-width: 80%;
+            max-height: 80%;
+            margin-top: 60px;
+            border-radius: 10px;
+            box-shadow: 0 0 40px rgba(255,150,200,0.6);
+        }
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            color: white;
+            font-size: 44px;
+            cursor: pointer;
+            line-height: 1;
+        }
+        .lightbox-close:hover { color: #ffb8d4; }
+
+        /* ===== 联系表单 + 社交链接（第9课）===== */
+        form {
+            max-width: 500px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        form input, form select, form textarea {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border: 2px solid #ffd3e8;
+            border-radius: 12px;
+            font-size: 15px;
+            box-sizing: border-box;
+            font-family: inherit;
+            background: rgba(255,255,255,0.75);
+            color: #7a2050;
+        }
+        form textarea { height: 120px; resize: vertical; }
+        form button {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(90deg, #ff9ec4, #d8c8ff);
+            color: #7a2050;
+            border: none;
+            border-radius: 12px;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        form button:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 25px rgba(255,150,200,0.5);
+        }
+        .form-success {
+            display: none;
+            padding: 15px;
+            background: #d4f5d4;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 10px;
+            color: #2d7d2d;
+        }
+        .form-success.show { display: block; animation: flipIn 0.5s ease; }
+        .form-error {
+            display: none;
+            color: #ff6b6b;
+            text-align: center;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        .form-error.show { display: block; }
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 1;
+        }
+        .social-link {
+            padding: 10px 25px;
+            background: rgba(255,180,220,0.2);
+            border: 1px solid rgba(255,150,200,0.4);
+            border-radius: 30px;
+            color: #d84b8a;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        .social-link:hover {
+            background: rgba(255,180,220,0.35);
+            transform: translateY(-2px);
+        }
+
         /* ===== 手机端适配 ===== */
         @media (max-width: 768px) {
             body { padding: 10px; }
@@ -208,6 +432,7 @@
             .navbar { padding: 10px 15px; flex-wrap: wrap; gap: 8px; }
             .nav-links { gap: 6px; }
             .nav-links a { font-size: 14px; padding: 6px 10px; }
+            .gallery { grid-template-columns: repeat(2, 1fr); }
         }
         @media (max-width: 480px) {
             .pet { font-size: 45px !important; }
@@ -216,6 +441,11 @@
             h1 { font-size: 18px; }
             h2 { font-size: 14px; }
             body { font-size: 13px; }
+            .hero { padding: 30px 16px; margin-top: 10px; }
+            .hero h1 { font-size: 24px; }
+            .avatar-circle { width: 92px; height: 92px; font-size: 46px; }
+            .gallery { grid-template-columns: 1fr; }
+            .lightbox img { max-width: 92%; }
         }
     </style>
 </head>
@@ -234,19 +464,31 @@
             <li><a href="#" onclick="flipTo('home');return false;">🏠 首页</a></li>
             <li><a href="#" onclick="flipTo('about');return false;">👩‍🎨 关于我</a></li>
             <li><a href="#" onclick="flipTo('works');return false;">🎨 作品集</a></li>
+            <li><a href="#" onclick="flipTo('contact');return false;">📮 联系我</a></li>
         </ul>
     </nav>
     <p style="text-align:center; z-index:1; position:relative; color:#d84b8a; font-size:20px; margin:8px 0 12px; font-weight:bold;">👆 点击首页、作品集、关于我，可以查看不同的内容</p>
     <div class="princess">
         <img src="https://safebooru.org/images/1290/8010a15f91ccbe4a5bddaa928caed91f85e740fb.png" alt="糖果公主">
     </div>
-    <div id="section-home" class="section" style="display:block;">
+    <section id="section-home" class="section">
+    <!-- 🎬 Hero 区域（第7课） -->
+    <div class="hero">
+        <div class="avatar-circle">🧚</div>
+        <h1>嗨，我是繁星浅梦</h1>
+        <p class="subtitle">🌈 彩虹乐园的小魔法师</p>
+        <p class="desc">欢迎来到我的糖果世界～这里有会飞的棒棒糖、甜甜的蛋糕，还有陪你一起冒险的小怪兽提拉米苏！</p>
+        <button class="btn-primary" onclick="flipTo('about')">🚀 了解更多</button>
+    </div>
+    <div class="home-tag">
+        <img src="image_805409951695055.png" alt="首页标签" style="width:150px; border-radius:16px; box-shadow:0 8px 25px rgba(255,150,180,0.4);">
+    </div>
     <div class="flip-card">
         <div class="flip-inner">
             <div class="flip-front">
                 <h1>🍭 甜甜蜜蜜的彩虹乐园</h1>
                 <p>欢迎来到糖果世界，快开启你的甜蜜之旅吧！</p>
-                <p style="text-align:center; font-size:20px; color:#d84b8a; animation:pulse 2s infinite;">👆 点我翻面有惊喜！👆</p>
+                <p style="text-align:center; font-size:20px; color:#d84b8a; animation:pulse 2s infinite;">👆 翻面可看 👆</p>
                 <h2>🧚 乐园的主人</h2>
                 <p>大家好！我是会施展魔法的精灵——<strong>繁星浅梦</strong>！</p>
                 <img src="https://safebooru.org/images/57/fd4d964bf0a918ea64597ec3d091dd48015cfc8f.png" alt="兔耳公主" style="width:260px; border-radius:50%; box-shadow:0 8px 25px rgba(200,180,255,0.5);">
@@ -275,6 +517,14 @@
                 <p>🥇 黄金会员：每月免费领1个云端草莓蛋糕</p>
                 <p>🥈 白银会员：曲奇买三送一</p>
                 <p>🥉 青铜会员：甜甜圈第二个半价</p>
+                <h2>⚡ JavaScript 魔法区</h2>
+                <button onclick="changeColor()" style="padding:10px 20px; border:none; border-radius:12px; background:#ffb8d4; color:#7a2050; font-weight:bold; cursor:pointer; font-size:16px;">🎨 点我变色</button>
+                <div id="colorBox" style="width:100%; height:80px; background:#ffb8d4; border-radius:15px; margin-top:10px;"></div>
+                <p id="clock" style="font-size:18px; font-weight:bold; color:#7a2050;">🕐 加载中...</p>
+                <button onclick="toggleContent(event)" style="padding:10px 20px; border:none; border-radius:12px; background:#ffe8a0; color:#7a2050; font-weight:bold; cursor:pointer; font-size:16px;">👁️ 显示秘密</button>
+                <div id="secret" style="display:none; margin-top:10px; padding:20px; background:rgba(255,255,255,0.4); border-radius:15px; text-align:center;">
+                    🎉 你发现秘密啦！提拉米苏送你一颗 🌈 彩虹糖果！
+                </div>
                 <h2>🚪 传送门</h2>
                 <p><a href="https://www.bilibili.com" target="_blank">点这里开启糖果之旅</a></p>
                 <p style="text-align:center; color:#e8709a;">🏰 已有 <strong>1,288</strong> 位小伙伴来过乐园！</p>
@@ -290,10 +540,19 @@
             </div>
         </div>
     </div>
-    </div><!-- /home -->
-    <div id="section-about" class="section">
+    </section><!-- /home -->
+    <section id="section-about" class="section">
     <!-- ===== 关于我 ===== -->
     <h2 style="text-align:center; z-index:1; position:relative; color:#d84b8a; margin-top:40px; font-size:28px;">👩‍🎨 关于我</h2>
+    <!-- 🎯 我的技能（第7课） -->
+    <h3 style="text-align:center; z-index:1; position:relative; color:#7a2050; margin:18px 0 0;">🎯 我的技能</h3>
+    <div class="skills">
+        <span class="badge">🧱 HTML</span>
+        <span class="badge">🎨 CSS</span>
+        <span class="badge">⚡ JavaScript</span>
+        <span class="badge">🖌️ 画画</span>
+        <span class="badge">🪄 魔法创意</span>
+    </div>
     <!-- Flexbox 三连小翻转卡片 -->
     <div class="card-row">
         <div class="mini-card">
@@ -454,10 +713,55 @@
             </div>
         </div>
     </div>
-    </div><!-- /about -->
-    <div id="section-works" class="section">
+    </section><!-- /about -->
+    <section id="section-works" class="section">
     <!-- ===== 作品集 ===== -->
     <h2 style="text-align:center; z-index:1; position:relative; color:#8b5cf6; margin-top:40px; font-size:28px;">🎨 作品集</h2>
+    <!-- 🖼️ 网格作品集（第8课） -->
+    <div class="gallery">
+        <div class="card" onclick="openLightbox(this)">
+            <img src="image_805409951695055.png" alt="棒棒糖乐园">
+            <div class="card-body">
+                <h3>🍭 棒棒糖乐园</h3>
+                <p>甜甜的棒棒糖世界</p>
+            </div>
+        </div>
+        <div class="card" onclick="openLightbox(this)">
+            <img src="image_477408556514120.png" alt="桂花小景">
+            <div class="card-body">
+                <h3>🌸 桂花小景</h3>
+                <p>乐园里的桂花香</p>
+            </div>
+        </div>
+        <div class="card" onclick="openLightbox(this)">
+            <img src="image_321914051707781.png" alt="彩虹手账">
+            <div class="card-body">
+                <h3>🌈 彩虹手账</h3>
+                <p>记录彩虹色的一天</p>
+            </div>
+        </div>
+        <div class="card" onclick="openLightbox(this)">
+            <img src="image_463988049100864.png" alt="星空魔法">
+            <div class="card-body">
+                <h3>✨ 星空魔法</h3>
+                <p>在星空下施展魔法</p>
+            </div>
+        </div>
+        <div class="card" onclick="openLightbox(this)">
+            <img src="image_700947207323923.png" alt="甜品小屋">
+            <div class="card-body">
+                <h3>🍰 甜品小屋</h3>
+                <p>香甜可口的甜点</p>
+            </div>
+        </div>
+        <div class="card" onclick="openLightbox(this)">
+            <img src="image_930447334603492.png" alt="乐园涂鸦">
+            <div class="card-body">
+                <h3>🎨 乐园涂鸦</h3>
+                <p>我画的小小世界</p>
+            </div>
+        </div>
+    </div>
     <!-- 第二行卡片 -->
     <div class="card-row">
         <div class="mini-card">
@@ -611,10 +915,109 @@
             </div>
         </div>
     </div>
-    </div><!-- /works -->
+    </section><!-- /works -->
+
+    <!-- 📮 联系我 -->
+    <section id="section-contact" class="section">
+        <h2 style="text-align:center; z-index:1; position:relative; color:#e8709a; margin-top:40px; font-size:28px;">📮 联系我</h2>
+        <p style="text-align:center; z-index:1; position:relative; color:#7a2050; font-size:18px;">想和繁星浅梦做朋友吗？欢迎写信给我～💌</p>
+        <div class="card-row">
+            <div class="mini-card">
+                <div class="mini-inner">
+                    <div class="mini-front" style="text-align:center;">
+                        <h3>📧 邮箱</h3>
+                        <p>fanxingqianmeng@example.com</p>
+                        <p style="font-size:40px;">💌</p>
+                    </div>
+                    <div class="mini-back"><p style="font-size:36px;">📮</p><p>等你来信！</p></div>
+                </div>
+            </div>
+            <div class="mini-card">
+                <div class="mini-inner">
+                    <div class="mini-front" style="text-align:center;">
+                        <h3>🎮 社交账号</h3>
+                        <p>B站 · 小红书 · 微信</p>
+                        <p style="font-size:40px;">📱</p>
+                    </div>
+                    <div class="mini-back"><p style="font-size:36px;">🤝</p><p>加个好友吧！</p></div>
+                </div>
+            </div>
+            <div class="mini-card">
+                <div class="mini-inner">
+                    <div class="mini-front" style="text-align:center;">
+                        <h3>📍 乐园地址</h3>
+                        <p>彩虹云端 · 糖果街 1 号</p>
+                        <p style="font-size:40px;">🌈</p>
+                    </div>
+                    <div class="mini-back"><p style="font-size:36px;">🗺️</p><p>欢迎来做客！</p></div>
+                </div>
+            </div>
+        </div>
+    <!-- 📝 联系表单（第9课） -->
+    <h2 style="text-align:center; z-index:1; position:relative; color:#e8709a; margin-top:40px; font-size:26px;">📬 给我留言</h2>
+    <form id="contactForm" onsubmit="return submitForm(event)">
+        <input type="text" name="name" placeholder="你的名字" required>
+        <input type="email" name="email" placeholder="你的邮箱（可不填）" id="emailInput">
+        <select name="topic">
+            <option value="">选择主题</option>
+            <option>学习交流</option>
+            <option>合作邀请</option>
+            <option>来乐园玩</option>
+            <option>随便聊聊</option>
+        </select>
+        <textarea name="message" placeholder="写下你想说的话……" required></textarea>
+        <button type="submit">✉️ 发送留言</button>
+        <div id="formError" class="form-error"></div>
+        <div id="formSuccess" class="form-success">🎉 发送成功！</div>
+    </form>
+
+    <!-- 🔗 社交链接（第9课） -->
+    <div class="social-links">
+        <a href="mailto:fanxingqianmeng@example.com" class="social-link">📧 邮箱</a>
+        <a href="#" class="social-link">💬 微信</a>
+        <a href="https://www.bilibili.com" target="_blank" class="social-link">📺 B站</a>
+        <a href="#" class="social-link">📱 小红书</a>
+    </div>
+    </section><!-- /contact -->
+
+    <!-- 🦶 页脚 -->
+    <footer style="text-align:center; padding:24px 16px; margin-top:40px; border-radius:18px; background:rgba(255,255,255,0.55); backdrop-filter:blur(6px); position:relative; z-index:2; box-shadow:0 6px 25px rgba(255,150,180,0.3);">
+        <p style="margin:0 0 8px; font-size:22px;">🍭🍬🍩🧁🍪</p>
+        <p style="margin:0; color:#7a2050; font-weight:bold;">© 2025 甜甜蜜蜜的彩虹乐园 · 繁星浅梦</p>
+        <p style="margin:6px 0 0; color:#d84b8a;">🏠 首页 · 👩‍🎨 关于我 · 🎨 作品集 · 📮 联系我</p>
+    </footer>
 
     <!-- ====== 脚本：翻转切换 ====== -->
     <script>
+        // ===== JavaScript 三个魔法 =====
+        // 1. 点击变色
+        function changeColor() {
+            const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7', '#ffb8d4', '#d8c8ff'];
+            const box = document.getElementById('colorBox');
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+            box.style.background = randomColor;
+        }
+        // 2. 实时时钟
+        function updateClock() {
+            const now = new Date();
+            const time = now.toLocaleTimeString();
+            document.getElementById('clock').innerText = '🕐 ' + time;
+        }
+        updateClock();
+        setInterval(updateClock, 1000);
+        // 3. 显示/隐藏秘密
+        function toggleContent(e) {
+            const secret = document.getElementById('secret');
+            const btn = e.target;
+            if (secret.style.display === 'none') {
+                secret.style.display = 'block';
+                btn.textContent = '🙈 隐藏秘密';
+            } else {
+                secret.style.display = 'none';
+                btn.textContent = '👁️ 显示秘密';
+            }
+        }
+        // ===== 页面切换 + 卡片翻转 =====
         function flipTo(id) {
             document.querySelectorAll('.section').forEach(s => s.style.display = 'none');
             document.getElementById('section-'+id).style.display = 'block';
@@ -624,6 +1027,41 @@
         flipTo('home');
         document.querySelector('.flip-card').addEventListener('click',function(){this.classList.toggle('toggled')});
         document.querySelectorAll('.mini-card').forEach(function(c){c.addEventListener('click',function(){this.classList.toggle('toggled')})});
+
+        // ===== 灯箱功能（第8课）=====
+        function openLightbox(card) {
+            const img = card.querySelector('img');
+            document.getElementById('lightbox-img').src = img.src;
+            document.getElementById('lightbox').classList.add('active');
+        }
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('active');
+        }
+
+        // ===== 联系表单验证（第9课）=====
+        function submitForm(event) {
+            event.preventDefault();
+            const email = document.getElementById('emailInput').value;
+            const errorEl = document.getElementById('formError');
+            if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                errorEl.textContent = '❌ 邮箱格式不对哦～';
+                errorEl.classList.add('show');
+                return false;
+            }
+            errorEl.classList.remove('show');
+            const success = document.getElementById('formSuccess');
+            success.textContent = '🎉 收到啦！我会尽快回复你～';
+            success.classList.add('show');
+            document.getElementById('contactForm').reset();
+            setTimeout(() => { success.classList.remove('show'); }, 3000);
+            return false;
+        }
     </script>
+
+    <!-- 🔍 灯箱（第8课） -->
+    <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+        <span class="lightbox-close">✕</span>
+        <img id="lightbox-img" src="" alt="作品大图">
+    </div>
 </body>
 </html>
