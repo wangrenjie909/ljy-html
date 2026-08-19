@@ -420,6 +420,580 @@
             transform: translateY(-2px);
         }
 
+        /* ===== 糖果乐园游乐场（可互动）===== */
+        .playground {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            max-width: 900px;
+            margin: 25px auto;
+            position: relative;
+            z-index: 1;
+        }
+        .ride {
+            background: rgba(255,255,255,0.65);
+            border: 2px solid rgba(255,255,255,0.85);
+            border-radius: 20px;
+            padding: 18px 14px 20px;
+            text-align: center;
+            box-shadow: 0 8px 30px rgba(255,150,180,0.3);
+            position: relative;
+        }
+        .ride-title { margin: 0 0 14px; color: #d84b8a; font-size: 20px; }
+        .ride-btn {
+            margin-top: 12px;
+            padding: 8px 22px;
+            border: none;
+            border-radius: 30px;
+            background: linear-gradient(90deg, #ff9ec4, #d8c8ff);
+            color: #7a2050;
+            font-weight: bold;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .ride-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(255,150,200,0.5); }
+        .controls { margin-top: 12px; display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; align-items: center; }
+        .ride-hint { display: block; font-size: 13px; color: #b06a8c; margin-top: 6px; }
+        .whistle {
+            position: absolute; top: 0; left: 50%;
+            background: #fff; color: #d84b8a; font-weight: bold;
+            padding: 6px 12px; border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(255,150,180,0.5);
+            animation: floatUp 1.5s ease forwards;
+            z-index: 5;
+        }
+        @keyframes floatUp {
+            from { opacity: 1; transform: translate(-50%, 0); }
+            to   { opacity: 0; transform: translate(-50%, -42px); }
+        }
+
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes ride {
+            0%    { left: -40px; bottom: 22px; }
+            12.5% { bottom: 78px; }
+            25%   { bottom: 22px; }
+            37.5% { bottom: 78px; }
+            50%   { bottom: 22px; }
+            62.5% { bottom: 78px; }
+            75%   { bottom: 22px; }
+            87.5% { bottom: 78px; }
+            100%  { left: 105%; bottom: 22px; }
+        }
+        @keyframes trainMove { from { left: -140px; } to { left: 100%; } }
+
+        /* —— 摩天轮 —— */
+        .ferris { position: relative; height: 250px; }
+        .wheel {
+            position: absolute; top: 6px; left: 50%;
+            width: 200px; height: 200px;
+            margin-left: -100px;
+            border: 6px solid #f2a0c0;
+            border-radius: 50%;
+            box-shadow: 0 0 25px rgba(255,150,200,0.45);
+            cursor: grab;
+            user-select: none;
+            touch-action: none;
+        }
+        .wheel.dragging { cursor: grabbing; }
+        .spoke {
+            position: absolute; left: 50%; top: 50%;
+            width: 94px; height: 2px; margin-top: -1px;
+            background: #f2a0c0; opacity: 0.55;
+            transform-origin: left center;
+            transform: rotate(var(--a));
+        }
+        .cabin {
+            position: absolute; left: 50%; top: 50%;
+            width: 34px; height: 34px; margin: -17px 0 0 -17px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 18px;
+            background: rgba(255,255,255,0.92);
+            border-radius: 50%;
+            box-shadow: 0 4px 12px rgba(255,150,180,0.5);
+            transform: rotate(var(--a)) translateX(86px);
+        }
+        .hub {
+            position: absolute; left: 50%; top: 50%;
+            width: 34px; height: 34px; margin: -17px 0 0 -17px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 20px; background: #fff; border-radius: 50%;
+        }
+        .ferris-leg {
+            position: absolute; top: 158px; width: 7px; height: 80px;
+            background: #d98ab0; border-radius: 3px;
+            transform-origin: top center;
+        }
+        .leg-l { left: 50%; margin-left: -42px; transform: rotate(18deg); }
+        .leg-r { left: 50%; margin-left: 42px;  transform: rotate(-18deg); }
+        .ferris-base {
+            position: absolute; top: 234px; left: 50%;
+            width: 130px; height: 14px; margin-left: -65px;
+            background: #d98ab0; border-radius: 7px;
+        }
+
+        /* —— 飞车 —— */
+        .coaster { position: relative; height: 130px; width: 100%; max-width: 440px; margin: 0 auto; overflow: hidden; }
+        .coaster-track { position: absolute; top: 15px; left: 0; width: 100%; height: 90px; }
+        .coaster-car {
+            position: absolute; bottom: 20px; left: -40px;
+            width: 40px; height: 40px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 30px;
+            animation: ride 6s linear infinite;
+        }
+
+        /* —— 旋转木马 —— */
+        .carousel { position: relative; height: 190px; }
+        .carousel-roof {
+            position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+            width: 150px; height: 64px;
+            background: linear-gradient(180deg, #ffb8d4, #ffd3a8);
+            clip-path: polygon(50% 0, 100% 100%, 0 100%);
+            z-index: 2;
+            display: flex; align-items: flex-end; justify-content: center;
+            font-size: 28px; padding-bottom: 2px;
+        }
+        .carousel-pole {
+            position: absolute; top: 58px; left: 50%; transform: translateX(-50%);
+            width: 6px; height: 92px; background: #d98ab0; z-index: 1; border-radius: 3px;
+        }
+        .carousel-spin {
+            position: absolute; top: 84px; left: 50%;
+            width: 130px; height: 130px; margin-left: -65px;
+            animation: spin 7s linear infinite;
+        }
+        .horse {
+            position: absolute; left: 50%; top: 50%;
+            width: 36px; height: 36px; margin: -18px 0 0 -18px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 24px;
+            transform: rotate(var(--a)) translateX(48px);
+        }
+        .carousel-base {
+            position: absolute; top: 170px; left: 50%; transform: translateX(-50%);
+            width: 130px; height: 16px;
+            background: #e8709a; border-radius: 50%;
+        }
+
+        /* —— 小火车 —— */
+        .rail { position: relative; height: 70px; overflow: hidden; }
+        .rail-line {
+            position: absolute; bottom: 8px; left: 0; width: 100%; height: 4px;
+            background: repeating-linear-gradient(90deg, #d98ab0 0 12px, transparent 12px 20px);
+            border-radius: 2px;
+        }
+        .train {
+            position: absolute; bottom: 12px; left: -140px;
+            display: flex; align-items: flex-end;
+            animation: trainMove 8s linear infinite;
+        }
+        .train-car { font-size: 30px; margin: 0 1px; }
+
+        /* ===== 接糖果小游戏 ===== */
+        .game-card { grid-column: 1 / -1; }
+        .game-score { margin: 0 0 8px; color: #d84b8a; font-weight: bold; font-size: 18px; }
+        .game-area {
+            position: relative;
+            height: 300px;
+            background: linear-gradient(180deg, #fff6fb, #ffe9f2);
+            border-radius: 14px;
+            overflow: hidden;
+            border: 2px dashed #f2a0c0;
+            cursor: crosshair;
+            touch-action: none;
+        }
+        .basket {
+            position: absolute;
+            bottom: 8px;
+            width: 64px;
+            height: 48px;
+            font-size: 38px;
+            line-height: 48px;
+            text-align: center;
+            z-index: 3;
+            pointer-events: none;
+            filter: drop-shadow(0 4px 6px rgba(255,150,180,0.5));
+        }
+        .candy-item {
+            position: absolute;
+            font-size: 30px;
+            line-height: 1;
+            pointer-events: none;
+            z-index: 2;
+        }
+        .candy-pop {
+            position: absolute;
+            font-size: 22px;
+            pointer-events: none;
+            z-index: 2;
+            animation: popUp 0.6s ease forwards;
+        }
+        @keyframes popUp {
+            from { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+            to   { opacity: 0; transform: translate(-50%, -90px) scale(1.6); }
+        }
+        .game-result {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            color: #d84b8a;
+            font-size: 16px;
+            font-weight: bold;
+            z-index: 4;
+            text-align: center;
+        }
+
+        /* ===== 金币/等级/打卡 状态栏 ===== */
+        .status-bar {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 8px 18px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: linear-gradient(90deg, #ffd9e8, #fff0d9, #e8dcff);
+            padding: 10px 16px;
+            margin-bottom: 8px;
+            border-radius: 0 0 18px 18px;
+            box-shadow: 0 4px 16px rgba(255,150,180,0.35);
+            font-weight: bold;
+            color: #7a2050;
+        }
+        .status-bar .stat { font-size: 15px; }
+        .status-bar .stat b { color: #d84b8a; }
+        .status-bar button {
+            border: none;
+            background: linear-gradient(90deg, #ff9ec4, #d8c8ff);
+            color: #7a2050;
+            font-weight: bold;
+            padding: 8px 18px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        .status-bar button:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(255,150,200,0.5); }
+
+        /* 提示气泡 toast */
+        .toast {
+            position: fixed;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%) translateY(20px);
+            background: rgba(122,32,80,0.92);
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-size: 15px;
+            font-weight: bold;
+            z-index: 999;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.35s;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+            max-width: 85vw;
+            text-align: center;
+        }
+        .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+        /* 票价标签 + 主要按钮 */
+        .price-tag {
+            display: inline-block;
+            margin: 6px 0 2px;
+            padding: 3px 12px;
+            border-radius: 20px;
+            background: #fff3d6;
+            color: #c0781a;
+            font-size: 13px;
+            font-weight: bold;
+        }
+        .ride-btn.primary { background: linear-gradient(90deg, #ffd166, #ff9ec4); }
+
+        /* 打工页面 */
+        .work-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 18px;
+            max-width: 820px;
+            margin: 25px auto;
+            position: relative;
+            z-index: 1;
+        }
+        .work-card {
+            background: rgba(255,255,255,0.7);
+            border: 2px solid rgba(255,255,255,0.9);
+            border-radius: 18px;
+            padding: 20px 16px;
+            text-align: center;
+            box-shadow: 0 8px 24px rgba(255,150,180,0.3);
+            transition: all 0.3s;
+        }
+        .work-card:hover { transform: translateY(-4px); box-shadow: 0 14px 32px rgba(255,150,180,0.45); }
+        .work-icon { font-size: 46px; display: block; margin-bottom: 8px; }
+        .work-card h3 { margin: 0 0 6px; color: #d84b8a; }
+        .work-card p { margin: 0 0 12px; color: #7a2050; font-size: 14px; }
+        .work-card button {
+            border: none;
+            background: linear-gradient(90deg, #ff9ec4, #d8c8ff);
+            color: #7a2050;
+            font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        .work-card button:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(255,150,200,0.5); }
+        .work-card button:disabled { opacity: 0.6; cursor: not-allowed; }
+
+        /* 火花 burst */
+        .burst-star {
+            position: absolute;
+            top: 38%;
+            font-size: 20px;
+            pointer-events: none;
+            z-index: 6;
+            animation: burstUp 1s ease-out forwards;
+        }
+        @keyframes burstUp {
+            from { opacity: 1; transform: translate(-50%, 0) scale(1); }
+            to   { opacity: 0; transform: translate(-50%, -64px) scale(0.4); }
+        }
+
+        /* ===== 人物妆造 ===== */
+        .char-layout {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 18px;
+            max-width: 920px;
+            margin: 25px auto;
+            position: relative;
+            z-index: 1;
+        }
+        .char-card, .char-options, .char-stats {
+            background: linear-gradient(180deg, rgba(255,255,255,0.85), rgba(255,240,248,0.75));
+            border: 2px solid rgba(255,255,255,0.95);
+            border-radius: 22px;
+            padding: 22px 20px;
+            text-align: center;
+            box-shadow: 0 12px 32px rgba(255,150,180,0.32), inset 0 1px 0 rgba(255,255,255,0.9);
+            position: relative;
+        }
+        .char-preview {
+            --outfit: #ffb8d4;
+            width: 168px; height: 168px;
+            margin: 16px auto 14px;
+            border-radius: 50%;
+            position: relative;
+            display: flex; align-items: center; justify-content: center;
+            animation: charFloat 3.2s ease-in-out infinite;
+        }
+        .char-preview::before {
+            content: '';
+            position: absolute;
+            inset: -10px;
+            border-radius: 50%;
+            background: conic-gradient(from 0deg, #ff9ec4, #ffd166, #7ec8ff, #c9a8ff, #ff9ec4);
+            z-index: 0;
+            animation: spinRing 5s linear infinite;
+        }
+        .char-preview::after {
+            content: '';
+            position: absolute;
+            inset: 3px;
+            border-radius: 50%;
+            background: var(--outfit);
+            z-index: 1;
+            box-shadow: inset 0 0 22px rgba(255,255,255,0.55);
+            transition: background 0.4s;
+        }
+        .char-body { font-size: 80px; line-height: 1; z-index: 2; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15)); }
+        .char-hat { position: absolute; top: 2px; left: 50%; transform: translateX(-50%); font-size: 40px; z-index: 3; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15)); }
+        .char-acc { position: absolute; bottom: 12px; right: 16px; font-size: 30px; z-index: 3; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15)); }
+        .char-level-badge {
+            position: absolute;
+            bottom: 2px; left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #ffd166, #ff9ec4);
+            color: #7a2050;
+            font-size: 13px;
+            font-weight: bold;
+            padding: 3px 14px;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(255,150,180,0.5);
+            z-index: 4;
+            white-space: nowrap;
+        }
+        @keyframes spinRing { to { transform: rotate(360deg); } }
+        @keyframes charFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-9px); }
+        }
+        .char-preview.perform { animation: charDance 0.9s ease; }
+        @keyframes charDance {
+            0% { transform: translateY(0) rotate(0); }
+            25% { transform: translateY(-18px) rotate(-10deg); }
+            50% { transform: translateY(0) rotate(10deg); }
+            75% { transform: translateY(-12px) rotate(-6deg); }
+            100% { transform: translateY(0) rotate(0); }
+        }
+        .opt-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-bottom: 16px; }
+        .opt-row button {
+            width: 52px; height: 52px;
+            font-size: 26px;
+            border: 2px solid #ffd3e8;
+            background: linear-gradient(180deg, #fff, #fff0f6);
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 2px 6px rgba(255,150,180,0.2);
+        }
+        .opt-row button:hover { transform: translateY(-2px); box-shadow: 0 6px 14px rgba(255,150,180,0.4); }
+        .opt-row button.active {
+            border-color: #d84b8a;
+            background: linear-gradient(180deg, #ffe4f0, #ffd3e8);
+            transform: scale(1.1);
+            box-shadow: 0 0 0 3px rgba(216,75,138,0.25), 0 6px 14px rgba(255,150,180,0.5);
+        }
+        .stat-row { display: flex; align-items: center; gap: 10px; margin: 12px 0; font-size: 15px; color: #7a2050; }
+        .stat-label { width: 74px; text-align: left; font-weight: bold; }
+        .stat-bar { flex: 1; height: 12px; background: #ffe4f0; border-radius: 10px; overflow: hidden; box-shadow: inset 0 1px 3px rgba(0,0,0,0.06); }
+        .stat-fill { height: 100%; width: 0%; border-radius: 10px; transition: width 0.4s; }
+        .fill-str { background: linear-gradient(90deg, #ffb0b0, #ff6b6b); }
+        .fill-spd { background: linear-gradient(90deg, #a8d8ff, #4ea6ff); }
+        .fill-cha { background: linear-gradient(90deg, #ffb8d4, #ff5fa8); }
+        .fill-cook { background: linear-gradient(90deg, #ffd9a8, #ff9d5c); }
+        .stat-row b { color: #d84b8a; min-width: 26px; text-align: center; font-size: 16px; }
+        .stat-plus {
+            border: none; background: linear-gradient(135deg, #ff9ec4, #d8c8ff);
+            color: #7a2050; font-weight: bold; width: 32px; height: 32px;
+            border-radius: 50%; cursor: pointer; font-size: 16px;
+            transition: all 0.2s;
+            box-shadow: 0 2px 8px rgba(255,150,200,0.4);
+        }
+        .stat-plus:hover { transform: scale(1.12); box-shadow: 0 5px 14px rgba(255,150,200,0.6); }
+        .xp-bar { width: 100%; height: 14px; background: #ffe4f0; border-radius: 10px; overflow: hidden; margin: 8px 0 4px; box-shadow: inset 0 1px 3px rgba(0,0,0,0.06); }
+        .xp-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #ff9ec4, #ffd166); border-radius: 10px; transition: width 0.4s; box-shadow: 0 0 8px rgba(255,200,120,0.7); }
+        .xp-text { color: #b06a8c; font-size: 13px; margin: 0 0 10px; }
+
+        /* ===== 商店 & 家 ===== */
+        .shop-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 14px;
+            max-width: 900px;
+            margin: 15px auto 30px;
+            position: relative;
+            z-index: 1;
+        }
+        .shop-item {
+            background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,240,248,0.8));
+            border: 2px solid rgba(255,255,255,0.95);
+            border-radius: 18px;
+            padding: 14px 10px;
+            text-align: center;
+            box-shadow: 0 8px 22px rgba(255,150,180,0.28);
+            transition: all 0.25s;
+        }
+        .shop-item:hover { transform: translateY(-4px); box-shadow: 0 14px 30px rgba(255,150,180,0.45); }
+        .shop-icon { font-size: 40px; display: block; margin-bottom: 6px; }
+        .shop-thumb { width: 100%; height: 90px; object-fit: cover; border-radius: 12px; margin-bottom: 6px; }
+        .shop-item b { display: block; color: #7a2050; margin-bottom: 2px; }
+        .shop-price { display: block; color: #c0781a; font-weight: bold; margin-bottom: 8px; }
+        .shop-item button {
+            border: none;
+            background: linear-gradient(90deg, #ff9ec4, #d8c8ff);
+            color: #7a2050;
+            font-weight: bold;
+            padding: 8px 18px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.25s;
+        }
+        .shop-item button:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(255,150,200,0.5); }
+        .cat-title { text-align: center; color: #d84b8a; margin: 30px 0 4px; font-size: 22px; z-index: 1; position: relative; }
+        .home-storage {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 18px;
+            max-width: 760px;
+            margin: 25px auto;
+            position: relative;
+            z-index: 1;
+        }
+        .storage-box {
+            background: linear-gradient(180deg, rgba(255,255,255,0.88), rgba(255,240,248,0.78));
+            border: 2px solid rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 10px 28px rgba(255,150,180,0.3);
+        }
+        .storage-box h3 { color: #d84b8a; margin: 0 0 10px; text-align: center; }
+        .storage-box div { color: #7a2050; line-height: 1.9; font-size: 16px; text-align: center; }
+
+        /* ===== 家 · 房间 ===== */
+        .room {
+            position: relative;
+            max-width: 500px;
+            height: 340px;
+            margin: 20px auto;
+            border-radius: 18px;
+            border: 3px solid rgba(255,255,255,0.9);
+            box-shadow: 0 12px 32px rgba(255,150,180,0.35);
+            overflow: hidden;
+            background: linear-gradient(to bottom, #ffe6f0 0%, #ffe6f0 58%, #f2c194 58%, #f2c194 100%);
+            touch-action: none;
+            z-index: 1;
+        }
+        .room-window {
+            position: absolute;
+            top: 18px; right: 26px;
+            width: 56px; height: 44px;
+            background: #bde4ff;
+            border: 4px solid #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            pointer-events: none;
+            z-index: 1;
+        }
+        .room-window::before { content: ''; position: absolute; left: 50%; top: 0; bottom: 0; width: 3px; background: #fff; transform: translateX(-50%); }
+        .room-window::after { content: ''; position: absolute; top: 50%; left: 0; right: 0; height: 3px; background: #fff; transform: translateY(-50%); }
+        .furniture {
+            position: absolute;
+            width: 74px;
+            height: 74px;
+            font-size: 52px;
+            line-height: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255,255,255,0.85);
+            border: 2px solid rgba(255,255,255,0.95);
+            border-radius: 16px;
+            box-shadow: 0 6px 14px rgba(0,0,0,0.16);
+            cursor: grab;
+            user-select: none;
+            touch-action: none;
+            z-index: 3;
+        }
+        .furniture:active { cursor: grabbing; }
+        .furniture svg { width: 56px; height: 56px; pointer-events: none; display: block; }
+        .shop-icon svg { width: 40px; height: 40px; pointer-events: none; }
+        .inv-svg svg { width: 22px; height: 22px; vertical-align: middle; }
+        .char-figure {
+            background: transparent;
+            border: none;
+            box-shadow: none;
+            width: 84px;
+            height: 84px;
+        }
+        .cf-body { font-size: 60px; position: absolute; z-index: 2; }
+        .cf-hat { font-size: 30px; position: absolute; top: -14px; left: 50%; transform: translateX(-50%); z-index: 3; }
+
         /* ===== 手机端适配 ===== */
         @media (max-width: 768px) {
             body { padding: 10px; }
@@ -446,10 +1020,19 @@
             .avatar-circle { width: 92px; height: 92px; font-size: 46px; }
             .gallery { grid-template-columns: 1fr; }
             .lightbox img { max-width: 92%; }
+            .playground { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
+    <!-- ====== 状态栏：金币 / 等级 / 打卡 ====== -->
+    <div class="status-bar">
+        <span class="stat">💰 金币：<b id="money">10000</b> 元</span>
+        <span class="stat">🏅 <span id="chefIcon">👶</span> <b id="chefTitle">学徒甜品师</b></span>
+        <span class="stat">📅 已打卡：<b id="checkinDays">0</b> 天</span>
+        <button id="checkinBtn" onclick="checkin()">📅 每日打卡</button>
+    </div>
+    <div class="toast" id="toast"></div>
     <!-- ====== 装饰层：漂浮糖果 + 公主 ====== -->
     <span class="pet" style="top: 10%; left: 5%; font-size: 100px;">🍬</span>
     <span class="pet" style="top: 8%; right: 8%; animation-delay: 0.5s; font-size: 85px;">🍭</span>
@@ -462,12 +1045,14 @@
     <nav class="navbar">
         <ul class="nav-links">
             <li><a href="#" onclick="flipTo('home');return false;">🏠 首页</a></li>
-            <li><a href="#" onclick="flipTo('about');return false;">👩‍🎨 关于我</a></li>
-            <li><a href="#" onclick="flipTo('works');return false;">🎨 作品集</a></li>
+            <li><a href="#" onclick="flipTo('character');return false;">👗 人物</a></li>
+            <li><a href="#" onclick="flipTo('shop');return false;">🛒 商店</a></li>
+            <li><a href="#" onclick="flipTo('house');return false;">🏠 家</a></li>
+            <li><a href="#" onclick="flipTo('work');return false;">🍪 打工</a></li>
             <li><a href="#" onclick="flipTo('contact');return false;">📮 联系我</a></li>
         </ul>
     </nav>
-    <p style="text-align:center; z-index:1; position:relative; color:#d84b8a; font-size:20px; margin:8px 0 12px; font-weight:bold;">👆 点击首页、作品集、关于我，可以查看不同的内容</p>
+    <p style="text-align:center; z-index:1; position:relative; color:#d84b8a; font-size:20px; margin:8px 0 12px; font-weight:bold;">👆 点导航栏，可以逛商店、看家、打工、装扮人物哦～</p>
     <div class="princess">
         <img src="https://safebooru.org/images/1290/8010a15f91ccbe4a5bddaa928caed91f85e740fb.png" alt="糖果公主">
     </div>
@@ -478,7 +1063,7 @@
         <h1>嗨，我是繁星浅梦</h1>
         <p class="subtitle">🌈 彩虹乐园的小魔法师</p>
         <p class="desc">欢迎来到我的糖果世界～这里有会飞的棒棒糖、甜甜的蛋糕，还有陪你一起冒险的小怪兽提拉米苏！</p>
-        <button class="btn-primary" onclick="flipTo('about')">🚀 了解更多</button>
+        <button class="btn-primary" onclick="flipTo('shop')">🛒 逛商店</button>
     </div>
     <div class="home-tag">
         <img src="image_805409951695055.png" alt="首页标签" style="width:150px; border-radius:16px; box-shadow:0 8px 25px rgba(255,150,180,0.4);">
@@ -540,382 +1125,115 @@
             </div>
         </div>
     </div>
+    <!-- 🎪 糖果乐园游乐场（可互动） -->
+    <h2 style="text-align:center; z-index:1; position:relative; color:#e8709a; margin-top:40px; font-size:26px;">🎪 糖果乐园游乐场</h2>
+    <p style="text-align:center; z-index:1; position:relative; color:#7a2050;">点下面的按钮，让游乐设施动起来～</p>
+    <div class="playground">
+        <div class="ride">
+            <h3 class="ride-title">🎡 糖果摩天轮</h3>
+            <div class="ferris">
+                <div class="wheel" id="wheel">
+                    <span class="spoke" style="--a:0deg"></span>
+                    <span class="spoke" style="--a:45deg"></span>
+                    <span class="spoke" style="--a:90deg"></span>
+                    <span class="spoke" style="--a:135deg"></span>
+                    <span class="spoke" style="--a:180deg"></span>
+                    <span class="spoke" style="--a:225deg"></span>
+                    <span class="spoke" style="--a:270deg"></span>
+                    <span class="spoke" style="--a:315deg"></span>
+                    <span class="cabin" style="--a:0deg">🍬</span>
+                    <span class="cabin" style="--a:45deg">🍭</span>
+                    <span class="cabin" style="--a:90deg">🍩</span>
+                    <span class="cabin" style="--a:135deg">🧁</span>
+                    <span class="cabin" style="--a:180deg">🍪</span>
+                    <span class="cabin" style="--a:225deg">🍰</span>
+                    <span class="cabin" style="--a:270deg">🍡</span>
+                    <span class="cabin" style="--a:315deg">🍬</span>
+                    <span class="hub">🌟</span>
+                </div>
+                <div class="ferris-leg leg-l"></div>
+                <div class="ferris-leg leg-r"></div>
+                <div class="ferris-base"></div>
+            </div>
+            <span class="price-tag">🎫 票价 50 元/次</span>
+            <div class="controls">
+                <button class="ride-btn" onclick="boostWheel()">💨 转一下</button>
+                <button class="ride-btn primary" onclick="playRide('摩天轮', 50, this)">🎫 玩一次</button>
+            </div>
+            <p class="ride-hint">👆 按住轮盘拖动也能转哦～</p>
+        </div>
+        <div class="ride">
+            <h3 class="ride-title">🎢 糖果飞车</h3>
+            <div class="coaster">
+                <svg class="coaster-track" viewBox="0 0 400 100" preserveAspectRatio="none">
+                    <path d="M0 70 C 30 15, 70 15, 100 70 S 170 15, 200 70 S 270 15, 300 70 S 370 15, 400 70" fill="none" stroke="#e8709a" stroke-width="5" stroke-linecap="round"/>
+                </svg>
+                <div class="coaster-car anim" id="coasterCar">🍭</div>
+            </div>
+            <span class="price-tag">🎫 票价 80 元/次</span>
+            <div class="controls">
+                <button class="ride-btn" onclick="setSpeed('coasterCar',8)">🐢 慢</button>
+                <button class="ride-btn" onclick="setSpeed('coasterCar',6)">▶️ 正常</button>
+                <button class="ride-btn" onclick="setSpeed('coasterCar',3)">🐇 快</button>
+                <button class="ride-btn primary" onclick="playRide('飞车', 80, this)">🎫 玩一次</button>
+            </div>
+        </div>
+        <div class="ride">
+            <h3 class="ride-title">🎠 糖果旋转木马</h3>
+            <div class="carousel">
+                <div class="carousel-roof">🎪</div>
+                <div class="carousel-pole"></div>
+                <div class="carousel-spin anim" id="carousel">
+                    <span class="horse" style="--a:0deg">🦄</span>
+                    <span class="horse" style="--a:90deg">🍭</span>
+                    <span class="horse" style="--a:180deg">🧁</span>
+                    <span class="horse" style="--a:270deg">🍩</span>
+                </div>
+                <div class="carousel-base"></div>
+            </div>
+            <span class="price-tag">🎫 票价 40 元/次</span>
+            <div class="controls">
+                <button class="ride-btn" onclick="setSpeed('carousel',12)">🐢 慢</button>
+                <button class="ride-btn" onclick="setSpeed('carousel',7)">▶️ 正常</button>
+                <button class="ride-btn" onclick="setSpeed('carousel',3)">🐇 快</button>
+                <button class="ride-btn primary" onclick="playRide('旋转木马', 40, this)">🎫 玩一次</button>
+            </div>
+        </div>
+        <div class="ride">
+            <h3 class="ride-title">🚂 糖果小火车</h3>
+            <div class="rail">
+                <div class="train anim" id="train">
+                    <span class="train-car">🚂</span>
+                    <span class="train-car">🍭</span>
+                    <span class="train-car">🍬</span>
+                    <span class="train-car">🧁</span>
+                </div>
+                <div class="rail-line"></div>
+            </div>
+            <span class="price-tag">🎫 票价 30 元/次</span>
+            <div class="controls">
+                <button class="ride-btn" onclick="setSpeed('train',12)">🐢 慢</button>
+                <button class="ride-btn" onclick="setSpeed('train',8)">▶️ 正常</button>
+                <button class="ride-btn" onclick="setSpeed('train',4)">🐇 快</button>
+                <button class="ride-btn" onclick="whistle(this)">🔔 鸣笛</button>
+                <button class="ride-btn primary" onclick="playRide('小火车', 30, this)">🎫 玩一次</button>
+            </div>
+        </div>
+        <!-- 🍬 接糖果小游戏 -->
+        <div class="ride game-card">
+            <h3 class="ride-title">🍬 接糖果大作战</h3>
+            <p class="game-score">得分：<span id="gameScore">0</span>　⏰ <span id="gameTime">30</span> 秒</p>
+            <div class="game-area" id="gameArea">
+                <div class="basket" id="basket">🧺</div>
+            </div>
+            <span class="price-tag">🎫 票价 20 元/局</span>
+            <div class="controls">
+                <button class="ride-btn" id="gameBtn" onclick="toggleGame()">▶️ 开始游戏</button>
+            </div>
+            <p class="ride-hint">🖱️ 左右移动鼠标（或手指），用篮子接住掉下来的糖果！</p>
+        </div>
+    </div>
     </section><!-- /home -->
-    <section id="section-about" class="section">
-    <!-- ===== 关于我 ===== -->
-    <h2 style="text-align:center; z-index:1; position:relative; color:#d84b8a; margin-top:40px; font-size:28px;">👩‍🎨 关于我</h2>
-    <!-- 🎯 我的技能（第7课） -->
-    <h3 style="text-align:center; z-index:1; position:relative; color:#7a2050; margin:18px 0 0;">🎯 我的技能</h3>
-    <div class="skills">
-        <span class="badge">🧱 HTML</span>
-        <span class="badge">🎨 CSS</span>
-        <span class="badge">⚡ JavaScript</span>
-        <span class="badge">🖌️ 画画</span>
-        <span class="badge">🪄 魔法创意</span>
-    </div>
-    <!-- Flexbox 三连小翻转卡片 -->
-    <div class="card-row">
-        <div class="mini-card">
-            <div class="mini-inner">
-                <div class="mini-front">
-                    <h3>🍫 糖果菜单</h3>
-                    <ul>
-                        <li>🍩 彩虹甜甜圈 — ¥5</li>
-                        <li>☁️ 云朵咖啡 — ¥10</li>
-                        <li>🧁 魔法纸杯蛋糕 — ¥15</li>
-                        <li>🍪 曲奇家族 — ¥15/袋（开心果💚草莓💗巧克力🤎香芋💜 🌈彩虹糖果🆕）</li>
-                        <li>🍰 云端草莓蛋糕 — ¥25</li>
-                    </ul>
-                </div>
-                <div class="mini-back">
-                    <p style="font-size:36px;">🍬🍭</p>
-                    <p>今日特供：提拉米苏亲手做的神秘甜品！</p>
-                </div>
-            </div>
-        </div>
-        <div class="mini-card">
-            <div class="mini-inner">
-                <div class="mini-front">
-                    <h3>📢 乐园公告</h3>
-                    <p>🌟 新朋友入园免费领一根彩虹棒棒糖！</p>
-                    <p>🎪 周末：糖果城堡开放参观～</p>
-                    <h3>🧑‍🍳 招聘员工</h3>
-                    <p>🍩 甜甜圈师傅 ×2 | 🍪 曲奇师 ×1</p>
-                    <p>☕ 咖啡调配师 ×1 | 🧁 蛋糕装饰师 ×1</p>
-                    <p>📿 手串师 ×1 | 🧩 拼豆师 ×1 | 🔥 火漆印章师 ×1</p>
-                    <p>📅 上班：周二三四+周六日 | 周一周五放假</p>
-                    <p>💰 月薪 ¥10,000 或 🌈彩虹币</p>
-                    <p>🎁 集齐1万彩虹币（打卡100天）→员工放假5天！游客免费领曲奇每种口味3个！</p>
-                </div>
-                <div class="mini-back">
-                    <p style="font-size:36px;">🎉🎁</p>
-                    <p>隐藏福利：说"芝麻开门"可获赠神秘糖果礼包！</p>
-                </div>
-            </div>
-        </div>
-        <div class="mini-card">
-            <div class="mini-inner">
-                <div class="mini-front">
-                    <h3>🌟 每日打卡</h3>
-                    <ol>
-                        <li>🍬 吃一颗糖</li>
-                        <li>🎨 画一朵花</li>
-                        <li>💌 请朋友来玩</li>
-                    </ol>
-                    <p style="text-align:center; color:#e8709a; font-weight:bold;">✅ 3项全完成 → 得 🌈×100 彩虹币！</p>
-                </div>
-                <div class="mini-back">
-                    <p style="font-size:36px;">⭐🏆</p>
-                    <p>连续打卡7天：获得"糖果大师"称号！</p>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- 关于我：好物推荐 -->
-    <div class="card-row">
-        <div class="mini-card">
-            <div class="mini-inner">
-                <div class="mini-front">
-                    <h3>🥤 卖饮料</h3>
-                    <p>🧃 彩虹果汁 ¥8 | 🥤 珍珠奶茶 ¥12</p>
-                    <p>🍵 草莓奶盖 ¥14 | 🫧 气泡魔法水 ¥9</p>
-                    <p>🍋 柠檬苏打 ¥7 | 🍑 蜜桃乌龙 ¥11</p>
-                    <p>🥛 香蕉奶昔 ¥10 | 🍫 热可可 ¥10</p>
-                </div>
-                <div class="mini-back">
-                    <p style="font-size:36px;">🥤🧃</p>
-                    <p>第二杯半价！</p>
-                </div>
-            </div>
-        </div>
-        <div class="mini-card">
-            <div class="mini-inner">
-                <div class="mini-front">
-                    <h3>🍓 卖水果</h3>
-                    <p>🍓 草莓 ¥12/盒 | 🍇 葡萄 ¥10/串</p>
-                    <p>🍊 橙子 ¥8/斤 | 🍉 西瓜 ¥15/个</p>
-                    <p>🍎 苹果 ¥6/斤 | 🍌 香蕉 ¥5/把</p>
-                    <p>🍑 水蜜桃 ¥9/个 | 🥝 猕猴桃 ¥8/盒</p>
-                </div>
-                <div class="mini-back">
-                    <p style="font-size:36px;">🍓🍉</p>
-                    <p>新鲜现摘，买2送1！</p>
-                </div>
-            </div>
-        </div>
-        <div class="mini-card">
-            <div class="mini-inner">
-                <div class="mini-front">
-                    <h3>🍿 卖零食</h3>
-                    <p>🍿 彩虹爆米花 ¥8 | 🥨 巧克力脆棒 ¥10</p>
-                    <p>🍘 草莓米饼 ¥6 | 🫘 焦糖爆豆 ¥7</p>
-                    <p>🍪 曲奇饼干 ¥12 | 🍫 夹心巧克力 ¥9</p>
-                    <p>🌰 糖炒栗子 ¥13 | 🍡 果味软糖 ¥5</p>
-                </div>
-                <div class="mini-back">
-                    <p style="font-size:36px;">🍿🍫</p>
-                    <p>买3包送1包！</p>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- 关于我：好物推荐第二排 -->
-    <div class="card-row">
-        <div class="mini-card">
-            <div class="mini-inner">
-                <div class="mini-front">
-                    <h3>🎁 礼物店</h3>
-                    <p>🧸 糖果玩偶 ¥25 | 🎀 蝴蝶结发饰 ¥8</p>
-                    <p>📿 手工手链 ¥20 | 🖼️ 糖果贴画 ¥12</p>
-                    <p>🎈 生日气球 ¥15 | 🕯️ 香薰蜡烛 ¥18</p>
-                    <p>🎁 礼品盒 ¥10 | 💌 手写贺卡 ¥5</p>
-                </div>
-                <div class="mini-back">
-                    <p style="font-size:36px;">🎁🧸</p>
-                    <p>满 ¥50 免费包装！</p>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- 关于我：糖果乐园专区 -->
-    <div class="card-row">
-        <div class="mini-card">
-            <div class="mini-inner">
-                <div class="mini-front">
-                    <h3>🍭 棒棒糖屋</h3>
-                    <p>🍭 彩虹棒棒糖 ¥3 | 🌀 螺旋棒棒糖 ¥4</p>
-                    <p>💗 爱心棒棒糖 ¥5 | 🌟 星星棒棒糖 ¥5</p>
-                    <p>🦄 独角兽棒棒糖 ¥8 | 🍇 葡萄棒棒糖 ¥4</p>
-                </div>
-                <div class="mini-back"><p style="font-size:36px;">🍭🍬</p><p>买10根送1根！</p></div>
-            </div>
-        </div>
-        <div class="mini-card">
-            <div class="mini-inner">
-                <div class="mini-front">
-                    <h3>🍫 巧克力工坊</h3>
-                    <p>🍫 牛奶巧克力 ¥10 | 🤎 黑巧克力 ¥12</p>
-                    <p>🍓 草莓夹心 ¥13 | 🌰 榛果脆心 ¥14</p>
-                    <p>⚪ 白巧克力 ¥11 | 🍊 橙香巧克力 ¥12</p>
-                </div>
-                <div class="mini-back"><p style="font-size:36px;">🍫🤎</p><p>巧克力礼盒 ¥68！</p></div>
-            </div>
-        </div>
-        <div class="mini-card">
-            <div class="mini-inner">
-                <div class="mini-front">
-                    <h3>🍬 软糖世界</h3>
-                    <p>🐻 小熊软糖 ¥6 | 🍇 果味软糖 ¥5</p>
-                    <p>🍡 棉花糖串 ¥5 | 🌈 彩虹软糖 ¥7</p>
-                    <p>🍥 棉花糖 ¥4 | 🍯 蜂蜜糖 ¥6</p>
-                </div>
-                <div class="mini-back"><p style="font-size:36px;">🐻🍬</p><p>软糖大礼包 ¥25！</p></div>
-            </div>
-        </div>
-    </div>
-    </section><!-- /about -->
-    <section id="section-works" class="section">
-    <!-- ===== 作品集 ===== -->
-    <h2 style="text-align:center; z-index:1; position:relative; color:#8b5cf6; margin-top:40px; font-size:28px;">🎨 作品集</h2>
-    <!-- 🖼️ 网格作品集（第8课） -->
-    <div class="gallery">
-        <div class="card" onclick="openLightbox(this)">
-            <img src="image_805409951695055.png" alt="棒棒糖乐园">
-            <div class="card-body">
-                <h3>🍭 棒棒糖乐园</h3>
-                <p>甜甜的棒棒糖世界</p>
-            </div>
-        </div>
-        <div class="card" onclick="openLightbox(this)">
-            <img src="image_477408556514120.png" alt="桂花小景">
-            <div class="card-body">
-                <h3>🌸 桂花小景</h3>
-                <p>乐园里的桂花香</p>
-            </div>
-        </div>
-        <div class="card" onclick="openLightbox(this)">
-            <img src="image_321914051707781.png" alt="彩虹手账">
-            <div class="card-body">
-                <h3>🌈 彩虹手账</h3>
-                <p>记录彩虹色的一天</p>
-            </div>
-        </div>
-        <div class="card" onclick="openLightbox(this)">
-            <img src="image_463988049100864.png" alt="星空魔法">
-            <div class="card-body">
-                <h3>✨ 星空魔法</h3>
-                <p>在星空下施展魔法</p>
-            </div>
-        </div>
-        <div class="card" onclick="openLightbox(this)">
-            <img src="image_700947207323923.png" alt="甜品小屋">
-            <div class="card-body">
-                <h3>🍰 甜品小屋</h3>
-                <p>香甜可口的甜点</p>
-            </div>
-        </div>
-        <div class="card" onclick="openLightbox(this)">
-            <img src="image_930447334603492.png" alt="乐园涂鸦">
-            <div class="card-body">
-                <h3>🎨 乐园涂鸦</h3>
-                <p>我画的小小世界</p>
-            </div>
-        </div>
-    </div>
-    <!-- 第二行卡片 -->
-    <div class="card-row">
-        <div class="mini-card">
-            <div class="mini-inner">
-                <div class="mini-front">
-                    <h3>💬 游客好评</h3>
-                    <p>⭐ "这里的甜甜圈太好吃啦！" — 小美</p>
-                    <p>⭐ "提拉米苏超可爱！" — 阿杰</p>
-                    <p>⭐ "云朵咖啡让我飘起来了～" — 糖果控</p>
-                </div>
-                <div class="mini-back">
-                    <p style="font-size:36px;">💌</p>
-                    <p>写一条好评 → 送 🌈×50 彩虹币！</p>
-                </div>
-            </div>
-        </div>
-        <div class="mini-card">
-            <div class="mini-inner">
-                <div class="mini-front">
-                    <h3>🎨 糖果DIY工坊</h3>
-                    <p>🕐 每周六下午2-4点</p>
-                    <p>🧑‍🏫 曲奇师亲自教学</p>
-                    <p>🎟️ 门票：¥30/人</p>
-                    <p>🔥 DIY火漆印章：国庆期间 10:00上课 ¥35/节</p>
-                    <p>🧩 拼豆工坊：国庆期间 14:00上课 ¥28/节</p>
-                    <p>🪄 手串工坊：国庆期间 16:00上课 ¥40/节</p>
-                    <p>🎂 蛋糕装饰工坊：国庆 9:00上课 ¥45/节</p>
-                    <p>🍪 曲奇烘焙工坊：国庆 11:00上课 ¥38/节</p>
-                    <p>💅 美甲糖果工坊：国庆 15:00上课 ¥30/节</p>
-                    <p style="color:#e8709a; font-weight:bold;">🎁 报5节送1节 / 报10节送3节<br>或直接减钱：报5节减¥30，报10节减¥80！</p>
-                </div>
-                <div class="mini-back">
-                    <p style="font-size:36px;">🎪</p>
-                    <p>DIY成品可带回家！<br>还能获得 🌈×200！</p>
-                </div>
-            </div>
-        </div>
-        <div class="mini-card">
-            <div class="mini-inner">
-                <div class="mini-front">
-                    <h3>🎂 生日派对预订</h3>
-                    <p>🎈 定制专属糖果蛋糕</p>
-                    <p>🎁 寿星免费领礼包</p>
-                    <p>📞 提前3天预约哟～</p>
-                </div>
-                <div class="mini-back">
-                    <p style="font-size:36px;">🎉🎊</p>
-                    <p>派对套餐 ¥188 起！<br>含蛋糕+饮品+DIY体验！</p>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- 作品集：冰淇淋 + 图书角 -->
-    <div class="card-row">
-        <div class="mini-card">
-            <div class="mini-inner">
-                <div class="mini-front">
-                    <h3>🍦 冰淇淋店</h3>
-                    <p>🍓 草莓绵绵冰 ¥15</p>
-                    <p>🍊 橙汁绵绵冰 ¥13</p>
-                    <p>🍦 香草甜筒 ¥6 | 🍧 草莓圣代 ¥12</p>
-                    <p>🍨 彩虹冰淇淋杯 ¥15 | 🥭 芒果冰沙 ¥10</p>
-                    <p>🍫 巧克力圣代 ¥13 | 🍵 抹茶冰淇淋 ¥11</p>
-                    <p>🍇 葡萄冰沙 ¥10 | 🥥 椰香雪糕 ¥9</p>
-                </div>
-                <div class="mini-back">
-                    <p style="font-size:36px;">🍦🍨</p>
-                    <p>双球第二个半价！</p>
-                </div>
-            </div>
-        </div>
-        <div class="mini-card">
-            <div class="mini-inner">
-                <div class="mini-front">
-                    <h3>📚 图书角</h3>
-                    <p>📖 糖果童话书 ¥15 | 📕 手作教程 ¥20</p>
-                    <p>🎨 涂色本 ¥10 | 🧩 拼图书 ¥18</p>
-                    <p>📗 科普绘本 ¥22 | 📘 英文故事书 ¥25</p>
-                    <p>📙 迷宫游戏书 ¥12 | ✏️ 练习册 ¥8</p>
-                </div>
-                <div class="mini-back">
-                    <p style="font-size:36px;">📚🎨</p>
-                    <p>买书送书签！</p>
-                </div>
-            </div>
-        </div>
-        <div class="mini-card">
-            <div class="mini-inner">
-                <div class="mini-front">
-                    <h3>📅 营业时间</h3>
-                    <p>🍦 冰淇淋店：10:00-20:00</p>
-                    <p>📚 图书角：9:00-18:00</p>
-                    <p>🎨 工坊：国庆 9:00-17:00</p>
-                </div>
-                <div class="mini-back">
-                    <p style="font-size:36px;">⏰</p>
-                    <p>记得来玩呀！</p>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- 作品集：零食区 -->
-    <div class="card-row">
-        <div class="mini-card">
-            <div class="mini-inner">
-                <div class="mini-front">
-                    <h3>🍿 零食区</h3>
-                    <p>🍿 彩虹爆米花 ¥8 | 🥨 巧克力脆棒 ¥10</p>
-                    <p>🍘 草莓米饼 ¥6 | 🫘 焦糖爆豆 ¥7</p>
-                    <p>🍪 曲奇饼干 ¥12 | 🍫 夹心巧克力 ¥9</p>
-                    <p>🌰 糖炒栗子 ¥13 | 🍡 果味软糖 ¥5</p>
-                </div>
-                <div class="mini-back">
-                    <p style="font-size:36px;">🍿🍫</p>
-                    <p>买3包送1包！</p>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- 作品集：糖果图标墙 -->
-    <div class="card-row">
-        <div class="mini-card">
-            <div class="mini-inner">
-                <div class="mini-front" style="text-align:center;">
-                    <h3>🍬 糖果图标</h3>
-                    <p style="font-size:30px; margin:5px 0;">🍭🍬🍫🍩🧁</p>
-                    <p>棒棒糖 ¥3 · 软糖 ¥5 · 巧克力 ¥8 · 甜甜圈 ¥5 · 蛋糕 ¥25</p>
-                </div>
-                <div class="mini-back"><p style="font-size:36px;">🍬</p><p>甜蜜系列图标！</p></div>
-            </div>
-        </div>
-        <div class="mini-card">
-            <div class="mini-inner">
-                <div class="mini-front" style="text-align:center;">
-                    <h3>🥤 饮品图标</h3>
-                    <img src="image_477408556514120.png" alt="桂花树" style="width:60px; border-radius:12px; display:inline-block; margin:4px 3px; vertical-align:middle;">
-                    <p style="font-size:30px; margin:5px 0; display:inline-block;">🧃🥤🍵🍋🥛</p>
-                    <p>果汁 ¥8 · 奶茶 ¥12 · 奶盖 ¥14 · 苏打 ¥7 · 奶昔 ¥10</p>
-                </div>
-                <div class="mini-back"><p style="font-size:36px;">🥤</p><p>清凉系列图标！</p></div>
-            </div>
-        </div>
-        <div class="mini-card">
-            <div class="mini-inner">
-                <div class="mini-front" style="text-align:center;">
-                    <h3>🍰 甜品图标</h3>
-                    <p style="font-size:30px; margin:5px 0;">🍰🍦🍨🍧🥭</p>
-                    <p>蛋糕 ¥25 · 甜筒 ¥6 · 圣代 ¥12 · 冰沙 ¥10</p>
-                </div>
-                <div class="mini-back"><p style="font-size:36px;">🍰</p><p>甜点系列图标！</p></div>
-            </div>
-        </div>
-    </div>
-    </section><!-- /works -->
 
     <!-- 📮 联系我 -->
     <section id="section-contact" class="section">
@@ -980,11 +1298,154 @@
     </div>
     </section><!-- /contact -->
 
+    <!-- 🍪 甜品工坊（打工赚钱） -->
+    <section id="section-work" class="section">
+    <h2 style="text-align:center; z-index:1; position:relative; color:#e8709a; margin-top:40px; font-size:28px;">🍪 甜品工坊</h2>
+    <p style="text-align:center; z-index:1; position:relative; color:#7a2050; font-size:17px;">在这里打工赚金币，攒钱去游乐场玩、升级甜品师！</p>
+    <div class="work-grid">
+        <div class="work-card">
+            <span class="work-icon">🍪</span>
+            <h3>做曲奇</h3>
+            <p>+100 元 · 3 秒</p>
+            <button onclick="work('曲奇', 100, 3, this)">👩‍🍳 开始打工</button>
+        </div>
+        <div class="work-card">
+            <span class="work-icon">🍩</span>
+            <h3>做甜甜圈</h3>
+            <p>+150 元 · 4 秒</p>
+            <button onclick="work('甜甜圈', 150, 4, this)">👩‍🍳 开始打工</button>
+        </div>
+        <div class="work-card">
+            <span class="work-icon">🎂</span>
+            <h3>做蛋糕</h3>
+            <p>+300 元 · 6 秒</p>
+            <button onclick="work('蛋糕', 300, 6, this)">👩‍🍳 开始打工</button>
+        </div>
+        <div class="work-card">
+            <span class="work-icon">🍭</span>
+            <h3>做棒棒糖</h3>
+            <p>+80 元 · 2 秒</p>
+            <button onclick="work('棒棒糖', 80, 2, this)">👩‍🍳 开始打工</button>
+        </div>
+    </div>
+    </section><!-- /work -->
+
+    <!-- 👗 人物妆造 -->
+    <section id="section-character" class="section">
+    <h2 style="text-align:center; z-index:1; position:relative; color:#e8709a; margin-top:40px; font-size:28px;">👗 人物妆造</h2>
+    <p style="text-align:center; z-index:1; position:relative; color:#7a2050; font-size:17px;">装扮你的小人，打卡打工玩游戏升级，分配属性点！</p>
+    <div class="char-layout">
+        <div class="char-card">
+            <div class="char-preview" id="charPreview">
+                <span class="char-hat" id="charHat">👑</span>
+                <span class="char-body" id="charBody">🧚</span>
+                <span class="char-acc" id="charAcc">💎</span>
+                <span class="char-level-badge">LV.<b id="charLevel">1</b></span>
+            </div>
+            <h3 id="charName" style="margin:0 0 4px; color:#d84b8a;">👑 小仙女</h3>
+            <p style="margin:0 0 6px; color:#7a2050;">⭐ 属性点 <b id="charPoints">0</b></p>
+            <div class="xp-bar"><div class="xp-fill" id="xpFill"></div></div>
+            <p class="xp-text" id="xpText">经验 0 / 100</p>
+            <button class="ride-btn primary" id="performBtn" onclick="perform()">🎬 表演一下</button>
+        </div>
+        <div class="char-options">
+            <h3 style="margin:0 0 8px; color:#d84b8a;">👤 人物</h3>
+            <div class="opt-row" id="optBody">
+                <button onclick="setBody('🧚')">🧚</button>
+                <button onclick="setBody('🐰')">🐰</button>
+                <button onclick="setBody('🧑‍🍳')">🧑‍🍳</button>
+                <button onclick="setBody('👧')">👧</button>
+            </div>
+            <h3 style="margin:0 0 8px; color:#d84b8a;">🎩 头饰</h3>
+            <div class="opt-row" id="optHat">
+                <button onclick="setHat('👑')">👑</button>
+                <button onclick="setHat('🎀')">🎀</button>
+                <button onclick="setHat('🎩')">🎩</button>
+                <button onclick="setHat('🧢')">🧢</button>
+            </div>
+            <h3 style="margin:0 0 8px; color:#d84b8a;">💎 配饰</h3>
+            <div class="opt-row" id="optAcc">
+                <button onclick="setAcc('💎')">💎</button>
+                <button onclick="setAcc('🌟')">🌟</button>
+                <button onclick="setAcc('🕶️')">🕶️</button>
+                <button onclick="setAcc('🍭')">🍭</button>
+            </div>
+            <h3 style="margin:0 0 8px; color:#d84b8a;">🎨 背景色</h3>
+            <div class="opt-row" id="optOutfit">
+                <button onclick="setOutfit('🎀')">🎀</button>
+                <button onclick="setOutfit('💙')">💙</button>
+                <button onclick="setOutfit('💜')">💜</button>
+                <button onclick="setOutfit('🌈')">🌈</button>
+            </div>
+        </div>
+        <div class="char-stats">
+            <h3 style="margin:0 0 10px; color:#d84b8a;">📈 属性分配</h3>
+            <div class="stat-row"><span class="stat-label">💪 力量</span><div class="stat-bar"><div class="stat-fill fill-str" id="sStrengthFill"></div></div><b id="sStrength">1</b><button class="stat-plus" onclick="addStat('strength')">＋</button></div>
+            <div class="stat-row"><span class="stat-label">⚡ 速度</span><div class="stat-bar"><div class="stat-fill fill-spd" id="sSpeedFill"></div></div><b id="sSpeed">1</b><button class="stat-plus" onclick="addStat('speed')">＋</button></div>
+            <div class="stat-row"><span class="stat-label">💖 魅力</span><div class="stat-bar"><div class="stat-fill fill-cha" id="sCharmFill"></div></div><b id="sCharm">1</b><button class="stat-plus" onclick="addStat('charm')">＋</button></div>
+            <div class="stat-row"><span class="stat-label">🍰 厨艺</span><div class="stat-bar"><div class="stat-fill fill-cook" id="sCookingFill"></div></div><b id="sCooking">1</b><button class="stat-plus" onclick="addStat('cooking')">＋</button></div>
+            <p class="xp-text">升级获得 3 属性点，加高属性让人物更厉害！</p>
+        </div>
+    </div>
+    </section><!-- /character -->
+
+    <!-- 🛒 商店 -->
+    <section id="section-shop" class="section">
+    <h2 style="text-align:center; z-index:1; position:relative; color:#e8709a; margin-top:40px; font-size:28px;">🛒 糖果商店</h2>
+    <p style="text-align:center; z-index:1; position:relative; color:#7a2050; font-size:17px;">买点零食和玩具，存进你的小家吧！</p>
+    <div id="shopContainer"></div>
+    </section><!-- /shop -->
+
+    <!-- 🏠 我的家 -->
+    <section id="section-house" class="section">
+    <h2 style="text-align:center; z-index:1; position:relative; color:#e8709a; margin-top:40px; font-size:28px;">🏠 我的家</h2>
+    <p style="text-align:center; z-index:1; position:relative; color:#7a2050; font-size:17px;">拖动家具布置你的小家吧～（你的人物也在这里哦）</p>
+    <div class="room" id="room">
+        <div class="room-window"></div>
+        <div class="furniture" id="f-bed" data-f="bed" style="left:16px;top:185px;"></div>
+        <div class="furniture" id="f-sofa" data-f="sofa" style="left:330px;top:180px;"></div>
+        <div class="furniture" id="f-chair" data-f="chair" style="left:95px;top:230px;"></div>
+        <div class="furniture" id="f-table" data-f="table" style="left:210px;top:225px;"></div>
+        <div class="furniture" id="f-tv" data-f="tv" style="left:380px;top:70px;"></div>
+        <div class="furniture" id="f-lamp" data-f="lamp" style="left:24px;top:55px;"></div>
+        <div class="furniture" id="f-plant" data-f="plant" style="left:405px;top:215px;"></div>
+        <div class="furniture" id="f-rug" data-f="rug" style="left:165px;top:295px;"></div>
+        <div class="furniture" id="f-shelf" data-f="shelf" style="left:345px;top:50px;"></div>
+        <div class="furniture" id="f-wardrobe" data-f="wardrobe" style="left:16px;top:85px;"></div>
+        <div class="furniture" id="f-mirror" data-f="mirror" style="left:280px;top:55px;"></div>
+        <div class="furniture" id="f-pillow" data-f="pillow" style="left:130px;top:150px;"></div>
+        <div class="furniture" id="f-blanket" data-f="blanket" style="left:255px;top:150px;"></div>
+        <div class="furniture char-figure" id="f-char" data-char="1" style="left:195px;top:115px;"></div>
+    </div>
+    <div class="home-storage">
+        <div class="storage-box">
+            <h3>🍬 零食仓库</h3>
+            <div id="goodsInventory">（空空如也，去商店买点吧～）</div>
+        </div>
+        <div class="storage-box">
+            <h3>🧸 玩具柜</h3>
+            <div id="toysInventory">（空空如也～）</div>
+        </div>
+        <div class="storage-box">
+            <h3>🖼️ 作品收藏</h3>
+            <div id="artInventory">（空空如也～）</div>
+        </div>
+        <div class="storage-box">
+            <h3>🎟️ 体验券</h3>
+            <div id="funInventory">（空空如也～）</div>
+        </div>
+        <div class="storage-box">
+            <h3>🪑 家具</h3>
+            <div id="furnitureInventory">（空空如也～）</div>
+        </div>
+    </div>
+    </section><!-- /house -->
+
     <!-- 🦶 页脚 -->
     <footer style="text-align:center; padding:24px 16px; margin-top:40px; border-radius:18px; background:rgba(255,255,255,0.55); backdrop-filter:blur(6px); position:relative; z-index:2; box-shadow:0 6px 25px rgba(255,150,180,0.3);">
         <p style="margin:0 0 8px; font-size:22px;">🍭🍬🍩🧁🍪</p>
         <p style="margin:0; color:#7a2050; font-weight:bold;">© 2026 甜甜蜜蜜的彩虹乐园 · 繁星浅梦</p>
-        <p style="margin:6px 0 0; color:#d84b8a;">🏠 首页 · 👩‍🎨 关于我 · 🎨 作品集 · 📮 联系我</p>
+        <p style="margin:6px 0 0; color:#d84b8a;">🏠 首页 · 📮 联系我 · 🍪 打工 · 🛒 商店 · 🏠 家 · 👗 人物</p>
     </footer>
 
     <!-- ====== 脚本：翻转切换 ====== -->
@@ -1056,6 +1517,715 @@
             setTimeout(() => { success.classList.remove('show'); }, 3000);
             return false;
         }
+
+        // ===== 游乐场互动 =====
+        // 速度调节（慢/正常/快）
+        function setSpeed(id, seconds) {
+            const el = document.getElementById(id);
+            if (el) el.style.animationDuration = seconds + 's';
+            playTone(520, 0.08);
+        }
+        // 小火车鸣笛
+        function whistle(btn) {
+            const rail = btn.closest('.ride').querySelector('.rail');
+            const bubble = document.createElement('div');
+            bubble.className = 'whistle';
+            bubble.textContent = '叮叮～ 🎶';
+            rail.appendChild(bubble);
+            playTone(660, 0.15);
+            setTimeout(() => playTone(880, 0.2), 130);
+            setTimeout(() => bubble.remove(), 1500);
+        }
+        // 摩天轮：拖拽旋转 + 惯性
+        const ferrisWheel = (function () {
+            const wheel = document.getElementById('wheel');
+            if (!wheel) return null;
+            let angle = 0, velocity = 0, dragging = false, lastAngle = 0, lastT = 0, raf = null;
+            function apply() { wheel.style.transform = 'rotate(' + angle + 'deg)'; }
+            function center() { const f = wheel.parentElement.getBoundingClientRect(); return { x: f.left + f.width / 2, y: f.top + 106 }; }
+            function pt(e) { return e.touches ? e.touches[0] : e; }
+            function tick() {
+                if (dragging) return;
+                if (Math.abs(velocity) < 0.05) { velocity = 0; return; }
+                angle += velocity;
+                velocity *= 0.96;
+                apply();
+                raf = requestAnimationFrame(tick);
+            }
+            function start() { cancelAnimationFrame(raf); raf = requestAnimationFrame(tick); }
+            function down(e) {
+                dragging = true;
+                cancelAnimationFrame(raf);
+                const c = center(), p = pt(e);
+                lastAngle = Math.atan2(p.clientY - c.y, p.clientX - c.x) * 180 / Math.PI;
+                lastT = performance.now();
+                velocity = 0;
+                wheel.classList.add('dragging');
+                e.preventDefault();
+            }
+            function move(e) {
+                if (!dragging) return;
+                const c = center(), p = pt(e);
+                const a = Math.atan2(p.clientY - c.y, p.clientX - c.x) * 180 / Math.PI;
+                let d = a - lastAngle;
+                if (d > 180) d -= 360;
+                if (d < -180) d += 360;
+                angle += d;
+                const now = performance.now(), dt = now - lastT;
+                if (dt > 0) velocity = d / dt * 16;
+                lastAngle = a; lastT = now;
+                apply();
+            }
+            function up() { dragging = false; wheel.classList.remove('dragging'); start(); }
+            wheel.addEventListener('mousedown', down);
+            window.addEventListener('mousemove', move);
+            window.addEventListener('mouseup', up);
+            wheel.addEventListener('touchstart', down, { passive: false });
+            window.addEventListener('touchmove', move, { passive: false });
+            window.addEventListener('touchend', up);
+            // 初始缓慢自转
+            velocity = 0.7;
+            start();
+            return { kick: function (n) { velocity += n; start(); } };
+        })();
+        function boostWheel() { if (ferrisWheel) ferrisWheel.kick(10); playTone(300, 0.25); }
+
+        // ===== 音效（Web Audio）=====
+        let audioCtx = null;
+        function playTone(freq, dur) {
+            try {
+                if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const o = audioCtx.createOscillator();
+                const g = audioCtx.createGain();
+                o.type = 'sine';
+                o.frequency.value = freq || 600;
+                g.gain.value = 0.15;
+                o.connect(g); g.connect(audioCtx.destination);
+                const t = audioCtx.currentTime;
+                g.gain.setValueAtTime(0.15, t);
+                g.gain.exponentialRampToValueAtTime(0.001, t + (dur || 0.2));
+                o.start(t); o.stop(t + (dur || 0.2));
+            } catch (e) {}
+        }
+
+        // ===== 金币 / 打卡 / 甜品师等级 =====
+        function lsGet(k, d) { try { const v = localStorage.getItem(k); return v === null ? d : v; } catch (e) { return d; } }
+        function lsSet(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+        function isBoss() { return lsGet('boss', '0') === '1'; }
+        function toggleBoss() {
+            lsSet('boss', isBoss() ? '0' : '1');
+            setMoney(getMoney());
+            updateCharacter();
+            updateChef(parseInt(lsGet('checkinDays', '0'), 10) || 0);
+            toast(isBoss() ? '👑 老板模式开启，全场免单！' : '🧑‍🍳 已切换为访客模式，要花金币啦～');
+        }
+        function todayStr() {
+            const d = new Date();
+            return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2);
+        }
+        function getMoney() { return parseInt(lsGet('money', '10000'), 10) || 0; }
+        function setMoney(v) { lsSet('money', v); document.getElementById('money').textContent = isBoss() ? '∞' : v; }
+        function addMoney(v) { if (isBoss()) return; setMoney(getMoney() + v); }
+        function spendMoney(cost) {
+            if (isBoss()) return true;
+            const m = getMoney();
+            if (m < cost) return false;
+            setMoney(m - cost);
+            return true;
+        }
+        function chefLevel(days) {
+            if (isBoss()) return { name: '破金甜品师', icon: '💎' };
+            if (days >= 15) return { name: '破金甜品师', icon: '💎' };
+            if (days >= 5) return { name: '高级甜品师', icon: '🍰' };
+            if (days >= 1) return { name: '初级甜品师', icon: '🍪' };
+            return { name: '学徒甜品师', icon: '👶' };
+        }
+        function updateChef(days) {
+            const c = chefLevel(days);
+            document.getElementById('chefTitle').textContent = c.name;
+            document.getElementById('chefIcon').textContent = c.icon;
+            document.getElementById('checkinDays').textContent = isBoss() ? 'MAX' : days;
+        }
+        function initWallet() {
+            if (lsGet('money', null) === null) lsSet('money', '10000');
+            setMoney(getMoney());
+            updateChef(parseInt(lsGet('checkinDays', '0'), 10) || 0);
+        }
+        function checkin() {
+            if (lsGet('lastCheckin', '') === todayStr()) { toast('😊 今天已经打过卡啦，明天再来～'); return; }
+            lsSet('lastCheckin', todayStr());
+            const days = (parseInt(lsGet('checkinDays', '0'), 10) || 0) + 1;
+            lsSet('checkinDays', days);
+            updateChef(days);
+            addXp(100);
+            if (!isBoss()) { addMoney(500); toast('🎉 打卡成功！+500 元'); }
+            else { toast('👑 老板打卡成功！+1 天'); }
+            playTone(660, 0.12);
+            setTimeout(function () { playTone(880, 0.18); }, 120);
+        }
+        function toast(msg) {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.classList.add('show');
+            clearTimeout(t._timer);
+            t._timer = setTimeout(function () { t.classList.remove('show'); }, 2200);
+        }
+        function playRide(name, cost, btn) {
+            if (!spendMoney(cost)) { toast('😅 金币不够啦！去打工赚钱吧～'); return; }
+            toast(isBoss() ? '👑 老板免单！' + name + ' 开动啦～' : '🎉 ' + name + ' 开动啦！- ' + cost + ' 元');
+            playTone(520, 0.12);
+            burst(btn);
+            addXp(10);
+            if (name === '摩天轮') { if (ferrisWheel) ferrisWheel.kick(12); }
+            else if (name === '飞车') { setSpeed('coasterCar', 1.5); setTimeout(function () { setSpeed('coasterCar', 6); }, 2500); }
+            else if (name === '旋转木马') { setSpeed('carousel', 2); setTimeout(function () { setSpeed('carousel', 7); }, 2500); }
+            else if (name === '小火车') { setSpeed('train', 2); setTimeout(function () { setSpeed('train', 8); }, 2500); }
+        }
+        function burst(btn) {
+            const host = btn.closest('.ride') || btn.parentElement;
+            if (!host) return;
+            const icons = ['✨', '🌟', '💖', '🍬'];
+            for (let i = 0; i < 6; i++) {
+                const s = document.createElement('span');
+                s.className = 'burst-star';
+                s.textContent = icons[i % icons.length];
+                s.style.left = (30 + Math.random() * 40) + '%';
+                s.style.animationDelay = (i * 0.08) + 's';
+                host.appendChild(s);
+                setTimeout(function () { s.remove(); }, 1200);
+            }
+        }
+        function work(name, pay, seconds, btn) {
+            if (isBoss()) { toast('👑 老板不用打工，直接玩就好啦～'); return; }
+            if (btn.disabled) return;
+            btn.disabled = true;
+            let left = seconds;
+            btn.textContent = '⏳ 制作中 ' + left + 's';
+            const timer = setInterval(function () {
+                left--;
+                if (left <= 0) {
+                    clearInterval(timer);
+                    addMoney(pay);
+                    addXp(20);
+                    toast('🎉 ' + name + '做好啦！+ ' + pay + ' 元');
+                    playTone(700, 0.12);
+                    btn.textContent = '👩‍🍳 开始打工';
+                    btn.disabled = false;
+                } else {
+                    btn.textContent = '⏳ 制作中 ' + left + 's';
+                }
+            }, 1000);
+        }
+        initWallet();
+
+        // ===== 接糖果小游戏（移动篮子接糖果）=====
+        const candyList = ['🍬','🍭','🍩','🧁','🍪','🍰','🍡','🍎'];
+        let game = null, moveHandler = null;
+
+        function toggleGame() {
+            if (game && game.running) { stopGame('你已经接到了 ' + game.score + ' 颗糖果 🎉'); return; }
+            if (!spendMoney(20)) { toast('😅 金币不够啦！去打工赚钱吧～'); return; }
+            toast(isBoss() ? '👑 老板免单！接糖果开始～' : '🎮 接糖果开始！- 20 元');
+            startGame();
+        }
+
+        function startGame() {
+            const area = document.getElementById('gameArea');
+            const basket = document.getElementById('basket');
+            area.innerHTML = '';
+            area.appendChild(basket);
+            game = {
+                running: true,
+                score: 0,
+                timeLeft: 30,
+                candies: [],
+                basketX: (area.clientWidth - 64) / 2,
+                lastSpawn: performance.now(),
+                spawnGap: 700,
+                lastTime: performance.now(),
+                raf: null
+            };
+            document.getElementById('gameScore').textContent = '0';
+            document.getElementById('gameTime').textContent = '30';
+            document.getElementById('gameBtn').textContent = '⏹ 停止';
+            basket.style.left = game.basketX + 'px';
+            playTone(523, 0.15);
+            moveHandler = function (e) { moveBasket(e); };
+            area.addEventListener('mousemove', moveHandler);
+            area.addEventListener('touchmove', moveHandler, { passive: false });
+            game.raf = requestAnimationFrame(loop);
+        }
+
+        function moveBasket(e) {
+            if (!game || !game.running) return;
+            const area = document.getElementById('gameArea');
+            const ar = area.getBoundingClientRect();
+            const p = e.touches ? e.touches[0] : e;
+            let x = p.clientX - ar.left - 32;
+            x = Math.max(0, Math.min(ar.width - 64, x));
+            game.basketX = x;
+            document.getElementById('basket').style.left = x + 'px';
+            if (e.cancelable) e.preventDefault();
+        }
+
+        function loop(now) {
+            if (!game || !game.running) return;
+            const area = document.getElementById('gameArea');
+            const dt = now - game.lastTime;
+            game.lastTime = now;
+
+            game.timeLeft -= dt / 1000;
+            const t = Math.max(0, Math.ceil(game.timeLeft));
+            document.getElementById('gameTime').textContent = t;
+            if (game.timeLeft <= 0) { stopGame('⏰ 时间到！你接到了 ' + game.score + ' 颗糖果 🎉'); return; }
+
+            if (now - game.lastSpawn > game.spawnGap) {
+                spawnCandy(area);
+                game.lastSpawn = now;
+                game.spawnGap = Math.max(280, game.spawnGap - 6);
+            }
+
+            const bw = 64, by = area.clientHeight - 56, bx = game.basketX;
+            for (let i = game.candies.length - 1; i >= 0; i--) {
+                const c = game.candies[i];
+                c.y += c.speed * (dt / 16);
+                c.el.style.top = c.y + 'px';
+                const cxc = c.x + 15;
+                if (c.y > by - 15 && c.y < by + 35 && cxc > bx - 5 && cxc < bx + bw + 5) {
+                    game.score++;
+                    addXp(2);
+                    document.getElementById('gameScore').textContent = game.score;
+                    playTone(700 + game.score * 12, 0.12);
+                    sparkle(area, cxc, c.y);
+                    c.el.remove();
+                    game.candies.splice(i, 1);
+                    continue;
+                }
+                if (c.y > area.clientHeight + 20) {
+                    c.el.remove();
+                    game.candies.splice(i, 1);
+                }
+            }
+
+            game.raf = requestAnimationFrame(loop);
+        }
+
+        function spawnCandy(area) {
+            const el = document.createElement('div');
+            el.className = 'candy-item';
+            el.textContent = candyList[Math.floor(Math.random() * candyList.length)];
+            const x = Math.random() * (area.clientWidth - 30);
+            const speed = 3 + Math.random() * 3 + (30 - game.timeLeft) * 0.12;
+            el.style.left = x + 'px';
+            el.style.top = '-36px';
+            area.appendChild(el);
+            game.candies.push({ el: el, x: x, y: -36, speed: speed });
+        }
+
+        function sparkle(area, x, y) {
+            const s = document.createElement('span');
+            s.className = 'candy-pop';
+            s.textContent = '✨';
+            s.style.left = x + 'px';
+            s.style.top = y + 'px';
+            area.appendChild(s);
+            setTimeout(function () { s.remove(); }, 600);
+        }
+
+        function stopGame(msg) {
+            if (!game) return;
+            game.running = false;
+            cancelAnimationFrame(game.raf);
+            const area = document.getElementById('gameArea');
+            if (moveHandler) {
+                area.removeEventListener('mousemove', moveHandler);
+                area.removeEventListener('touchmove', moveHandler);
+            }
+            const span = document.createElement('span');
+            span.className = 'game-result';
+            span.textContent = msg;
+            area.appendChild(span);
+            document.getElementById('gameBtn').textContent = '▶️ 再玩一次';
+            playTone(392, 0.25);
+            game = null;
+        }
+
+        // ===== 人物妆造 =====
+        const BODY_NAMES = { '🧚': '小仙女', '🐰': '兔兔甜品师', '🧑‍🍳': '大厨师傅', '👧': '糖果女孩' };
+        const OUTFIT_BG = { '🎀': '#ffb8d4', '💙': '#aad4ff', '💜': '#d8c8ff', '🌈': 'linear-gradient(135deg,#ffb8d4,#ffd166,#aad4ff,#d8c8ff)' };
+        const MAX_STAT = 10, MAX_LV = 10;
+        function getStats() {
+            if (isBoss()) return { strength: MAX_STAT, speed: MAX_STAT, charm: MAX_STAT, cooking: MAX_STAT };
+            try { return JSON.parse(lsGet('charStats', '{"strength":1,"speed":1,"charm":1,"cooking":1}')); }
+            catch (e) { return { strength: 1, speed: 1, charm: 1, cooking: 1 }; }
+        }
+        function saveStats(s) { lsSet('charStats', JSON.stringify(s)); }
+        function charXp() { return parseInt(lsGet('charXp', '0'), 10) || 0; }
+        function charLevel() { return isBoss() ? MAX_LV : Math.min(MAX_LV, Math.floor(charXp() / 100) + 1); }
+        function totalPoints() { return (charLevel() - 1) * 3; }
+        function usedPoints() { const s = getStats(); return s.strength + s.speed + s.charm + s.cooking - 4; }
+        function availPoints() { return Math.max(0, totalPoints() - usedPoints()); }
+        function addXp(n) { lsSet('charXp', charXp() + n); updateCharacter(); }
+        function addStat(stat) {
+            if (isBoss()) { toast('👑 老板人物已经满级啦！'); return; }
+            if (availPoints() <= 0) { toast('😊 升级人物获得属性点才能加哦～'); return; }
+            const s = getStats(); s[stat]++; saveStats(s); updateCharacter(); playTone(700, 0.1);
+        }
+        function setBody(v) { lsSet('charBody', v); updateCharacter(); }
+        function setHat(v) { lsSet('charHat', v); updateCharacter(); }
+        function setAcc(v) { lsSet('charAcc', v); updateCharacter(); }
+        function setOutfit(v) { lsSet('charOutfit', v); updateCharacter(); }
+        function updateCharacter() {
+            const body = lsGet('charBody', '🧚');
+            const hat = lsGet('charHat', '👑');
+            const acc = lsGet('charAcc', '💎');
+            const outfit = lsGet('charOutfit', '🎀');
+            document.getElementById('charBody').textContent = body;
+            document.getElementById('charHat').textContent = hat;
+            document.getElementById('charAcc').textContent = acc;
+            const cfB = document.getElementById('cfBody');
+            const cfH = document.getElementById('cfHat');
+            if (cfB) cfB.textContent = body;
+            if (cfH) cfH.textContent = hat;
+            document.getElementById('charName').textContent = hat + ' ' + (BODY_NAMES[body] || '小仙女');
+            document.getElementById('charPreview').style.setProperty('--outfit', OUTFIT_BG[outfit] || OUTFIT_BG['🎀']);
+            if (isBoss()) {
+                document.getElementById('charLevel').textContent = 'MAX';
+                document.getElementById('charPoints').textContent = 0;
+                document.getElementById('xpFill').style.width = '100%';
+                document.getElementById('xpText').textContent = '👑 老板满级，最强！';
+            } else {
+                const xp = charXp(), lvl = charLevel(), need = lvl * 100, within = xp - (lvl - 1) * 100;
+                document.getElementById('charLevel').textContent = lvl;
+                document.getElementById('charPoints').textContent = availPoints();
+                document.getElementById('xpFill').style.width = (within / need * 100) + '%';
+                document.getElementById('xpText').textContent = '经验 ' + within + ' / ' + need;
+            }
+            const s = getStats();
+            document.getElementById('sStrength').textContent = s.strength;
+            document.getElementById('sSpeed').textContent = s.speed;
+            document.getElementById('sCharm').textContent = s.charm;
+            document.getElementById('sCooking').textContent = s.cooking;
+            document.getElementById('sStrengthFill').style.width = (s.strength * 10) + '%';
+            document.getElementById('sSpeedFill').style.width = (s.speed * 10) + '%';
+            document.getElementById('sCharmFill').style.width = (s.charm * 10) + '%';
+            document.getElementById('sCookingFill').style.width = (s.cooking * 10) + '%';
+            document.querySelectorAll('.opt-row button').forEach(function (b) { b.classList.remove('active'); });
+            markActive('optBody', body);
+            markActive('optHat', hat);
+            markActive('optAcc', acc);
+            markActive('optOutfit', outfit);
+        }
+        function markActive(containerId, value) {
+            document.querySelectorAll('#' + containerId + ' button').forEach(function (b) { if (b.textContent === value) b.classList.add('active'); });
+        }
+        function perform() {
+            const el = document.getElementById('charPreview');
+            el.classList.remove('perform'); void el.offsetWidth; el.classList.add('perform');
+            playTone(523, 0.12);
+            setTimeout(function () { playTone(659, 0.12); }, 140);
+            setTimeout(function () { playTone(784, 0.18); }, 280);
+            burst(document.getElementById('performBtn'));
+            setTimeout(function () { el.classList.remove('perform'); }, 900);
+        }
+        updateCharacter();
+
+        // ===== 商店 & 储存 =====
+        function getInv() { try { return JSON.parse(lsGet('inventory', '{}')); } catch (e) { return {}; } }
+        function buyItem(name, emoji, price, cat, svg) {
+            if (!isBoss() && !spendMoney(price)) { toast('😅 金币不够啦！去打工赚钱吧～'); return; }
+            const inv = getInv();
+            if (inv[name]) inv[name].count++; else inv[name] = { emoji: emoji, cat: cat, count: 1, svg: svg || '' };
+            lsSet('inventory', JSON.stringify(inv));
+            renderInv();
+            toast(isBoss() ? '👑 老板免单！' + name + ' 到手～' : '🛒 买到了 ' + name + '！- ' + price + ' 元');
+            playTone(700, 0.12);
+        }
+        function renderInv() {
+            const inv = getInv();
+            const g = [], t = [], a = [], f = [], fur = [];
+            for (const name in inv) {
+                const it = inv[name];
+                const icon = (it.svg && FURNITURE_SVG[it.svg])
+                    ? '<span class="inv-svg">' + FURNITURE_SVG[it.svg] + '</span>'
+                    : it.emoji;
+                const line = icon + ' ' + name + ' ×' + it.count;
+                if (it.cat === 'goods') g.push(line);
+                else if (it.cat === 'toys') t.push(line);
+                else if (it.cat === 'art') a.push(line);
+                else if (it.cat === 'fun') f.push(line);
+                else fur.push(line);
+            }
+            const gb = document.getElementById('goodsInventory');
+            const tb = document.getElementById('toysInventory');
+            const ab = document.getElementById('artInventory');
+            const fb = document.getElementById('funInventory');
+            const fub = document.getElementById('furnitureInventory');
+            if (gb) gb.innerHTML = g.length ? g.join('<br>') : '（空空如也，去商店买点吧～）';
+            if (tb) tb.innerHTML = t.length ? t.join('<br>') : '（空空如也～）';
+            if (ab) ab.innerHTML = a.length ? a.join('<br>') : '（空空如也～）';
+            if (fb) fb.innerHTML = f.length ? f.join('<br>') : '（空空如也～）';
+            if (fub) fub.innerHTML = fur.length ? fur.join('<br>') : '（空空如也～）';
+        }
+        renderInv();
+
+        // ===== 家具与人物（SVG 手绘，游戏动画风）=====
+        const FURNITURE_SVG = {
+            bed: '<svg viewBox="0 0 64 64"><rect x="6" y="8" width="52" height="13" rx="4" fill="#a06a42"/><rect x="4" y="20" width="56" height="26" rx="5" fill="#c98a6b"/><rect x="9" y="24" width="28" height="12" rx="3" fill="#fdf6ec"/><rect x="40" y="24" width="15" height="12" rx="3" fill="#ff9ec4"/><rect x="42" y="27" width="11" height="9" rx="2" fill="#fdf6ec"/></svg>',
+            sofa: '<svg viewBox="0 0 64 64"><rect x="4" y="26" width="56" height="18" rx="6" fill="#f4a9c0"/><rect x="4" y="14" width="56" height="14" rx="5" fill="#f08ab0"/><rect x="4" y="40" width="56" height="8" rx="3" fill="#d97fa0"/><rect x="8" y="18" width="48" height="7" rx="3" fill="#ffd9e8"/></svg>',
+            chair: '<svg viewBox="0 0 64 64"><rect x="14" y="10" width="36" height="34" rx="4" fill="#7ec8e3"/><rect x="18" y="42" width="28" height="8" rx="3" fill="#5aa8c8"/><rect x="18" y="50" width="6" height="12" fill="#8a5a3d"/><rect x="40" y="50" width="6" height="12" fill="#8a5a3d"/></svg>',
+            table: '<svg viewBox="0 0 64 64"><rect x="6" y="16" width="52" height="10" rx="3" fill="#c98a6b"/><rect x="12" y="26" width="6" height="30" fill="#a06a42"/><rect x="46" y="26" width="6" height="30" fill="#a06a42"/></svg>',
+            tv: '<svg viewBox="0 0 64 64"><rect x="6" y="10" width="52" height="34" rx="4" fill="#3a3a4a"/><rect x="10" y="14" width="44" height="26" rx="2" fill="#7ec8e3"/><rect x="26" y="44" width="12" height="6" fill="#8a8a9a"/><rect x="18" y="50" width="28" height="4" rx="2" fill="#8a8a9a"/></svg>',
+            lamp: '<svg viewBox="0 0 64 64"><path d="M20 12 L44 12 L38 26 L26 26 Z" fill="#ffd166"/><rect x="30" y="26" width="4" height="26" fill="#8a5a3d"/><ellipse cx="32" cy="56" rx="16" ry="5" fill="#c98a6b"/></svg>',
+            plant: '<svg viewBox="0 0 64 64"><ellipse cx="32" cy="22" rx="7" ry="12" fill="#4c8c4a"/><ellipse cx="25" cy="27" rx="6" ry="11" fill="#7fb069" transform="rotate(-25 25 27)"/><ellipse cx="39" cy="27" rx="6" ry="11" fill="#7fb069" transform="rotate(25 39 27)"/><path d="M18 46 L46 46 L42 58 L22 58 Z" fill="#c97a5a"/></svg>',
+            rug: '<svg viewBox="0 0 64 64"><ellipse cx="32" cy="36" rx="28" ry="18" fill="#ffb8d4"/><ellipse cx="32" cy="36" rx="20" ry="11" fill="#ffd9e8"/></svg>',
+            shelf: '<svg viewBox="0 0 64 64"><rect x="8" y="10" width="48" height="6" rx="2" fill="#a06a42"/><rect x="8" y="28" width="48" height="6" rx="2" fill="#a06a42"/><rect x="8" y="46" width="48" height="6" rx="2" fill="#a06a42"/><rect x="12" y="16" width="10" height="12" fill="#7ec8e3"/><rect x="26" y="34" width="12" height="12" fill="#ff9ec4"/><rect x="42" y="16" width="12" height="30" fill="#ffd166"/></svg>',
+            wardrobe: '<svg viewBox="0 0 64 64"><rect x="8" y="8" width="48" height="50" rx="3" fill="#c98a6b"/><rect x="12" y="12" width="40" height="42" rx="2" fill="#a06a42"/><rect x="31" y="12" width="2" height="42" fill="#c98a6b"/><circle cx="24" cy="33" r="2.5" fill="#ffd166"/><circle cx="40" cy="33" r="2.5" fill="#ffd166"/></svg>',
+            mirror: '<svg viewBox="0 0 64 64"><ellipse cx="32" cy="26" rx="20" ry="16" fill="#a8d8ff"/><ellipse cx="32" cy="26" rx="20" ry="16" fill="none" stroke="#c9a8ff" stroke-width="4"/><rect x="26" y="42" width="12" height="16" fill="#c9a8ff"/><rect x="18" y="58" width="28" height="4" rx="2" fill="#c9a8ff"/></svg>',
+            pillow: '<svg viewBox="0 0 64 64"><rect x="10" y="14" width="44" height="36" rx="14" fill="#ff9ec4"/><rect x="16" y="20" width="32" height="24" rx="10" fill="#ffd9e8"/></svg>',
+            blanket: '<svg viewBox="0 0 64 64"><path d="M8 34 Q16 24 24 34 Q32 44 40 34 Q48 24 56 34 L56 52 L8 52 Z" fill="#7ec8e3"/><path d="M8 34 Q16 24 24 34 Q32 44 40 34 Q48 24 56 34" fill="none" stroke="#5aa8c8" stroke-width="3"/></svg>',
+            wall: '<svg viewBox="0 0 64 64"><rect x="4" y="4" width="56" height="56" rx="3" fill="#fdf6ec" stroke="#e0c8a8" stroke-width="3"/><rect x="4" y="4" width="56" height="28" fill="#ffd9e8"/><rect x="4" y="28" width="56" height="4" fill="#e0c8a8"/></svg>',
+            wood: '<svg viewBox="0 0 64 64"><rect x="6" y="14" width="52" height="14" rx="3" fill="#c98a6b"/><rect x="6" y="34" width="52" height="14" rx="3" fill="#a06a42"/><rect x="6" y="21" width="52" height="2" fill="#8a5a3d"/><rect x="6" y="41" width="52" height="2" fill="#8a5a3d"/></svg>'
+        };
+        const CHAR_SVG = '<svg viewBox="0 0 64 64"><circle cx="32" cy="20" r="12" fill="#ffd9b3"/><path d="M14 24 Q14 8 32 8 Q50 8 50 24 L45 24 Q45 14 32 14 Q19 14 19 24 Z" fill="#7a4a2b"/><circle cx="27" cy="20" r="2" fill="#3a2a1a"/><circle cx="37" cy="20" r="2" fill="#3a2a1a"/><path d="M28 26 Q32 30 36 26" fill="none" stroke="#3a2a1a" stroke-width="2" stroke-linecap="round"/><path d="M32 32 L32 46 L25 56 L39 56 L32 46 Z" fill="#ff9ec4"/></svg>';
+
+        // ===== 商店商品数据（动态生成）=====
+        const SHOP_DATA = [
+            { title: '🍭 糖果甜点', items: [
+                { name: '彩虹甜甜圈', emoji: '🍩', price: 5, cat: 'goods' },
+                { name: '魔法纸杯蛋糕', emoji: '🧁', price: 15, cat: 'goods' },
+                { name: '曲奇家族', emoji: '🍪', price: 15, cat: 'goods' },
+                { name: '云端草莓蛋糕', emoji: '🍰', price: 25, cat: 'goods' },
+                { name: '三层婚礼蛋糕', emoji: '🎂', price: 100, cat: 'goods' },
+                { name: '彩虹棒棒糖', emoji: '🍭', price: 3, cat: 'goods' },
+                { name: '螺旋棒棒糖', emoji: '🌀', price: 4, cat: 'goods' },
+                { name: '爱心棒棒糖', emoji: '💗', price: 5, cat: 'goods' },
+                { name: '星星棒棒糖', emoji: '🌟', price: 5, cat: 'goods' },
+                { name: '独角兽棒棒糖', emoji: '🦄', price: 8, cat: 'goods' },
+                { name: '葡萄棒棒糖', emoji: '🍇', price: 4, cat: 'goods' },
+                { name: '牛奶巧克力', emoji: '🍫', price: 10, cat: 'goods' },
+                { name: '黑巧克力', emoji: '🤎', price: 12, cat: 'goods' },
+                { name: '草莓夹心巧克力', emoji: '🍓', price: 13, cat: 'goods' },
+                { name: '榛果脆心', emoji: '🌰', price: 14, cat: 'goods' },
+                { name: '白巧克力', emoji: '⚪', price: 11, cat: 'goods' },
+                { name: '橙香巧克力', emoji: '🍊', price: 12, cat: 'goods' },
+                { name: '小熊软糖', emoji: '🐻', price: 6, cat: 'goods' },
+                { name: '果味软糖', emoji: '🍇', price: 5, cat: 'goods' },
+                { name: '棉花糖串', emoji: '🍡', price: 5, cat: 'goods' },
+                { name: '彩虹软糖', emoji: '🌈', price: 7, cat: 'goods' },
+                { name: '棉花糖', emoji: '🍥', price: 4, cat: 'goods' },
+                { name: '蜂蜜糖', emoji: '🍯', price: 6, cat: 'goods' }
+            ]},
+            { title: '🥤 饮料', items: [
+                { name: '彩虹果汁', emoji: '🧃', price: 8, cat: 'goods' },
+                { name: '珍珠奶茶', emoji: '🥤', price: 12, cat: 'goods' },
+                { name: '草莓奶盖', emoji: '🍵', price: 14, cat: 'goods' },
+                { name: '气泡魔法水', emoji: '🫧', price: 9, cat: 'goods' },
+                { name: '柠檬苏打', emoji: '🍋', price: 7, cat: 'goods' },
+                { name: '蜜桃乌龙', emoji: '🍑', price: 11, cat: 'goods' },
+                { name: '香蕉奶昔', emoji: '🥛', price: 10, cat: 'goods' },
+                { name: '热可可', emoji: '🍫', price: 10, cat: 'goods' },
+                { name: '云朵咖啡', emoji: '☁️', price: 10, cat: 'goods' },
+                { name: '彩虹气泡香槟', emoji: '🥂', price: 88, cat: 'goods' }
+            ]},
+            { title: '🍦 冰淇淋', items: [
+                { name: '草莓绵绵冰', emoji: '🍓', price: 15, cat: 'goods' },
+                { name: '橙汁绵绵冰', emoji: '🍊', price: 13, cat: 'goods' },
+                { name: '香草甜筒', emoji: '🍦', price: 6, cat: 'goods' },
+                { name: '草莓圣代', emoji: '🍧', price: 12, cat: 'goods' },
+                { name: '彩虹冰淇淋杯', emoji: '🍨', price: 15, cat: 'goods' },
+                { name: '芒果冰沙', emoji: '🥭', price: 10, cat: 'goods' },
+                { name: '巧克力圣代', emoji: '🍫', price: 13, cat: 'goods' },
+                { name: '抹茶冰淇淋', emoji: '🍵', price: 11, cat: 'goods' },
+                { name: '葡萄冰沙', emoji: '🍇', price: 10, cat: 'goods' },
+                { name: '椰香雪糕', emoji: '🥥', price: 9, cat: 'goods' }
+            ]},
+            { title: '🍿 零食', items: [
+                { name: '彩虹爆米花', emoji: '🍿', price: 8, cat: 'goods' },
+                { name: '巧克力脆棒', emoji: '🥨', price: 10, cat: 'goods' },
+                { name: '草莓米饼', emoji: '🍘', price: 6, cat: 'goods' },
+                { name: '焦糖爆豆', emoji: '🫘', price: 7, cat: 'goods' },
+                { name: '曲奇饼干', emoji: '🍪', price: 12, cat: 'goods' },
+                { name: '夹心巧克力', emoji: '🍫', price: 9, cat: 'goods' },
+                { name: '糖炒栗子', emoji: '🌰', price: 13, cat: 'goods' },
+                { name: '果味软糖串', emoji: '🍡', price: 5, cat: 'goods' }
+            ]},
+            { title: '🍓 水果', items: [
+                { name: '草莓', emoji: '🍓', price: 12, cat: 'goods' },
+                { name: '葡萄', emoji: '🍇', price: 10, cat: 'goods' },
+                { name: '橙子', emoji: '🍊', price: 8, cat: 'goods' },
+                { name: '西瓜', emoji: '🍉', price: 15, cat: 'goods' },
+                { name: '苹果', emoji: '🍎', price: 6, cat: 'goods' },
+                { name: '香蕉', emoji: '🍌', price: 5, cat: 'goods' },
+                { name: '水蜜桃', emoji: '🍑', price: 9, cat: 'goods' },
+                { name: '猕猴桃', emoji: '🥝', price: 8, cat: 'goods' }
+            ]},
+            { title: '🎁 礼物玩具', items: [
+                { name: '小熊玩偶', emoji: '🧸', price: 30, cat: 'toys' },
+                { name: '糖果玩偶', emoji: '🪆', price: 25, cat: 'toys' },
+                { name: '彩虹气球', emoji: '🎈', price: 10, cat: 'toys' },
+                { name: '生日气球', emoji: '🎈', price: 15, cat: 'toys' },
+                { name: '悠悠球', emoji: '🪀', price: 12, cat: 'toys' },
+                { name: '拼图', emoji: '🧩', price: 20, cat: 'toys' },
+                { name: '小火车玩具', emoji: '🚂', price: 45, cat: 'toys' },
+                { name: '迷你旋转木马', emoji: '🎠', price: 50, cat: 'toys' },
+                { name: '蝴蝶结发饰', emoji: '🎀', price: 8, cat: 'toys' },
+                { name: '手工手链', emoji: '📿', price: 20, cat: 'toys' },
+                { name: '糖果贴画', emoji: '🎨', price: 12, cat: 'toys' },
+                { name: '香薰蜡烛', emoji: '🕯️', price: 18, cat: 'toys' },
+                { name: '礼品盒', emoji: '🎁', price: 10, cat: 'toys' },
+                { name: '手写贺卡', emoji: '💌', price: 5, cat: 'toys' }
+            ]},
+            { title: '📚 图书', items: [
+                { name: '糖果童话书', emoji: '📖', price: 15, cat: 'toys' },
+                { name: '手作教程', emoji: '📕', price: 20, cat: 'toys' },
+                { name: '涂色本', emoji: '🎨', price: 10, cat: 'toys' },
+                { name: '拼图书', emoji: '🧩', price: 18, cat: 'toys' },
+                { name: '科普绘本', emoji: '📗', price: 22, cat: 'toys' },
+                { name: '英文故事书', emoji: '📘', price: 25, cat: 'toys' },
+                { name: '迷宫游戏书', emoji: '📙', price: 12, cat: 'toys' },
+                { name: '练习册', emoji: '✏️', price: 8, cat: 'toys' }
+            ]},
+            { title: '🖼️ 作品画作', items: [
+                { name: '棒棒糖乐园', emoji: '🖼️', img: 'image_805409951695055.png', price: 88, cat: 'art' },
+                { name: '桂花小景', emoji: '🖼️', img: 'image_477408556514120.png', price: 66, cat: 'art' },
+                { name: '彩虹手账', emoji: '🖼️', img: 'image_321914051707781.png', price: 45, cat: 'art' },
+                { name: '星空魔法', emoji: '🖼️', img: 'image_463988049100864.png', price: 120, cat: 'art' },
+                { name: '甜品小屋', emoji: '🖼️', img: 'image_700947207323923.png', price: 55, cat: 'art' },
+                { name: '乐园涂鸦', emoji: '🖼️', img: 'image_930447334603492.png', price: 35, cat: 'art' }
+            ]},
+            { title: '🎪 体验工坊', items: [
+                { name: 'DIY工坊门票', emoji: '🎟️', price: 30, cat: 'fun' },
+                { name: '火漆印章课', emoji: '🔥', price: 35, cat: 'fun' },
+                { name: '拼豆工坊', emoji: '🧩', price: 28, cat: 'fun' },
+                { name: '手串工坊', emoji: '📿', price: 40, cat: 'fun' },
+                { name: '蛋糕装饰工坊', emoji: '🎂', price: 45, cat: 'fun' },
+                { name: '曲奇烘焙工坊', emoji: '🍪', price: 38, cat: 'fun' },
+                { name: '美甲糖果工坊', emoji: '💅', price: 30, cat: 'fun' },
+                { name: '生日派对套餐', emoji: '🎉', price: 188, cat: 'fun' }
+            ]},
+            { title: '🏠 家具', items: [
+                { name: '大电视', svg: 'tv', price: 620, cat: 'furniture' },
+                { name: '双人床', svg: 'bed', price: 500, cat: 'furniture' },
+                { name: '婴儿床', svg: 'bed', price: 450, cat: 'furniture' },
+                { name: '大衣柜', svg: 'wardrobe', price: 460, cat: 'furniture' },
+                { name: '布艺沙发', svg: 'sofa', price: 420, cat: 'furniture' },
+                { name: '梳妆镜', svg: 'mirror', price: 350, cat: 'furniture' },
+                { name: '书桌', svg: 'table', price: 320, cat: 'furniture' },
+                { name: '大书架', svg: 'shelf', price: 260, cat: 'furniture' },
+                { name: '墙壁装饰', svg: 'wall', price: 200, cat: 'furniture' },
+                { name: '木板', svg: 'wood', price: 150, cat: 'furniture' },
+                { name: '木椅子', svg: 'chair', price: 150, cat: 'furniture' },
+                { name: '被子', svg: 'blanket', price: 130, cat: 'furniture' },
+                { name: '落地台灯', svg: 'lamp', price: 120, cat: 'furniture' },
+                { name: '毛绒地毯', svg: 'rug', price: 100, cat: 'furniture' },
+                { name: '抱枕', svg: 'pillow', price: 90, cat: 'furniture' },
+                { name: '绿盆栽', svg: 'plant', price: 60, cat: 'furniture' }
+            ]}
+        ];
+        function renderShop() {
+            const container = document.getElementById('shopContainer');
+            if (!container) return;
+            let html = '';
+            for (const cat of SHOP_DATA) {
+                html += '<h3 class="cat-title">' + cat.title + '</h3><div class="shop-grid">';
+                for (const it of cat.items) {
+                    const icon = it.img
+                        ? '<img class="shop-thumb" src="' + it.img + '" alt="' + it.name + '">'
+                        : (it.svg && FURNITURE_SVG[it.svg]
+                            ? '<span class="shop-icon">' + FURNITURE_SVG[it.svg] + '</span>'
+                            : '<span class="shop-icon">' + it.emoji + '</span>');
+                    html += '<div class="shop-item">' + icon + '<b>' + it.name + '</b><span class="shop-price">¥' + it.price + '</span><button onclick="buyItem(\'' + it.name + '\',\'' + (it.emoji || '') + '\',' + it.price + ',\'' + it.cat + '\',\'' + (it.svg || '') + '\')">购买</button></div>';
+                }
+                html += '</div>';
+            }
+            container.innerHTML = html;
+        }
+        renderShop();
+
+        // ===== 秘密：连点金币5次切换老板模式 =====
+        (function () {
+            const m = document.getElementById('money');
+            if (!m) return;
+            let clicks = 0, timer = null;
+            m.addEventListener('click', function () {
+                clicks++;
+                clearTimeout(timer);
+                timer = setTimeout(function () { clicks = 0; }, 2000);
+                if (clicks >= 5) { clicks = 0; toggleBoss(); }
+            });
+        })();
+
+
+        // ===== 家：拖拽家具 =====
+        function initRoom() {
+            const room = document.getElementById('room');
+            if (!room) return;
+            document.querySelectorAll('.furniture').forEach(function (f) {
+                if (f.dataset.f && FURNITURE_SVG[f.dataset.f]) {
+                    f.innerHTML = FURNITURE_SVG[f.dataset.f];
+                } else if (f.dataset.char) {
+                    f.innerHTML = CHAR_SVG + '<span class="cf-hat" id="cfHat">' + lsGet('charHat', '👑') + '</span>';
+                }
+                const saved = lsGet('furn-' + f.id, '');
+                if (saved) {
+                    const p = saved.split(',');
+                    f.style.left = p[0] + 'px';
+                    f.style.top = p[1] + 'px';
+                }
+                f.addEventListener('pointerdown', function (e) {
+                    e.preventDefault();
+                    f.setPointerCapture(e.pointerId);
+                    const rect = room.getBoundingClientRect();
+                    const ox = e.clientX - rect.left - f.offsetLeft;
+                    const oy = e.clientY - rect.top - f.offsetTop;
+                    let moved = false;
+                    function move(ev) {
+                        moved = true;
+                        let x = ev.clientX - rect.left - ox;
+                        let y = ev.clientY - rect.top - oy;
+                        x = Math.max(0, Math.min(rect.width - 50, x));
+                        y = Math.max(0, Math.min(rect.height - 50, y));
+                        f.style.left = x + 'px';
+                        f.style.top = y + 'px';
+                    }
+                    function up() {
+                        f.removeEventListener('pointermove', move);
+                        f.removeEventListener('pointerup', up);
+                        if (!moved) { swapFurniture(f); return; }
+                        lsSet('furn-' + f.id, (parseInt(f.style.left) || 0) + ',' + (parseInt(f.style.top) || 0));
+                    }
+                    f.addEventListener('pointermove', move);
+                    f.addEventListener('pointerup', up);
+                });
+            });
+        }
+        function furnitureTypeName(type) {
+            const map = { bed: '床', sofa: '沙发', chair: '椅子', table: '桌子', tv: '电视', lamp: '台灯', plant: '盆栽', rug: '地毯', shelf: '书架', wardrobe: '衣柜', mirror: '镜子', pillow: '抱枕', blanket: '被子', wall: '墙壁', wood: '木板' };
+            return map[type] || type;
+        }
+        function swapFurniture(f) {
+            const type = f.dataset.f;
+            if (!type) return;
+            const inv = getInv();
+            const bought = [];
+            for (const name in inv) {
+                const it = inv[name];
+                if (it.cat === 'furniture' && it.svg === type) bought.push(name);
+            }
+            const cur = lsGet('furn-sel-' + f.id, '');
+            const all = [''].concat(bought);
+            let idx = all.indexOf(cur);
+            if (idx < 0) idx = 0;
+            idx = (idx + 1) % all.length;
+            const next = all[idx];
+            lsSet('furn-sel-' + f.id, next);
+            f.innerHTML = FURNITURE_SVG[type];
+            if (!next) { toast('🔄 换回原版' + furnitureTypeName(type)); }
+            else { toast('🔄 换成了「' + next + '」'); }
+            playTone(660, 0.1);
+        }
+        initRoom();
     </script>
 
     <!-- 🔍 灯箱（第8课） -->
