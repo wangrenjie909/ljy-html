@@ -993,6 +993,69 @@
         }
         .cf-body { font-size: 60px; position: absolute; z-index: 2; }
         .cf-hat { font-size: 30px; position: absolute; top: -14px; left: 50%; transform: translateX(-50%); z-index: 3; }
+        .dessert-item {
+            position: absolute;
+            font-size: 30px;
+            line-height: 1;
+            cursor: grab;
+            user-select: none;
+            touch-action: none;
+            z-index: 5;
+            filter: drop-shadow(0 3px 4px rgba(0,0,0,0.2));
+        }
+        .dessert-item:active { cursor: grabbing; }
+        .room-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin: 0 auto 22px; max-width: 500px; }
+
+        /* ===== 手工坊 ===== */
+        .craft-titles { display: flex; justify-content: center; gap: 18px; flex-wrap: wrap; margin: 10px auto 20px; color: #7a2050; font-weight: bold; z-index: 1; position: relative; }
+        .craft-titles b { color: #d84b8a; }
+        .craft-room { background: rgba(255,255,255,0.78); border: 2px solid rgba(255,255,255,0.95); border-radius: 20px; padding: 18px; margin: 18px auto; max-width: 520px; box-shadow: 0 8px 24px rgba(255,150,180,0.3); position: relative; z-index: 1; }
+        .craft-room h3 { color: #d84b8a; margin: 0 0 10px; }
+        .palette { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+        .bead { width: 26px; height: 26px; border-radius: 50%; display: inline-block; cursor: pointer; box-shadow: inset -3px -3px 5px rgba(0,0,0,0.2), 0 2px 4px rgba(0,0,0,0.2); transition: all 0.15s; }
+        .bead:hover { transform: scale(1.2); }
+        .bead.active { outline: 3px solid #d84b8a; outline-offset: 2px; }
+        .string { display: flex; flex-wrap: wrap; gap: 6px; min-height: 40px; align-items: center; justify-content: center; border: 2px dashed #f2a0c0; border-radius: 30px; padding: 10px; margin-bottom: 12px; }
+        .string .bead { width: 30px; height: 30px; }
+        .string-tip { color: #b06a8c; font-size: 14px; }
+        .pegboard { display: grid; grid-template-columns: repeat(8, 1fr); gap: 5px; max-width: 320px; margin: 0 auto 12px; }
+        .peg-cell { aspect-ratio: 1; background: #fff; border: 2px solid #f2a0c0; border-radius: 50%; cursor: pointer; transition: all 0.15s; }
+        .peg-cell:hover { transform: scale(1.1); }
+        .wax-area { position: relative; height: 130px; margin-bottom: 12px; }
+        .wax { position: absolute; left: 50%; top: 34px; transform: translateX(-50%); width: 64px; height: 48px; background: #b3403a; border-radius: 50%; box-shadow: 0 4px 8px rgba(0,0,0,0.2); transition: all 0.5s; font-size: 30px; line-height: 48px; text-align: center; }
+        .wax.melted { background: #d96a5a; transform: translateX(-50%) scaleY(0.6); border-radius: 55% 55% 50% 50%; }
+        .wax.sealed { background: #8a2f2a; }
+        .flame { position: absolute; left: 50%; top: 4px; transform: translateX(-50%) scale(0); font-size: 40px; transition: transform 0.3s; }
+        .flame.on { transform: translateX(-50%) scale(1); animation: flicker 0.3s infinite alternate; }
+        @keyframes flicker { from { transform: translateX(-50%) scale(1) rotate(-6deg); } to { transform: translateX(-50%) scale(1.1) rotate(6deg); } }
+        .stamp { position: absolute; left: 50%; top: -2px; transform: translateX(-50%); font-size: 44px; transition: transform 0.4s; }
+        .stamp.press { transform: translateX(-50%) translateY(58px); }
+        .dessert-shelf { max-width: 700px; margin: 20px auto; padding: 18px; background: rgba(255,255,255,0.75); border: 2px solid rgba(255,255,255,0.95); border-radius: 20px; box-shadow: 0 8px 24px rgba(255,150,180,0.3); color: #7a2050; font-size: 17px; line-height: 2; text-align: center; position: relative; z-index: 1; }
+        .shop-scene { position: relative; max-width: 620px; height: 240px; margin: 20px auto; border-radius: 18px; border: 3px solid rgba(255,255,255,0.9); background: linear-gradient(to bottom, #fff0f6 0%, #fff0f6 55%, #f2c194 55%, #f2c194 100%); overflow: hidden; box-shadow: 0 12px 32px rgba(255,150,180,0.35); z-index: 1; }
+        .waiter { position: absolute; font-size: 46px; cursor: pointer; transition: left 1.3s ease, top 1.3s ease; z-index: 3; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.2)); }
+        .waiter svg { width: 54px; height: 54px; }
+        .table { position: absolute; font-size: 40px; z-index: 2; pointer-events: none; }
+        .menu-panel { position: fixed; left: 50%; top: 50%; transform: translate(-50%,-50%); z-index: 300; background: #fff; border-radius: 18px; padding: 18px; box-shadow: 0 12px 40px rgba(0,0,0,0.3); max-width: 90vw; max-height: 72vh; overflow: auto; text-align: center; }
+        .menu-item { display: block; width: 100%; margin: 6px 0; padding: 10px; border: 2px solid #ffd3e8; background: #fff7fa; border-radius: 12px; cursor: pointer; font-size: 15px; color: #7a2050; }
+        .menu-item:hover { background: #ffe4f0; }
+        .menu-item.close { background: #f0f0f0; border-color: #ccc; color: #888; }
+        .food-plate { position: absolute; width: 56px; height: 56px; background: #fff; border: 2px solid #eee; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 34px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); z-index: 2; }
+        .bbq { position: absolute; font-size: 46px; z-index: 2; filter: drop-shadow(0 3px 5px rgba(0,0,0,0.2)); }
+        .hotpot { position: absolute; font-size: 46px; z-index: 2; filter: drop-shadow(0 3px 5px rgba(0,0,0,0.2)); }
+        .kitchen { max-width: 620px; margin: 16px auto; padding: 16px; background: rgba(255,255,255,0.82); border: 2px dashed #ff9e6b; border-radius: 16px; text-align: center; color: #7a2050; z-index: 1; position: relative; }
+        .kitchen-tools { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; font-size: 32px; margin-top: 8px; }
+        .chair { position: absolute; font-size: 28px; z-index: 2; pointer-events: none; }
+        .bbq-area { position: relative; height: 110px; margin: 8px auto 4px; max-width: 300px; }
+        .bbq-meat { position: absolute; left: 50%; top: 40px; transform: translateX(-50%); font-size: 52px; transition: all 0.3s; }
+        .bbq-fire { position: absolute; left: 50%; top: 8px; transform: translateX(-50%) scale(0); font-size: 44px; transition: transform 0.3s; }
+        .bbq-fire.on { transform: translateX(-50%) scale(1); animation: flicker 0.3s infinite alternate; }
+        .review-box { max-width: 620px; margin: 18px auto; padding: 18px; background: rgba(255,255,255,0.8); border: 2px solid rgba(255,255,255,0.95); border-radius: 18px; text-align: center; color: #7a2050; position: relative; z-index: 1; }
+        .stars { font-size: 30px; margin: 8px 0; cursor: pointer; user-select: none; }
+        .stars span { transition: opacity 0.2s; }
+        .review-box input { width: 80%; max-width: 360px; padding: 10px; border: 2px solid #ffd3e8; border-radius: 12px; font-size: 15px; font-family: inherit; }
+        .review-list { margin-top: 12px; text-align: left; line-height: 1.8; max-height: 160px; overflow: auto; }
+        .seat { display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 40px; min-height: 60px; margin-top: 6px; }
+        .seat svg { width: 50px; height: 50px; }
 
         /* ===== 手机端适配 ===== */
         @media (max-width: 768px) {
@@ -1047,6 +1110,9 @@
             <li><a href="#" onclick="flipTo('home');return false;">🏠 首页</a></li>
             <li><a href="#" onclick="flipTo('character');return false;">👗 人物</a></li>
             <li><a href="#" onclick="flipTo('shop');return false;">🛒 商店</a></li>
+            <li><a href="#" onclick="flipTo('craft');return false;">🎨 手工坊</a></li>
+            <li><a href="#" onclick="flipTo('dessert');return false;">🍰 甜品店</a></li>
+            <li><a href="#" onclick="flipTo('restaurant');return false;">🍜 菜馆</a></li>
             <li><a href="#" onclick="flipTo('house');return false;">🏠 家</a></li>
             <li><a href="#" onclick="flipTo('work');return false;">🍪 打工</a></li>
             <li><a href="#" onclick="flipTo('contact');return false;">📮 联系我</a></li>
@@ -1412,10 +1478,17 @@
         <div class="furniture" id="f-rug" data-f="rug" style="left:165px;top:295px;"></div>
         <div class="furniture" id="f-shelf" data-f="shelf" style="left:345px;top:50px;"></div>
         <div class="furniture" id="f-wardrobe" data-f="wardrobe" style="left:16px;top:85px;"></div>
+        <div class="furniture" id="f-nightstand" data-f="nightstand" style="left:130px;top:185px;"></div>
         <div class="furniture" id="f-mirror" data-f="mirror" style="left:280px;top:55px;"></div>
         <div class="furniture" id="f-pillow" data-f="pillow" style="left:130px;top:150px;"></div>
         <div class="furniture" id="f-blanket" data-f="blanket" style="left:255px;top:150px;"></div>
         <div class="furniture char-figure" id="f-char" data-char="1" style="left:195px;top:115px;"></div>
+    </div>
+    <div class="room-actions">
+        <button class="ride-btn" onclick="clearDesserts()">🧹 清空甜品</button>
+        <button class="ride-btn" onclick="clearFurniture()">🧹 清空家具</button>
+        <button class="ride-btn" onclick="restoreSnacks()">🍬 零食恢复</button>
+        <button class="ride-btn" onclick="restoreFurniture()">🛋️ 家具恢复</button>
     </div>
     <div class="home-storage">
         <div class="storage-box">
@@ -1440,6 +1513,123 @@
         </div>
     </div>
     </section><!-- /house -->
+
+    <!-- 🎨 手工坊 -->
+    <section id="section-craft" class="section">
+    <h2 style="text-align:center; z-index:1; position:relative; color:#e8709a; margin-top:40px; font-size:28px;">🎨 手工坊</h2>
+    <p style="text-align:center; z-index:1; position:relative; color:#7a2050; font-size:17px;">买材料，动手做手串、拼豆、火漆印章，升级称号！</p>
+    <div class="craft-titles">
+        <span>📿 串珠师 ×<b id="beadMaster">0</b></span>
+        <span>🧩 拼豆师 ×<b id="perlerMaster">0</b></span>
+        <span>🔥 火漆印章师 ×<b id="sealMaster">0</b></span>
+    </div>
+
+    <div class="craft-room">
+        <h3>📿 手串房</h3>
+        <div class="palette" id="beadPalette"></div>
+        <div class="string" id="beadString"><span class="string-tip">👆 点珠子穿成手串</span></div>
+        <div class="room-actions">
+            <button class="ride-btn" onclick="clearString()">🧹 拆掉</button>
+            <button class="ride-btn primary" onclick="finishBead()">✅ 完成手串</button>
+        </div>
+    </div>
+
+    <div class="craft-room">
+        <h3>🧩 拼豆房</h3>
+        <div class="palette" id="perlerPalette"></div>
+        <div class="pegboard" id="pegboard"></div>
+        <div class="room-actions">
+            <button class="ride-btn" onclick="clearPegboard()">🧹 清空</button>
+            <button class="ride-btn primary" onclick="finishPerler()">✅ 完成拼豆</button>
+        </div>
+    </div>
+
+    <div class="craft-room">
+        <h3>🔥 火漆印章房</h3>
+        <div class="wax-area">
+            <div class="flame" id="flame">🔥</div>
+            <div class="stamp" id="stamp">🖋️</div>
+            <div class="wax" id="wax">🕯️</div>
+        </div>
+        <div class="room-actions">
+            <button class="ride-btn" onclick="meltWax()">🔥 点火烧蜡</button>
+            <button class="ride-btn primary" onclick="stampSeal()">🖋️ 盖章</button>
+        </div>
+    </div>
+    </section><!-- /craft -->
+
+    <!-- 🍰 甜品店 -->
+    <section id="section-dessert" class="section">
+    <h2 style="text-align:center; z-index:1; position:relative; color:#e8709a; margin-top:40px; font-size:28px;">🍰 甜品店</h2>
+    <p style="text-align:center; z-index:1; position:relative; color:#7a2050; font-size:17px;">点服务员下单，甜品会存到架子上～</p>
+    <div class="shop-scene" id="dessertScene">
+        <div class="waiter" id="waiter" onclick="openDessertMenu()"></div>
+        <div class="food-plate" style="left:12%;top:50%;">🍰</div>
+        <div class="food-plate" style="left:62%;top:48%;">🍩</div>
+        <div class="food-plate" style="left:38%;top:72%;">🧁</div>
+    </div>
+    <div class="dessert-shelf" id="dessertShelf">（还没有买甜品，去商店买点吧～）</div>
+    <div class="menu-panel" id="dessertMenu" style="display:none;"></div>
+    </section><!-- /dessert -->
+
+    <!-- 🍜 菜馆 -->
+    <section id="section-restaurant" class="section">
+    <h2 style="text-align:center; z-index:1; position:relative; color:#e8709a; margin-top:40px; font-size:28px;">🍜 菜馆</h2>
+    <p style="text-align:center; z-index:1; position:relative; color:#7a2050; font-size:17px;">热腾腾的菜都摆上桌啦～（点菜扣金币）</p>
+    <div class="shop-scene" id="restScene">
+        <div class="waiter" id="rWaiter"></div>
+        <div class="food-plate" style="left:10%;top:40%;">🍜</div>
+        <div class="food-plate" style="left:52%;top:38%;">🥩</div>
+        <div class="food-plate" style="left:30%;top:62%;">🍖</div>
+        <div class="food-plate" style="left:72%;top:58%;">🍝</div>
+        <div class="chair" style="left:18%;top:46%;">🪑</div>
+        <div class="chair" style="left:60%;top:44%;">🪑</div>
+        <div class="chair" style="left:38%;top:68%;">🪑</div>
+        <div class="chair" style="left:80%;top:64%;">🪑</div>
+        <div class="bbq" style="left:8%;top:74%;">🍢</div>
+        <div class="hotpot" style="left:66%;top:74%;">🍲</div>
+    </div>
+    <div class="kitchen" id="kitchenArea" style="display:none;">
+        <h3 style="color:#e8734a;margin:0 0 6px;">👨‍🍳 后厨（只有老板能进）</h3>
+        <p style="margin:0 0 6px;color:#b06a8c;">顾客进不来，这里能真的烤出肉来～</p>
+        <div class="bbq-area">
+            <div class="bbq-fire" id="bbqFire">🔥</div>
+            <div class="bbq-meat" id="bbqMeat">🥩</div>
+        </div>
+        <div class="room-actions">
+            <button class="ride-btn primary" onclick="cookBBQ()">🔥 点火烤肉</button>
+        </div>
+        <div class="kitchen-tools"><span>🍢 烧烤架</span><span>🥘 热锅</span><span>🍲 火锅锅</span><span>🔪 菜刀</span><span>🥬 青菜筐</span></div>
+    </div>
+    <div class="review-box">
+        <h3 style="margin:0 0 4px;color:#d84b8a;">⭐ 给菜馆打分</h3>
+        <div class="stars" id="stars"><span onclick="rate(1)">⭐</span><span onclick="rate(2)">⭐</span><span onclick="rate(3)">⭐</span><span onclick="rate(4)">⭐</span><span onclick="rate(5)">⭐</span></div>
+        <input type="text" id="reviewText" placeholder="写点评论吧～">
+        <button class="ride-btn" onclick="submitReview()">📝 提交评价</button>
+        <div class="review-list" id="reviewList"></div>
+    </div>
+    <div class="review-box">
+        <h3 style="margin:0 0 4px;color:#d84b8a;">🪑 带人物入座吃饭</h3>
+        <button class="ride-btn primary" onclick="sitAndEat()">🍽️ 入座开动</button>
+        <div class="seat" id="seat"></div>
+    </div>
+    <div class="shop-grid">
+        <div class="shop-item"><span class="shop-icon">🍜</span><b>牛肉面</b><span class="shop-price">¥20</span><button onclick="orderMeal('牛肉面','🍜',20)">点餐</button></div>
+        <div class="shop-item"><span class="shop-icon">🍲</span><b>火锅</b><span class="shop-price">¥60</span><button onclick="orderMeal('火锅','🍲',60)">点餐</button></div>
+        <div class="shop-item"><span class="shop-icon">🍲</span><b>鸳鸯火锅</b><span class="shop-price">¥80</span><button onclick="orderMeal('鸳鸯火锅','🍲',80)">点餐</button></div>
+        <div class="shop-item"><span class="shop-icon">🍖</span><b>烤肉</b><span class="shop-price">¥50</span><button onclick="orderMeal('烤肉','🍖',50)">点餐</button></div>
+        <div class="shop-item"><span class="shop-icon">🍢</span><b>烤串</b><span class="shop-price">¥35</span><button onclick="orderMeal('烤串','🍢',35)">点餐</button></div>
+        <div class="shop-item"><span class="shop-icon">🥩</span><b>烤牛排</b><span class="shop-price">¥55</span><button onclick="orderMeal('烤牛排','🥩',55)">点餐</button></div>
+        <div class="shop-item"><span class="shop-icon">🥩</span><b>西餐牛排</b><span class="shop-price">¥120</span><button onclick="orderMeal('西餐牛排','🥩',120)">点餐</button></div>
+        <div class="shop-item"><span class="shop-icon">🍝</span><b>西餐意面</b><span class="shop-price">¥90</span><button onclick="orderMeal('西餐意面','🍝',90)">点餐</button></div>
+        <div class="shop-item"><span class="shop-icon">🍔</span><b>西餐汉堡</b><span class="shop-price">¥40</span><button onclick="orderMeal('西餐汉堡','🍔',40)">点餐</button></div>
+        <div class="shop-item"><span class="shop-icon">🍕</span><b>披萨</b><span class="shop-price">¥45</span><button onclick="orderMeal('披萨','🍕',45)">点餐</button></div>
+        <div class="shop-item"><span class="shop-icon">🧃</span><b>果汁</b><span class="shop-price">¥15</span><button onclick="orderMeal('果汁','🧃',15)">点餐</button></div>
+        <div class="shop-item"><span class="shop-icon">🥬</span><b>炒青菜</b><span class="shop-price">¥10</span><button onclick="orderMeal('炒青菜','🥬',10)">点餐</button></div>
+        <div class="shop-item"><span class="shop-icon">🥗</span><b>蔬菜沙拉</b><span class="shop-price">¥25</span><button onclick="orderMeal('蔬菜沙拉','🥗',25)">点餐</button></div>
+        <div class="shop-item"><span class="shop-icon">🍟</span><b>炸薯条</b><span class="shop-price">¥18</span><button onclick="orderMeal('炸薯条','🍟',18)">点餐</button></div>
+    </div>
+    </section><!-- /restaurant -->
 
     <!-- 🦶 页脚 -->
     <footer style="text-align:center; padding:24px 16px; margin-top:40px; border-radius:18px; background:rgba(255,255,255,0.55); backdrop-filter:blur(6px); position:relative; z-index:2; box-shadow:0 6px 25px rgba(255,150,180,0.3);">
@@ -1617,6 +1807,7 @@
             setMoney(getMoney());
             updateCharacter();
             updateChef(parseInt(lsGet('checkinDays', '0'), 10) || 0);
+            applyKitchen();
             toast(isBoss() ? '👑 老板模式开启，全场免单！' : '🧑‍🍳 已切换为访客模式，要花金币啦～');
         }
         function todayStr() {
@@ -1946,7 +2137,8 @@
             pillow: '<svg viewBox="0 0 64 64"><rect x="10" y="14" width="44" height="36" rx="14" fill="#ff9ec4"/><rect x="16" y="20" width="32" height="24" rx="10" fill="#ffd9e8"/></svg>',
             blanket: '<svg viewBox="0 0 64 64"><path d="M8 34 Q16 24 24 34 Q32 44 40 34 Q48 24 56 34 L56 52 L8 52 Z" fill="#7ec8e3"/><path d="M8 34 Q16 24 24 34 Q32 44 40 34 Q48 24 56 34" fill="none" stroke="#5aa8c8" stroke-width="3"/></svg>',
             wall: '<svg viewBox="0 0 64 64"><rect x="4" y="4" width="56" height="56" rx="3" fill="#fdf6ec" stroke="#e0c8a8" stroke-width="3"/><rect x="4" y="4" width="56" height="28" fill="#ffd9e8"/><rect x="4" y="28" width="56" height="4" fill="#e0c8a8"/></svg>',
-            wood: '<svg viewBox="0 0 64 64"><rect x="6" y="14" width="52" height="14" rx="3" fill="#c98a6b"/><rect x="6" y="34" width="52" height="14" rx="3" fill="#a06a42"/><rect x="6" y="21" width="52" height="2" fill="#8a5a3d"/><rect x="6" y="41" width="52" height="2" fill="#8a5a3d"/></svg>'
+            wood: '<svg viewBox="0 0 64 64"><rect x="6" y="14" width="52" height="14" rx="3" fill="#c98a6b"/><rect x="6" y="34" width="52" height="14" rx="3" fill="#a06a42"/><rect x="6" y="21" width="52" height="2" fill="#8a5a3d"/><rect x="6" y="41" width="52" height="2" fill="#8a5a3d"/></svg>',
+            nightstand: '<svg viewBox="0 0 64 64"><rect x="12" y="22" width="40" height="34" rx="5" fill="#c98a6b"/><rect x="16" y="28" width="32" height="22" rx="3" fill="#a06a42"/><circle cx="32" cy="40" r="3" fill="#ffd166"/><rect x="20" y="16" width="24" height="8" rx="4" fill="#fdf6ec"/><rect x="22" y="52" width="20" height="5" fill="#8a5a3d"/></svg>'
         };
         const CHAR_SVG = '<svg viewBox="0 0 64 64"><circle cx="32" cy="20" r="12" fill="#ffd9b3"/><path d="M14 24 Q14 8 32 8 Q50 8 50 24 L45 24 Q45 14 32 14 Q19 14 19 24 Z" fill="#7a4a2b"/><circle cx="27" cy="20" r="2" fill="#3a2a1a"/><circle cx="37" cy="20" r="2" fill="#3a2a1a"/><path d="M28 26 Q32 30 36 26" fill="none" stroke="#3a2a1a" stroke-width="2" stroke-linecap="round"/><path d="M32 32 L32 46 L25 56 L39 56 L32 46 Z" fill="#ff9ec4"/></svg>';
 
@@ -1958,6 +2150,8 @@
             if (inv[name]) inv[name].count++; else inv[name] = { emoji: emoji, cat: cat, count: 1, svg: svg || '' };
             lsSet('inventory', JSON.stringify(inv));
             renderInv();
+            if (cat === 'furniture') addFurnitureToRoom(svg || 'bed', name);
+            if (cat === 'goods') renderDessertShop();
             toast(isBoss() ? '👑 老板免单！' + name + ' 到手～' : '🛒 买到了 ' + name + '！- ' + price + ' 元');
             playTone(700, 0.12);
         }
@@ -2110,6 +2304,7 @@
                 { name: '双人床', svg: 'bed', price: 500, cat: 'furniture' },
                 { name: '婴儿床', svg: 'bed', price: 450, cat: 'furniture' },
                 { name: '大衣柜', svg: 'wardrobe', price: 460, cat: 'furniture' },
+                { name: '床头柜', svg: 'nightstand', price: 180, cat: 'furniture' },
                 { name: '布艺沙发', svg: 'sofa', price: 420, cat: 'furniture' },
                 { name: '梳妆镜', svg: 'mirror', price: 350, cat: 'furniture' },
                 { name: '书桌', svg: 'table', price: 320, cat: 'furniture' },
@@ -2122,6 +2317,11 @@
                 { name: '毛绒地毯', svg: 'rug', price: 100, cat: 'furniture' },
                 { name: '抱枕', svg: 'pillow', price: 90, cat: 'furniture' },
                 { name: '绿盆栽', svg: 'plant', price: 60, cat: 'furniture' }
+            ]},
+            { title: '🎨 手工材料', items: [
+                { name: '拼豆', emoji: '🧩', price: 45, cat: 'fun' },
+                { name: '手串珠', emoji: '📿', price: 65, cat: 'fun' },
+                { name: '火漆印章', emoji: '🔥', price: 120, cat: 'fun' }
             ]}
         ];
         function renderShop() {
@@ -2226,7 +2426,421 @@
             else { toast('🔄 换成了「' + next + '」'); }
             playTone(660, 0.1);
         }
+        function getRoomDesserts() { try { return JSON.parse(lsGet('roomDesserts', '[]')); } catch (e) { return []; } }
+        function addDessertToRoom(emoji, name) {
+            const list = getRoomDesserts();
+            list.push({ id: Date.now() + '' + Math.floor(Math.random() * 1000), emoji: emoji, name: name, x: 30 + Math.random() * 120, y: 20 + Math.random() * 60 });
+            lsSet('roomDesserts', JSON.stringify(list));
+            renderRoomDesserts();
+        }
+        function renderRoomDesserts() {
+            const room = document.getElementById('room');
+            if (!room) return;
+            room.querySelectorAll('.dessert-item').forEach(function (d) { d.remove(); });
+            getRoomDesserts().forEach(function (it) {
+                const d = document.createElement('div');
+                d.className = 'dessert-item';
+                d.textContent = it.emoji;
+                d.style.left = (it.x || 30) + 'px';
+                d.style.top = (it.y || 30) + 'px';
+                d.dataset.id = it.id;
+                room.appendChild(d);
+                d.addEventListener('pointerdown', function (e) {
+                    e.preventDefault();
+                    d.setPointerCapture(e.pointerId);
+                    const rect = room.getBoundingClientRect();
+                    const ox = e.clientX - rect.left - d.offsetLeft;
+                    const oy = e.clientY - rect.top - d.offsetTop;
+                    function move(ev) {
+                        let x = ev.clientX - rect.left - ox;
+                        let y = ev.clientY - rect.top - oy;
+                        x = Math.max(0, Math.min(rect.width - 30, x));
+                        y = Math.max(0, Math.min(rect.height - 30, y));
+                        d.style.left = x + 'px';
+                        d.style.top = y + 'px';
+                    }
+                    function up() {
+                        d.removeEventListener('pointermove', move);
+                        d.removeEventListener('pointerup', up);
+                        const list = getRoomDesserts();
+                        for (const o of list) { if (o.id === d.dataset.id) { o.x = parseInt(d.style.left) || 0; o.y = parseInt(d.style.top) || 0; } }
+                        lsSet('roomDesserts', JSON.stringify(list));
+                    }
+                    d.addEventListener('pointermove', move);
+                    d.addEventListener('pointerup', up);
+                });
+            });
+        }
+        function getRoomFurniture() { try { return JSON.parse(lsGet('roomFurniture', '[]')); } catch (e) { return []; } }
+        function addFurnitureToRoom(svg, name) {
+            const list = getRoomFurniture();
+            list.push({ id: Date.now() + '' + Math.floor(Math.random() * 1000), svg: svg, name: name, x: 40 + Math.random() * 100, y: 150 + Math.random() * 90 });
+            lsSet('roomFurniture', JSON.stringify(list));
+            renderRoomFurniture();
+        }
+        function renderRoomFurniture() {
+            const room = document.getElementById('room');
+            if (!room) return;
+            room.querySelectorAll('.bought-furniture').forEach(function (d) { d.remove(); });
+            getRoomFurniture().forEach(function (it) {
+                const d = document.createElement('div');
+                d.className = 'furniture bought-furniture';
+                d.innerHTML = FURNITURE_SVG[it.svg] || '';
+                d.style.left = (it.x || 40) + 'px';
+                d.style.top = (it.y || 150) + 'px';
+                d.dataset.id = it.id;
+                room.appendChild(d);
+                d.addEventListener('pointerdown', function (e) {
+                    e.preventDefault();
+                    d.setPointerCapture(e.pointerId);
+                    const rect = room.getBoundingClientRect();
+                    const ox = e.clientX - rect.left - d.offsetLeft;
+                    const oy = e.clientY - rect.top - d.offsetTop;
+                    function move(ev) {
+                        let x = ev.clientX - rect.left - ox;
+                        let y = ev.clientY - rect.top - oy;
+                        x = Math.max(0, Math.min(rect.width - 70, x));
+                        y = Math.max(0, Math.min(rect.height - 70, y));
+                        d.style.left = x + 'px';
+                        d.style.top = y + 'px';
+                    }
+                    function up() {
+                        d.removeEventListener('pointermove', move);
+                        d.removeEventListener('pointerup', up);
+                        const list = getRoomFurniture();
+                        for (const o of list) { if (o.id === d.dataset.id) { o.x = parseInt(d.style.left) || 0; o.y = parseInt(d.style.top) || 0; } }
+                        lsSet('roomFurniture', JSON.stringify(list));
+                    }
+                    d.addEventListener('pointermove', move);
+                    d.addEventListener('pointerup', up);
+                });
+            });
+        }
+        function clearDesserts() {
+            lsSet('backupDesserts', JSON.stringify(getRoomDesserts()));
+            const inv = getInv();
+            const goodsBackup = {}, rest = {};
+            for (const name in inv) {
+                if (inv[name].cat === 'goods') goodsBackup[name] = inv[name]; else rest[name] = inv[name];
+            }
+            lsSet('backupGoods', JSON.stringify(goodsBackup));
+            lsSet('inventory', JSON.stringify(rest));
+            lsSet('roomDesserts', '[]');
+            renderInv();
+            renderRoomDesserts();
+            toast('🧹 甜品和零食都清空啦～');
+        }
+        function restoreSnacks() {
+            try {
+                const bd = JSON.parse(lsGet('backupDesserts', '[]'));
+                if (bd.length) lsSet('roomDesserts', JSON.stringify(bd));
+                const bg = JSON.parse(lsGet('backupGoods', '{}'));
+                const inv = getInv();
+                for (const name in bg) inv[name] = bg[name];
+                lsSet('inventory', JSON.stringify(inv));
+            } catch (e) {}
+            lsSet('backupDesserts', '[]');
+            lsSet('backupGoods', '{}');
+            renderInv();
+            renderRoomDesserts();
+            toast('🍬 零食恢复啦～');
+        }
+        function clearFurniture() {
+            lsSet('backupFurniture', JSON.stringify(getRoomFurniture()));
+            const inv = getInv();
+            const furBackup = {}, rest = {};
+            for (const name in inv) {
+                if (inv[name].cat === 'furniture') furBackup[name] = inv[name]; else rest[name] = inv[name];
+            }
+            lsSet('backupFurnitureInv', JSON.stringify(furBackup));
+            lsSet('inventory', JSON.stringify(rest));
+            lsSet('roomFurniture', '[]');
+            lsSet('furnCleared', '1');
+            renderInv();
+            renderRoomFurniture();
+            applyFurnCleared();
+            toast('🧹 家具都清空啦～');
+        }
+        function restoreFurniture() {
+            try {
+                const bf = JSON.parse(lsGet('backupFurniture', '[]'));
+                if (bf.length) lsSet('roomFurniture', JSON.stringify(bf));
+                const bi = JSON.parse(lsGet('backupFurnitureInv', '{}'));
+                const inv = getInv();
+                for (const name in bi) inv[name] = bi[name];
+                lsSet('inventory', JSON.stringify(inv));
+            } catch (e) {}
+            lsSet('backupFurniture', '[]');
+            lsSet('backupFurnitureInv', '{}');
+            lsSet('furnCleared', '0');
+            renderInv();
+            renderRoomFurniture();
+            applyFurnCleared();
+            toast('🛋️ 家具恢复啦～');
+        }
+        function applyFurnCleared() {
+            const cleared = lsGet('furnCleared', '0') === '1';
+            document.querySelectorAll('#room .furniture[data-f]').forEach(function (f) {
+                f.style.display = cleared ? 'none' : '';
+            });
+        }
         initRoom();
+        renderRoomDesserts();
+        renderRoomFurniture();
+        applyFurnCleared();
+
+        // ===== 手工坊 =====
+        const BEAD_COLORS = ['#ff6b6b', '#ffa94d', '#ffd43b', '#69db7c', '#4dabf7', '#b197fc', '#f783ac', '#8c6d5a'];
+        let selectedColor = BEAD_COLORS[0];
+        function craftCount(key) { return parseInt(lsGet(key, '0'), 10) || 0; }
+        function addCraft(key) { lsSet(key, craftCount(key) + 1); updateCraftTitles(); }
+        function updateCraftTitles() {
+            const b = document.getElementById('beadMaster');
+            const p = document.getElementById('perlerMaster');
+            const s = document.getElementById('sealMaster');
+            if (b) b.textContent = craftCount('craftBead');
+            if (p) p.textContent = craftCount('craftPerler');
+            if (s) s.textContent = craftCount('craftSeal');
+        }
+        function renderPalettes() {
+            const bp = document.getElementById('beadPalette');
+            if (bp) {
+                bp.innerHTML = '';
+                BEAD_COLORS.forEach(function (c) {
+                    const b = document.createElement('span');
+                    b.className = 'bead';
+                    b.style.background = c;
+                    b.onclick = function () { addBead(c); };
+                    bp.appendChild(b);
+                });
+            }
+            const pp = document.getElementById('perlerPalette');
+            if (pp) {
+                pp.innerHTML = '';
+                BEAD_COLORS.forEach(function (c) {
+                    const b = document.createElement('span');
+                    b.className = 'bead';
+                    b.style.background = c;
+                    b.onclick = function () { selectedColor = c; highlightPalette(pp); };
+                    pp.appendChild(b);
+                });
+                highlightPalette(pp);
+            }
+            renderPegboard();
+        }
+        function highlightPalette(container) {
+            container.querySelectorAll('.bead').forEach(function (b) {
+                b.classList.toggle('active', b.style.background === selectedColor);
+            });
+        }
+        function addBead(c) {
+            const s = document.getElementById('beadString');
+            if (!s) return;
+            const tip = s.querySelector('.string-tip');
+            if (tip) tip.remove();
+            if (s.querySelectorAll('.bead').length >= 14) { toast('😅 手串满啦，先完成吧～'); return; }
+            const b = document.createElement('span');
+            b.className = 'bead';
+            b.style.background = c;
+            s.appendChild(b);
+            playTone(500 + s.children.length * 25, 0.06);
+        }
+        function clearString() {
+            const s = document.getElementById('beadString');
+            if (s) s.innerHTML = '<span class="string-tip">👆 点珠子穿成手串</span>';
+        }
+        function finishBead() {
+            const s = document.getElementById('beadString');
+            if (!s) return;
+            if (s.querySelectorAll('.bead').length < 6) { toast('😊 至少穿 6 颗珠子才能完成哦～'); return; }
+            addCraft('craftBead');
+            toast('🎉 手串完成！串珠师 +1');
+            clearString();
+        }
+        function renderPegboard() {
+            const pb = document.getElementById('pegboard');
+            if (!pb) return;
+            pb.innerHTML = '';
+            for (let i = 0; i < 64; i++) {
+                const cell = document.createElement('div');
+                cell.className = 'peg-cell';
+                cell.onclick = function () {
+                    if (cell.dataset.filled === '1') { cell.style.background = ''; cell.dataset.filled = ''; }
+                    else { cell.style.background = selectedColor; cell.dataset.filled = '1'; }
+                    playTone(600, 0.05);
+                };
+                pb.appendChild(cell);
+            }
+        }
+        function clearPegboard() { renderPegboard(); }
+        function finishPerler() {
+            const pb = document.getElementById('pegboard');
+            if (!pb) return;
+            if (pb.querySelectorAll('.peg-cell[data-filled="1"]').length < 8) { toast('😊 至少摆 8 粒拼豆才能完成哦～'); return; }
+            addCraft('craftPerler');
+            toast('🎉 拼豆完成！拼豆师 +1');
+            clearPegboard();
+        }
+        let waxMelted = false;
+        function meltWax() {
+            const wax = document.getElementById('wax');
+            const flame = document.getElementById('flame');
+            if (!wax || !flame) return;
+            wax.classList.add('melted');
+            wax.classList.remove('sealed');
+            flame.classList.add('on');
+            waxMelted = true;
+            playTone(200, 0.3);
+            setTimeout(function () { flame.classList.remove('on'); }, 2000);
+            toast('🔥 蜡在融化～趁软盖章！');
+        }
+        function stampSeal() {
+            const wax = document.getElementById('wax');
+            const stamp = document.getElementById('stamp');
+            if (!wax || !stamp) return;
+            if (!waxMelted) { toast('🔥 先点火把蜡烧软哦～'); return; }
+            stamp.classList.add('press');
+            wax.classList.add('sealed');
+            waxMelted = false;
+            addCraft('craftSeal');
+            playTone(400, 0.2);
+            setTimeout(function () { stamp.classList.remove('press'); wax.classList.remove('melted', 'sealed'); }, 1500);
+            toast('🎉 印章盖好啦！火漆印章师 +1');
+        }
+        function renderDessertShop() {
+            const shelf = document.getElementById('dessertShelf');
+            if (!shelf) return;
+            const inv = getInv();
+            const items = [];
+            for (const name in inv) {
+                if (inv[name].cat === 'goods') items.push(inv[name].emoji + ' ' + name + ' ×' + inv[name].count);
+            }
+            shelf.innerHTML = items.length ? items.join(' · ') : '（还没有买甜品，去商店买点吧～）';
+        }
+        renderPalettes();
+        updateCraftTitles();
+        renderDessertShop();
+
+        // ===== 甜品店服务员 + 点单 =====
+        const waiterEl = document.getElementById('waiter');
+        if (waiterEl) waiterEl.innerHTML = CHAR_SVG;
+        function wanderWaiter() {
+            const w = document.getElementById('waiter');
+            const scene = document.getElementById('dessertScene');
+            if (!w || !scene) return;
+            setInterval(function () {
+                const r = scene.getBoundingClientRect();
+                if (r.width < 60) return;
+                w.style.left = (Math.random() * (r.width - 50)) + 'px';
+                w.style.top = (Math.random() * (r.height - 50)) + 'px';
+            }, 1400 + Math.random() * 1600);
+        }
+        wanderWaiter();
+        function openDessertMenu() {
+            const panel = document.getElementById('dessertMenu');
+            if (!panel) return;
+            const items = [];
+            for (const cat of SHOP_DATA) {
+                for (const it of cat.items) {
+                    if (it.cat === 'goods') items.push(it);
+                }
+            }
+            let html = '<h3 style="color:#d84b8a;margin:0 0 8px;">🍰 甜品菜单</h3>';
+            items.forEach(function (it) {
+                html += '<button class="menu-item" onclick="buyDessert(\'' + it.name + '\',\'' + (it.emoji || '') + '\',' + it.price + ')">' + (it.emoji || '') + ' ' + it.name + ' ¥' + it.price + '</button>';
+            });
+            html += '<button class="menu-item close" onclick="closeDessertMenu()">✕ 关闭</button>';
+            panel.innerHTML = html;
+            panel.style.display = 'block';
+            playTone(600, 0.08);
+        }
+        function closeDessertMenu() {
+            const panel = document.getElementById('dessertMenu');
+            if (panel) panel.style.display = 'none';
+        }
+        function buyDessert(name, emoji, price) {
+            buyItem(name, emoji, price, 'goods', '');
+        }
+        function orderMeal(name, emoji, price) {
+            if (!isBoss() && !spendMoney(price)) { toast('😅 金币不够啦！去打工赚钱吧～'); return; }
+            toast(isBoss() ? '👑 老板免单！' + emoji + name + ' 真好吃～' : '😋 ' + emoji + ' ' + name + ' 真好吃！- ' + price + ' 元');
+            addXp(15);
+            playTone(500, 0.12);
+            setTimeout(function () { playTone(700, 0.15); }, 150);
+        }
+        const rWaiterEl = document.getElementById('rWaiter');
+        if (rWaiterEl) rWaiterEl.innerHTML = CHAR_SVG;
+        function wanderRestaurantWaiter() {
+            const w = document.getElementById('rWaiter');
+            const scene = document.getElementById('restScene');
+            if (!w || !scene) return;
+            setInterval(function () {
+                const r = scene.getBoundingClientRect();
+                if (r.width < 60) return;
+                w.style.left = (Math.random() * (r.width - 50)) + 'px';
+                w.style.top = (Math.random() * (r.height - 50)) + 'px';
+            }, 1400 + Math.random() * 1600);
+        }
+        wanderRestaurantWaiter();
+        function applyKitchen() {
+            const k = document.getElementById('kitchenArea');
+            if (k) k.style.display = isBoss() ? 'block' : 'none';
+        }
+        applyKitchen();
+        function cookBBQ() {
+            const meat = document.getElementById('bbqMeat');
+            const fire = document.getElementById('bbqFire');
+            if (!meat || !fire) return;
+            meat.textContent = '🥩';
+            fire.classList.add('on');
+            playTone(200, 0.3);
+            toast('🔥 烤肉中……');
+            setTimeout(function () {
+                fire.classList.remove('on');
+                meat.textContent = '🍖';
+                addXp(20);
+                playTone(700, 0.15);
+                toast('🍖 烤好啦！香喷喷～');
+            }, 2000);
+        }
+        let reviewRating = 0;
+        function rate(n) {
+            reviewRating = n;
+            document.querySelectorAll('#stars span').forEach(function (s, i) {
+                s.style.opacity = i < n ? 1 : 0.25;
+            });
+        }
+        function submitReview() {
+            if (!reviewRating) { toast('😊 先点星星打个分哦～'); return; }
+            const text = document.getElementById('reviewText').value || '好吃！';
+            let reviews = [];
+            try { reviews = JSON.parse(lsGet('reviews', '[]')); } catch (e) {}
+            reviews.push({ stars: reviewRating, text: text });
+            lsSet('reviews', JSON.stringify(reviews));
+            renderReviews();
+            document.getElementById('reviewText').value = '';
+            reviewRating = 0;
+            document.querySelectorAll('#stars span').forEach(function (s) { s.style.opacity = 0.25; });
+            toast('⭐ 评价提交啦！');
+        }
+        function renderReviews() {
+            const list = document.getElementById('reviewList');
+            if (!list) return;
+            let reviews = [];
+            try { reviews = JSON.parse(lsGet('reviews', '[]')); } catch (e) {}
+            list.innerHTML = reviews.length ? reviews.map(function (r) { return '⭐'.repeat(r.stars) + '　' + r.text; }).join('<br>') : '（还没有评价，来打第一个吧～）';
+        }
+        renderReviews();
+        function sitAndEat() {
+            const seat = document.getElementById('seat');
+            if (!seat) return;
+            const name = BODY_NAMES[lsGet('charBody', '🧚')] || '小仙女';
+            seat.innerHTML = CHAR_SVG + '<span>🍽️</span>';
+            addXp(20);
+            playTone(500, 0.12);
+            setTimeout(function () { playTone(700, 0.15); }, 150);
+            toast('😋 ' + name + ' 入座开动啦～');
+        }
     </script>
 
     <!-- 🔍 灯箱（第8课） -->
