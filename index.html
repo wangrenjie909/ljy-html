@@ -1056,6 +1056,14 @@
         .review-list { margin-top: 12px; text-align: left; line-height: 1.8; max-height: 160px; overflow: auto; }
         .seat { display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 40px; min-height: 60px; margin-top: 6px; }
         .seat svg { width: 50px; height: 50px; }
+        .nail { width: 70px; height: 90px; margin: 0 auto 10px; border-radius: 40% 40% 30% 30%; background: #ffe0d6; border: 2px solid #e0b8a8; transition: all 0.4s; }
+        .nail.done { box-shadow: 0 6px 14px rgba(255,150,200,0.6); }
+        .nail-opt { display: inline-block; padding: 6px 12px; margin: 4px; border-radius: 20px; border: 2px solid #ffd3e8; background: #fff; cursor: pointer; color: #7a2050; font-size: 14px; }
+        .nail-opt:hover { background: #ffe4f0; }
+        .bath-scene { position: relative; height: 160px; max-width: 420px; margin: 16px auto; z-index: 1; }
+        .bath-tub { position: absolute; left: 50%; top: 46px; transform: translateX(-50%); font-size: 90px; }
+        .bubble { position: absolute; left: 50%; bottom: 26px; font-size: 22px; opacity: 0; animation: rise 3s infinite; pointer-events: none; }
+        @keyframes rise { 0% { opacity: 0; transform: translateY(0) translateX(0); } 30% { opacity: 1; } 100% { opacity: 0; transform: translateY(-110px) translateX(14px); } }
 
         /* ===== 手机端适配 ===== */
         @media (max-width: 768px) {
@@ -1110,9 +1118,11 @@
             <li><a href="#" onclick="flipTo('home');return false;">🏠 首页</a></li>
             <li><a href="#" onclick="flipTo('character');return false;">👗 人物</a></li>
             <li><a href="#" onclick="flipTo('shop');return false;">🛒 商店</a></li>
+            <li><a href="#" onclick="flipTo('toy');return false;">🧸 玩具商城</a></li>
             <li><a href="#" onclick="flipTo('craft');return false;">🎨 手工坊</a></li>
             <li><a href="#" onclick="flipTo('dessert');return false;">🍰 甜品店</a></li>
             <li><a href="#" onclick="flipTo('restaurant');return false;">🍜 菜馆</a></li>
+            <li><a href="#" onclick="flipTo('bath');return false;">🛁 洗浴房</a></li>
             <li><a href="#" onclick="flipTo('house');return false;">🏠 家</a></li>
             <li><a href="#" onclick="flipTo('work');return false;">🍪 打工</a></li>
             <li><a href="#" onclick="flipTo('contact');return false;">📮 联系我</a></li>
@@ -1522,6 +1532,7 @@
         <span>📿 串珠师 ×<b id="beadMaster">0</b></span>
         <span>🧩 拼豆师 ×<b id="perlerMaster">0</b></span>
         <span>🔥 火漆印章师 ×<b id="sealMaster">0</b></span>
+        <span>💅 美甲师 ×<b id="nailMaster">0</b></span>
     </div>
 
     <div class="craft-room">
@@ -1554,6 +1565,23 @@
         <div class="room-actions">
             <button class="ride-btn" onclick="meltWax()">🔥 点火烧蜡</button>
             <button class="ride-btn primary" onclick="stampSeal()">🖋️ 盖章</button>
+        </div>
+    </div>
+
+    <div class="craft-room">
+        <h3>💅 美甲工坊</h3>
+        <p style="color:#b06a8c;margin:0 0 8px;">店员帮你按步骤：修甲→底胶→涂色→照灯</p>
+        <div class="nail" id="nail"></div>
+        <div class="palette">
+            <span class="nail-opt" onclick="pickNailColor('#ff6b6b',10,'纯红')">纯红 ¥10</span>
+            <span class="nail-opt" onclick="pickNailColor('#ff9ec4',10,'纯粉')">纯粉 ¥10</span>
+            <span class="nail-opt" onclick="pickNailColor('glitter',30,'闪片')">✨闪片 ¥30</span>
+            <span class="nail-opt" onclick="pickNailColor('gem',50,'宝石')">💎宝石 ¥50</span>
+        </div>
+        <div class="room-actions">
+            <button class="ride-btn" onclick="nailStep('trim')">① 修甲</button>
+            <button class="ride-btn" onclick="nailStep('base')">② 涂底胶</button>
+            <button class="ride-btn primary" onclick="nailStep('cure')">④ 照灯</button>
         </div>
     </div>
     </section><!-- /craft -->
@@ -1630,6 +1658,54 @@
         <div class="shop-item"><span class="shop-icon">🍟</span><b>炸薯条</b><span class="shop-price">¥18</span><button onclick="orderMeal('炸薯条','🍟',18)">点餐</button></div>
     </div>
     </section><!-- /restaurant -->
+
+    <!-- 🧸 玩具商城 -->
+    <section id="section-toy" class="section">
+    <h2 style="text-align:center; z-index:1; position:relative; color:#e8709a; margin-top:40px; font-size:28px;">🧸 玩具商城</h2>
+    <p style="text-align:center; z-index:1; position:relative; color:#7a2050; font-size:17px;">专门的玩具商店～</p>
+    <div id="toyContainer"></div>
+    </section><!-- /toy -->
+
+    <!-- 🛁 洗浴房 -->
+    <section id="section-bath" class="section">
+    <h2 style="text-align:center; z-index:1; position:relative; color:#e8709a; margin-top:40px; font-size:28px;">🛁 洗浴房</h2>
+    <p style="text-align:center; z-index:1; position:relative; color:#7a2050; font-size:17px;">泡泡浴、自助餐、美甲、买衣服、睡觉～</p>
+    <div class="bath-scene" id="bathScene">
+        <div class="bath-tub">🛁</div>
+    </div>
+    <div class="room-actions">
+        <button class="ride-btn" onclick="orderBath('简陋',500)">🛁 简陋泡澡 ¥500</button>
+        <button class="ride-btn primary" onclick="orderBath('VIP',2000)">👑 VIP泡澡 ¥2000</button>
+        <button class="ride-btn" onclick="sleepRoom()">🛌 小包间睡觉 ¥300</button>
+    </div>
+
+    <h3 class="cat-title">🍽️ 自助餐</h3>
+    <div class="room-actions">
+        <button class="ride-btn primary" onclick="buyBuffet()">🎟️ 买自助餐票 ¥188</button>
+    </div>
+    <div class="shop-grid">
+        <div class="shop-item"><span class="shop-icon">🦞</span><b>龙虾</b><button onclick="eatBuffet('龙虾','🦞')">吃</button></div>
+        <div class="shop-item"><span class="shop-icon">🦀</span><b>大螃蟹</b><button onclick="eatBuffet('大螃蟹','🦀')">吃</button></div>
+        <div class="shop-item"><span class="shop-icon">🍤</span><b>蟹腿</b><button onclick="eatBuffet('蟹腿','🍤')">吃</button></div>
+        <div class="shop-item"><span class="shop-icon">🍉</span><b>水果</b><button onclick="eatBuffet('水果','🍉')">吃</button></div>
+        <div class="shop-item"><span class="shop-icon">🥗</span><b>蔬菜</b><button onclick="eatBuffet('蔬菜','🥗')">吃</button></div>
+        <div class="shop-item"><span class="shop-icon">🥩</span><b>牛排</b><button onclick="eatBuffet('牛排','🥩')">吃</button></div>
+        <div class="shop-item"><span class="shop-icon">🍝</span><b>意面</b><button onclick="eatBuffet('意面','🍝')">吃</button></div>
+        <div class="shop-item"><span class="shop-icon">🧋</span><b>奶茶</b><button onclick="eatBuffet('奶茶','🧋')">喝</button></div>
+    </div>
+
+    <h3 class="cat-title">👗 买衣服</h3>
+    <div class="shop-grid">
+        <div class="shop-item"><span class="shop-icon">👘</span><b>古风汉服</b><span class="shop-price">¥300</span><button onclick="buyClothes('古风汉服','👘',300)">购买</button></div>
+        <div class="shop-item"><span class="shop-icon">👗</span><b>公主裙</b><span class="shop-price">¥450</span><button onclick="buyClothes('公主裙','👗',450)">购买</button></div>
+        <div class="shop-item"><span class="shop-icon">🤵</span><b>帅气西装</b><span class="shop-price">¥500</span><button onclick="buyClothes('帅气西装','🤵',500)">购买</button></div>
+    </div>
+
+    <div class="room-actions">
+        <button class="ride-btn" onclick="flipTo('craft')">💅 去做美甲</button>
+        <button class="ride-btn" onclick="flipTo('shop')">🛍️ 去逛街</button>
+    </div>
+    </section><!-- /bath -->
 
     <!-- 🦶 页脚 -->
     <footer style="text-align:center; padding:24px 16px; margin-top:40px; border-radius:18px; background:rgba(255,255,255,0.55); backdrop-filter:blur(6px); position:relative; z-index:2; box-shadow:0 6px 25px rgba(255,150,180,0.3);">
@@ -2144,6 +2220,18 @@
 
         // ===== 商店 & 储存 =====
         function getInv() { try { return JSON.parse(lsGet('inventory', '{}')); } catch (e) { return {}; } }
+        function requireMaterial(name) {
+            const inv = getInv();
+            if (inv[name] && inv[name].count > 0) {
+                inv[name].count--;
+                if (inv[name].count <= 0) delete inv[name];
+                lsSet('inventory', JSON.stringify(inv));
+                renderInv();
+                return true;
+            }
+            toast('😅 需要「' + name + '」，去商店买吧～');
+            return false;
+        }
         function buyItem(name, emoji, price, cat, svg) {
             if (!isBoss() && !spendMoney(price)) { toast('😅 金币不够啦！去打工赚钱吧～'); return; }
             const inv = getInv();
@@ -2151,6 +2239,7 @@
             lsSet('inventory', JSON.stringify(inv));
             renderInv();
             if (cat === 'furniture') addFurnitureToRoom(svg || 'bed', name);
+            if (cat === 'toys') addDessertToRoom(emoji, name);
             if (cat === 'goods') renderDessertShop();
             toast(isBoss() ? '👑 老板免单！' + name + ' 到手～' : '🛒 买到了 ' + name + '！- ' + price + ' 元');
             playTone(700, 0.12);
@@ -2598,9 +2687,11 @@
             const b = document.getElementById('beadMaster');
             const p = document.getElementById('perlerMaster');
             const s = document.getElementById('sealMaster');
+            const n = document.getElementById('nailMaster');
             if (b) b.textContent = craftCount('craftBead');
             if (p) p.textContent = craftCount('craftPerler');
             if (s) s.textContent = craftCount('craftSeal');
+            if (n) n.textContent = craftCount('craftNail');
         }
         function renderPalettes() {
             const bp = document.getElementById('beadPalette');
@@ -2653,6 +2744,7 @@
             const s = document.getElementById('beadString');
             if (!s) return;
             if (s.querySelectorAll('.bead').length < 6) { toast('😊 至少穿 6 颗珠子才能完成哦～'); return; }
+            if (!isBoss() && !requireMaterial('手串珠')) return;
             addCraft('craftBead');
             toast('🎉 手串完成！串珠师 +1');
             clearString();
@@ -2677,6 +2769,7 @@
             const pb = document.getElementById('pegboard');
             if (!pb) return;
             if (pb.querySelectorAll('.peg-cell[data-filled="1"]').length < 8) { toast('😊 至少摆 8 粒拼豆才能完成哦～'); return; }
+            if (!isBoss() && !requireMaterial('拼豆')) return;
             addCraft('craftPerler');
             toast('🎉 拼豆完成！拼豆师 +1');
             clearPegboard();
@@ -2699,6 +2792,7 @@
             const stamp = document.getElementById('stamp');
             if (!wax || !stamp) return;
             if (!waxMelted) { toast('🔥 先点火把蜡烧软哦～'); return; }
+            if (!isBoss() && !requireMaterial('火漆印章')) return;
             stamp.classList.add('press');
             wax.classList.add('sealed');
             waxMelted = false;
@@ -2841,6 +2935,98 @@
             setTimeout(function () { playTone(700, 0.15); }, 150);
             toast('😋 ' + name + ' 入座开动啦～');
         }
+
+        // ===== 美甲工坊 =====
+        let nailTrimmed = false, nailBased = false, nailColored = false;
+        function nailStep(step) {
+            const nail = document.getElementById('nail');
+            if (!nail) return;
+            if (step === 'trim') { nailTrimmed = true; toast('✂️ 修好指甲啦～'); playTone(400, 0.1); }
+            if (step === 'base') { if (!nailTrimmed) { toast('😊 先点「①修甲」哦～'); return; } nailBased = true; toast('🩹 涂好底胶啦～'); playTone(500, 0.1); }
+            if (step === 'cure') {
+                if (!nailColored) { toast('😊 先选个颜色涂上哦～'); return; }
+                nail.classList.add('done');
+                addCraft('craftNail');
+                toast('💡 照灯完成！美甲师 +1');
+                playTone(700, 0.15);
+                nailTrimmed = nailBased = nailColored = false;
+                setTimeout(function () { nail.style.background = '#ffe0d6'; nail.classList.remove('done'); }, 1500);
+            }
+        }
+        function pickNailColor(color, cost, label) {
+            const nail = document.getElementById('nail');
+            if (!nail) return;
+            if (!nailBased) { toast('😊 先涂底胶哦～'); return; }
+            if (!isBoss() && !spendMoney(cost)) { toast('😅 金币不够啦～'); return; }
+            if (color === 'glitter') nail.style.background = 'linear-gradient(135deg,#ffd700,#ff9ec4,#c9a8ff)';
+            else if (color === 'gem') nail.style.background = '#ffd700';
+            else nail.style.background = color;
+            nailColored = true;
+            toast('💅 涂上' + label + '啦！(' + (isBoss() ? '免单' : '-' + cost + ' 元') + ')');
+            playTone(600, 0.08);
+        }
+
+        // ===== 洗浴房 =====
+        let buffetOn = false;
+        function orderBath(tier, price) {
+            if (!isBoss() && !spendMoney(price)) { toast('😅 金币不够啦！去打工赚钱吧～'); return; }
+            toast(isBoss() ? '👑 老板免单！' + tier + '泡澡好舒服～' : '🛁 ' + tier + '泡澡好舒服～ - ' + price + ' 元');
+            addXp(tier === 'VIP' ? 80 : 30);
+            playTone(300, 0.4);
+        }
+        function buyBuffet() {
+            if (!isBoss() && !spendMoney(188)) { toast('😅 金币不够啦～'); return; }
+            buffetOn = true;
+            toast('🍽️ 自助餐票买好啦！随便吃～');
+            playTone(600, 0.12);
+        }
+        function eatBuffet(name, emoji) {
+            if (!isBoss() && !buffetOn) { toast('😊 先买自助餐票 ¥188 哦～'); return; }
+            toast('😋 ' + emoji + name + ' 真好吃！');
+            addXp(8);
+            playTone(500, 0.08);
+        }
+        function sleepRoom() {
+            if (!isBoss() && !spendMoney(300)) { toast('😅 金币不够啦～'); return; }
+            toast('🛌 在小包间睡了一觉，好舒服～');
+            addXp(40);
+            playTone(250, 0.5);
+        }
+        function buyClothes(name, emoji, price) {
+            buyItem(name, emoji, price, 'toys', '');
+        }
+        function initBubbles() {
+            const scene = document.getElementById('bathScene');
+            if (!scene) return;
+            for (let i = 0; i < 8; i++) {
+                const b = document.createElement('span');
+                b.className = 'bubble';
+                b.textContent = '🫧';
+                b.style.left = (35 + Math.random() * 30) + '%';
+                b.style.animationDelay = (i * 0.45) + 's';
+                scene.appendChild(b);
+            }
+        }
+        initBubbles();
+
+        // ===== 玩具商城 =====
+        function renderToyShop() {
+            const c = document.getElementById('toyContainer');
+            if (!c) return;
+            const items = [];
+            for (const cat of SHOP_DATA) {
+                for (const it of cat.items) {
+                    if (it.cat === 'toys') items.push(it);
+                }
+            }
+            let html = '<div class="shop-grid">';
+            items.forEach(function (it) {
+                html += '<div class="shop-item"><span class="shop-icon">' + it.emoji + '</span><b>' + it.name + '</b><span class="shop-price">¥' + it.price + '</span><button onclick="buyItem(\'' + it.name + '\',\'' + it.emoji + '\',' + it.price + ',\'toys\')">购买</button></div>';
+            });
+            html += '</div>';
+            c.innerHTML = html;
+        }
+        renderToyShop();
     </script>
 
     <!-- 🔍 灯箱（第8课） -->
