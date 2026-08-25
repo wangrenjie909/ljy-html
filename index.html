@@ -1064,6 +1064,20 @@
         .bath-tub { position: absolute; left: 50%; top: 46px; transform: translateX(-50%); font-size: 90px; }
         .bubble { position: absolute; left: 50%; bottom: 26px; font-size: 22px; opacity: 0; animation: rise 3s infinite; pointer-events: none; }
         @keyframes rise { 0% { opacity: 0; transform: translateY(0) translateX(0); } 30% { opacity: 1; } 100% { opacity: 0; transform: translateY(-110px) translateX(14px); } }
+        .bath-tub.vip { filter: drop-shadow(0 0 16px #ffd700) drop-shadow(0 0 30px #ffb300); }
+        .char-clothes { position: absolute; bottom: 4px; left: 8px; font-size: 28px; z-index: 3; }
+        .pool-table { position: relative; width: 100%; max-width: 360px; height: 200px; margin: 0 auto 8px; background: #2e7d32; border: 6px solid #6b4423; border-radius: 12px; }
+        .pool-ball { position: absolute; font-size: 26px; cursor: pointer; transition: all 0.3s; }
+        .pool-pocket { position: absolute; width: 26px; height: 26px; background: #111; border-radius: 50%; transform: translate(-50%,-50%); z-index: 2; box-shadow: inset 0 2px 4px rgba(0,0,0,0.8); }
+        .cue { position: absolute; bottom: 8px; left: 50%; width: 5px; height: 70px; background: #8b5a2b; border-radius: 3px; transform: translateX(-50%); transform-origin: top center; z-index: 4; }
+        .cue.hit { animation: poke 0.35s ease; }
+        @keyframes poke { 0% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(-18px); } 100% { transform: translateX(-50%) translateY(0); } }
+        .bath-tub.diamond { animation: diamondShine 1.5s infinite; }
+        @keyframes diamondShine { 0% { filter: drop-shadow(0 0 6px #fff) drop-shadow(0 0 18px #ffd700); } 50% { filter: drop-shadow(0 0 14px #fff) drop-shadow(0 0 38px #ffd700) drop-shadow(0 0 55px #7ec8ff); } 100% { filter: drop-shadow(0 0 6px #fff) drop-shadow(0 0 18px #ffd700); } }
+        .card-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; max-width: 260px; margin: 0 auto 10px; }
+        .card { aspect-ratio: 3/4; background: #ff9ec4; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 28px; transition: all 0.3s; }
+        .card.flipped { background: #fff; }
+        .card.matched { opacity: 0.4; pointer-events: none; }
 
         /* ===== 手机端适配 ===== */
         @media (max-width: 768px) {
@@ -1416,6 +1430,7 @@
                 <span class="char-hat" id="charHat">👑</span>
                 <span class="char-body" id="charBody">🧚</span>
                 <span class="char-acc" id="charAcc">💎</span>
+                <span class="char-clothes" id="charClothes"></span>
                 <span class="char-level-badge">LV.<b id="charLevel">1</b></span>
             </div>
             <h3 id="charName" style="margin:0 0 4px; color:#d84b8a;">👑 小仙女</h3>
@@ -1694,12 +1709,90 @@
         <div class="shop-item"><span class="shop-icon">🧋</span><b>奶茶</b><button onclick="eatBuffet('奶茶','🧋')">喝</button></div>
     </div>
 
-    <h3 class="cat-title">👗 买衣服</h3>
+    <h3 class="cat-title">👗 买衣服（买了就能穿上）</h3>
     <div class="shop-grid">
-        <div class="shop-item"><span class="shop-icon">👘</span><b>古风汉服</b><span class="shop-price">¥300</span><button onclick="buyClothes('古风汉服','👘',300)">购买</button></div>
-        <div class="shop-item"><span class="shop-icon">👗</span><b>公主裙</b><span class="shop-price">¥450</span><button onclick="buyClothes('公主裙','👗',450)">购买</button></div>
-        <div class="shop-item"><span class="shop-icon">🤵</span><b>帅气西装</b><span class="shop-price">¥500</span><button onclick="buyClothes('帅气西装','🤵',500)">购买</button></div>
+        <div class="shop-item"><span class="shop-icon">👘</span><b>古风汉服</b><span class="shop-price">¥300</span><button onclick="buyClothes('古风汉服','👘',300)">买+穿</button></div>
+        <div class="shop-item"><span class="shop-icon">🥻</span><b>古风旗袍</b><span class="shop-price">¥280</span><button onclick="buyClothes('古风旗袍','🥻',280)">买+穿</button></div>
+        <div class="shop-item"><span class="shop-icon">🀄</span><b>古风唐装</b><span class="shop-price">¥250</span><button onclick="buyClothes('古风唐装','🀄',250)">买+穿</button></div>
+        <div class="shop-item"><span class="shop-icon">👗</span><b>公主裙</b><span class="shop-price">¥450</span><button onclick="buyClothes('公主裙','👗',450)">买+穿</button></div>
+        <div class="shop-item"><span class="shop-icon">🩰</span><b>蓬蓬裙</b><span class="shop-price">¥380</span><button onclick="buyClothes('蓬蓬裙','🩰',380)">买+穿</button></div>
+        <div class="shop-item"><span class="shop-icon">💃</span><b>晚礼服</b><span class="shop-price">¥520</span><button onclick="buyClothes('晚礼服','💃',520)">买+穿</button></div>
+        <div class="shop-item"><span class="shop-icon">🤵</span><b>帅气西装</b><span class="shop-price">¥500</span><button onclick="buyClothes('帅气西装','🤵',500)">买+穿</button></div>
+        <div class="shop-item"><span class="shop-icon">👖</span><b>牛仔服</b><span class="shop-price">¥220</span><button onclick="buyClothes('牛仔服','👖',220)">买+穿</button></div>
+        <div class="shop-item"><span class="shop-icon">🏃</span><b>运动服</b><span class="shop-price">¥180</span><button onclick="buyClothes('运动服','🏃',180)">买+穿</button></div>
+        <div class="shop-item"><span class="shop-icon">🩱</span><b>睡衣</b><span class="shop-price">¥120</span><button onclick="buyClothes('睡衣','🩱',120)">买+穿</button></div>
+        <div class="shop-item"><span class="shop-icon">🩳</span><b>泳装</b><span class="shop-price">¥150</span><button onclick="buyClothes('泳装','🩳',150)">买+穿</button></div>
+        <div class="shop-item"><span class="shop-icon">🧥</span><b>卫衣</b><span class="shop-price">¥200</span><button onclick="buyClothes('卫衣','🧥',200)">买+穿</button></div>
     </div>
+
+    <h3 class="cat-title">🎮 玩乐项目</h3>
+    <p style="text-align:center;color:#b06a8c;">吃饱度：<b id="fullness">0</b> / 6（吃太多会饱哦）</p>
+    <div class="shop-grid">
+        <div class="shop-item"><span class="shop-icon">🎤</span><b>KTV唱歌</b><span class="shop-price">¥50</span><button onclick="funActivity('KTV','🎤',50,20)">玩</button></div>
+        <div class="shop-item"><span class="shop-icon">♨️</span><b>桑拿</b><span class="shop-price">¥80</span><button onclick="funActivity('桑拿','♨️',80,30)">玩</button></div>
+        <div class="shop-item"><span class="shop-icon">💆</span><b>按摩</b><span class="shop-price">¥60</span><button onclick="funActivity('按摩','💆',60,25)">玩</button></div>
+        <div class="shop-item"><span class="shop-icon">📺</span><b>看电视</b><span class="shop-price">¥20</span><button onclick="funActivity('看电视','📺',20,10)">玩</button></div>
+        <div class="shop-item"><span class="shop-icon">🃏</span><b>打牌</b><span class="shop-price">¥30</span><button onclick="funActivity('打牌','🃏',30,15)">玩</button></div>
+        <div class="shop-item"><span class="shop-icon">🏊</span><b>游泳</b><span class="shop-price">¥40</span><button onclick="funActivity('游泳','🏊',40,20)">玩</button></div>
+    </div>
+
+    <div class="room-actions">
+        <button class="ride-btn primary" onclick="freeGift()">🎁 免费领睡衣+拖鞋+10元</button>
+    </div>
+
+    <div class="craft-room">
+        <h3>🎱 打台球</h3>
+        <p style="color:#b06a8c;">点球就能打进袋！得分：<b id="poolScore">0</b></p>
+        <div class="pool-table" id="poolTable"></div>
+        <div class="room-actions"><button class="ride-btn" onclick="resetPool()">🔄 重新开局</button></div>
+    </div>
+
+    <div class="craft-room">
+        <h3>♨️ 桑拿房</h3>
+        <div class="xp-bar"><div class="xp-fill" id="saunaFill"></div></div>
+        <p style="color:#b06a8c;">温度：<b id="saunaTemp">20</b>℃</p>
+        <div class="room-actions"><button class="ride-btn primary" onclick="heatSauna()">🔥 加柴升温</button></div>
+    </div>
+
+    <div class="craft-room">
+        <h3>🎤 KTV唱歌</h3>
+        <p style="color:#b06a8c;">连点「唱」8 次就唱完一首歌！已唱 <b id="ktvCount">0</b>/8</p>
+        <div class="room-actions"><button class="ride-btn primary" onclick="sing()">🎤 唱一句</button></div>
+    </div>
+
+    <div class="craft-room">
+        <h3>🃏 打牌（翻牌配对）</h3>
+        <p style="color:#b06a8c;">翻开两张相同的牌就配对成功</p>
+        <div class="card-grid" id="cardGrid"></div>
+        <div class="room-actions"><button class="ride-btn" onclick="resetCards()">🔄 重新洗牌</button></div>
+    </div>
+
+    <div class="craft-room">
+        <h3>💆 按摩</h3>
+        <div class="xp-bar"><div class="xp-fill" id="massageFill"></div></div>
+        <p style="color:#b06a8c;">力度：<b id="massagePower">0</b></p>
+        <div class="room-actions"><button class="ride-btn primary" onclick="massage()">💆 按摩一下</button></div>
+    </div>
+
+    <div class="craft-room">
+        <h3>🛁 洗浴搓背</h3>
+        <div class="xp-bar"><div class="xp-fill" id="scrubFill"></div></div>
+        <p style="color:#b06a8c;">干净度：<b id="scrubClean">0</b></p>
+        <div class="room-actions"><button class="ride-btn primary" onclick="scrub()">🫧 搓一搓</button></div>
+    </div>
+
+    <h3 class="cat-title">👑 会员等级</h3>
+    <div class="room-actions">
+        <button class="ride-btn primary" onclick="upgradeMember()">⬆️ 升级会员</button>
+        <span style="font-weight:bold;color:#7a2050;">当前：<b id="memberLevel">青铜</b></span>
+    </div>
+    <div class="review-box"><h3 style="margin:0 0 4px;color:#d84b8a;">🏠 专属房间</h3><p id="memberRoom" style="margin:0;color:#7a2050;">🛁 青铜房（普通）</p></div>
+
+    <div class="room-actions">
+        <button class="ride-btn" onclick="digest()">🫄 消化一下</button>
+        <button class="ride-btn" onclick="saveOutfit()">💾 保存套装</button>
+    </div>
+    <div class="review-box"><h3 style="margin:0 0 4px;color:#d84b8a;">📋 我的套装</h3><div id="outfitList" style="color:#7a2050;">（还没有套装）</div></div>
 
     <div class="room-actions">
         <button class="ride-btn" onclick="flipTo('craft')">💅 去做美甲</button>
@@ -2150,6 +2243,8 @@
             document.getElementById('charBody').textContent = body;
             document.getElementById('charHat').textContent = hat;
             document.getElementById('charAcc').textContent = acc;
+            const cc = document.getElementById('charClothes');
+            if (cc) cc.textContent = lsGet('charClothes', '');
             const cfB = document.getElementById('cfBody');
             const cfH = document.getElementById('cfHat');
             if (cfB) cfB.textContent = body;
@@ -2216,6 +2311,28 @@
             wood: '<svg viewBox="0 0 64 64"><rect x="6" y="14" width="52" height="14" rx="3" fill="#c98a6b"/><rect x="6" y="34" width="52" height="14" rx="3" fill="#a06a42"/><rect x="6" y="21" width="52" height="2" fill="#8a5a3d"/><rect x="6" y="41" width="52" height="2" fill="#8a5a3d"/></svg>',
             nightstand: '<svg viewBox="0 0 64 64"><rect x="12" y="22" width="40" height="34" rx="5" fill="#c98a6b"/><rect x="16" y="28" width="32" height="22" rx="3" fill="#a06a42"/><circle cx="32" cy="40" r="3" fill="#ffd166"/><rect x="20" y="16" width="24" height="8" rx="4" fill="#fdf6ec"/><rect x="22" y="52" width="20" height="5" fill="#8a5a3d"/></svg>'
         };
+        const CLOTHES_STYLE = {
+            '古风汉服': { kind: 'robe', color: '#c0392b' }, '古风旗袍': { kind: 'robe', color: '#d94f8a' }, '古风唐装': { kind: 'robe', color: '#b8860b' },
+            '公主裙': { kind: 'dress', color: '#ff6ba8' }, '蓬蓬裙': { kind: 'dress', color: '#c9a8ff' }, '晚礼服': { kind: 'dress', color: '#8a2f5a' },
+            '帅气西装': { kind: 'suit', color: '#3a3a4a' }, '牛仔服': { kind: 'pants', color: '#4d7bb0' }, '运动服': { kind: 'pants', color: '#5aa8c8' },
+            '睡衣': { kind: 'pants', color: '#ffd9e8' }, '泳装': { kind: 'pants', color: '#7ec8e3' }, '卫衣': { kind: 'pants', color: '#8a6d5a' }
+        };
+        function charSVG(style) {
+            const s = style || { kind: 'dress', color: '#ff9ec4' };
+            const head = '<circle cx="32" cy="20" r="12" fill="#ffd9b3"/><path d="M14 24 Q14 8 32 8 Q50 8 50 24 L45 24 Q45 14 32 14 Q19 14 19 24 Z" fill="#7a4a2b"/><circle cx="27" cy="20" r="2" fill="#3a2a1a"/><circle cx="37" cy="20" r="2" fill="#3a2a1a"/><path d="M28 26 Q32 30 36 26" fill="none" stroke="#3a2a1a" stroke-width="2" stroke-linecap="round"/>';
+            let body = '';
+            if (s.kind === 'pants') {
+                body = '<path d="M32 30 L25 46 L28 46 L32 38 L36 46 L39 46 L32 30 Z" fill="' + s.color + '"/><path d="M28 46 L27 56 L31 56 L32 48 Z" fill="' + s.color + '"/><path d="M36 46 L33 48 L33 56 L37 56 Z" fill="' + s.color + '"/><rect x="26" y="54" width="5" height="5" fill="#3a2a1a"/><rect x="33" y="54" width="5" height="5" fill="#3a2a1a"/>';
+            } else if (s.kind === 'robe') {
+                body = '<path d="M32 28 L20 58 L44 58 Z" fill="' + s.color + '"/><rect x="29" y="28" width="6" height="30" fill="rgba(255,255,255,0.35)"/>';
+            } else if (s.kind === 'suit') {
+                body = '<path d="M32 30 L26 46 L38 46 L32 30 Z" fill="' + s.color + '"/><path d="M26 46 L25 56 L30 56 L31 46 Z" fill="#2a2a3a"/><path d="M38 46 L33 46 L33 56 L39 56 Z" fill="#2a2a3a"/><rect x="30" y="32" width="4" height="14" fill="#fff"/>';
+            } else {
+                body = '<path d="M32 28 L22 58 L42 58 Z" fill="' + s.color + '"/><circle cx="32" cy="34" r="3" fill="#fff"/>';
+            }
+            return '<svg viewBox="0 0 64 64">' + head + body + '</svg>';
+        }
+        function getClothesStyle() { return CLOTHES_STYLE[lsGet('charClothes', '')] || { kind: 'dress', color: '#ff9ec4' }; }
         const CHAR_SVG = '<svg viewBox="0 0 64 64"><circle cx="32" cy="20" r="12" fill="#ffd9b3"/><path d="M14 24 Q14 8 32 8 Q50 8 50 24 L45 24 Q45 14 32 14 Q19 14 19 24 Z" fill="#7a4a2b"/><circle cx="27" cy="20" r="2" fill="#3a2a1a"/><circle cx="37" cy="20" r="2" fill="#3a2a1a"/><path d="M28 26 Q32 30 36 26" fill="none" stroke="#3a2a1a" stroke-width="2" stroke-linecap="round"/><path d="M32 32 L32 46 L25 56 L39 56 L32 46 Z" fill="#ff9ec4"/></svg>';
 
         // ===== 商店 & 储存 =====
@@ -2455,7 +2572,7 @@
                 if (f.dataset.f && FURNITURE_SVG[f.dataset.f]) {
                     f.innerHTML = FURNITURE_SVG[f.dataset.f];
                 } else if (f.dataset.char) {
-                    f.innerHTML = CHAR_SVG + '<span class="cf-hat" id="cfHat">' + lsGet('charHat', '👑') + '</span>';
+                    f.innerHTML = charSVG(getClothesStyle()) + '<span class="cf-hat" id="cfHat">' + lsGet('charHat', '👑') + '</span>';
                 }
                 const saved = lsGet('furn-' + f.id, '');
                 if (saved) {
@@ -2929,7 +3046,7 @@
             const seat = document.getElementById('seat');
             if (!seat) return;
             const name = BODY_NAMES[lsGet('charBody', '🧚')] || '小仙女';
-            seat.innerHTML = CHAR_SVG + '<span>🍽️</span>';
+            seat.innerHTML = charSVG(getClothesStyle()) + '<span>🍽️</span>';
             addXp(20);
             playTone(500, 0.12);
             setTimeout(function () { playTone(700, 0.15); }, 150);
@@ -2968,11 +3085,14 @@
 
         // ===== 洗浴房 =====
         let buffetOn = false;
+        let fullness = 0;
         function orderBath(tier, price) {
             if (!isBoss() && !spendMoney(price)) { toast('😅 金币不够啦！去打工赚钱吧～'); return; }
             toast(isBoss() ? '👑 老板免单！' + tier + '泡澡好舒服～' : '🛁 ' + tier + '泡澡好舒服～ - ' + price + ' 元');
             addXp(tier === 'VIP' ? 80 : 30);
             playTone(300, 0.4);
+            const tub = document.querySelector('.bath-tub');
+            if (tub) tub.classList.toggle('vip', tier === 'VIP');
         }
         function buyBuffet() {
             if (!isBoss() && !spendMoney(188)) { toast('😅 金币不够啦～'); return; }
@@ -2982,9 +3102,19 @@
         }
         function eatBuffet(name, emoji) {
             if (!isBoss() && !buffetOn) { toast('😊 先买自助餐票 ¥188 哦～'); return; }
-            toast('😋 ' + emoji + name + ' 真好吃！');
+            if (fullness >= 6) { toast('😵 吃太饱啦！歇一会儿再吃～'); return; }
+            fullness++;
+            const f = document.getElementById('fullness');
+            if (f) f.textContent = fullness;
+            toast('😋 ' + emoji + name + ' 真好吃！' + (fullness >= 6 ? '（吃饱啦～）' : ''));
             addXp(8);
             playTone(500, 0.08);
+        }
+        function funActivity(name, emoji, cost, xp) {
+            if (!isBoss() && !spendMoney(cost)) { toast('😅 金币不够啦～'); return; }
+            toast('🎮 ' + emoji + name + ' 好好玩！');
+            addXp(xp);
+            playTone(520, 0.12);
         }
         function sleepRoom() {
             if (!isBoss() && !spendMoney(300)) { toast('😅 金币不够啦～'); return; }
@@ -2994,7 +3124,244 @@
         }
         function buyClothes(name, emoji, price) {
             buyItem(name, emoji, price, 'toys', '');
+            lsSet('charClothes', name);
+            updateCharacter();
+            toast('👗 穿上 ' + emoji + name + ' 啦！');
         }
+        function upgradeMember() {
+            const levels = ['青铜', '白银', '黄金', '铂金', '钻石'];
+            const cur = memberLevel();
+            const idx = levels.indexOf(cur);
+            if (idx >= levels.length - 1) { toast('👑 已经是钻石会员啦！'); return; }
+            const next = levels[idx + 1];
+            const price = { '白银': 800, '黄金': 1500, '铂金': 5000, '钻石': 10000 }[next];
+            if (!isBoss() && !spendMoney(price)) { toast('😅 金币不够啦～'); return; }
+            lsSet('memberLevel', next);
+            applyMemberRoom();
+            toast('🎉 升级为 ' + next + ' 会员！');
+            playTone(700, 0.15);
+        }
+        function memberLevel() { return lsGet('memberLevel', '青铜'); }
+        function applyMemberRoom() {
+            const lv = memberLevel();
+            const rooms = { '青铜': '🛁 青铜房（普通）', '白银': '🥈 白银房（清爽）', '黄金': '🥇 黄金房（金色浴缸）', '铂金': '💎 铂金房（按摩池）', '钻石': '👑 钻石房（豪华专属）' };
+            const el = document.getElementById('memberRoom');
+            const ml = document.getElementById('memberLevel');
+            if (el) el.textContent = rooms[lv] || rooms['青铜'];
+            if (ml) ml.textContent = lv;
+            const tub = document.querySelector('.bath-tub');
+            if (tub) tub.classList.toggle('vip', lv !== '青铜' && lv !== '白银');
+            if (tub) tub.classList.toggle('diamond', lv === '钻石');
+        }
+        function digest() {
+            fullness = 0;
+            const f = document.getElementById('fullness');
+            if (f) f.textContent = 0;
+            toast('🫄 消化好啦！又能吃啦～');
+        }
+        function saveOutfit() {
+            const outfit = lsGet('charBody', '🧚') + '|' + lsGet('charHat', '👑') + '|' + lsGet('charAcc', '💎') + '|' + lsGet('charClothes', '');
+            let sets = [];
+            try { sets = JSON.parse(lsGet('outfits', '[]')); } catch (e) {}
+            sets.push(outfit);
+            lsSet('outfits', JSON.stringify(sets));
+            renderOutfits();
+            toast('💾 套装保存啦！');
+        }
+        function applyOutfit(idx) {
+            let sets = [];
+            try { sets = JSON.parse(lsGet('outfits', '[]')); } catch (e) {}
+            const o = sets[idx];
+            if (!o) return;
+            const p = o.split('|');
+            lsSet('charBody', p[0]); lsSet('charHat', p[1]); lsSet('charAcc', p[2]); lsSet('charClothes', p[3] || '');
+            updateCharacter();
+            toast('👗 套装一键换好啦！');
+        }
+        function renderOutfits() {
+            const el = document.getElementById('outfitList');
+            if (!el) return;
+            let sets = [];
+            try { sets = JSON.parse(lsGet('outfits', '[]')); } catch (e) {}
+            el.innerHTML = sets.length ? sets.map(function (s, i) { return '<button class="menu-item" onclick="applyOutfit(' + i + ')">套装' + (i + 1) + '：' + s.replace(/\|/g, ' ') + '</button>'; }).join('') : '（还没有套装）';
+        }
+        applyMemberRoom();
+        renderOutfits();
+
+        // ===== 免费礼包 =====
+        function freeGift() {
+            if (lsGet('gotGift', '0') === '1') { toast('🎁 已经领过啦～'); return; }
+            lsSet('gotGift', '1');
+            addMoney(10);
+            const inv = getInv();
+            inv['睡衣'] = inv['睡衣'] ? { emoji: '🩱', cat: 'toys', count: inv['睡衣'].count + 1 } : { emoji: '🩱', cat: 'toys', count: 1 };
+            inv['拖鞋'] = inv['拖鞋'] ? { emoji: '🥿', cat: 'toys', count: inv['拖鞋'].count + 1 } : { emoji: '🥿', cat: 'toys', count: 1 };
+            lsSet('inventory', JSON.stringify(inv));
+            renderInv();
+            toast('🎁 免费领到：睡衣🩱 + 拖鞋🥿 + 10 元！');
+            playTone(660, 0.15);
+        }
+
+        // ===== 打台球小游戏 =====
+        let poolScore = 0;
+        function resetPool() {
+            poolScore = 0;
+            const sc = document.getElementById('poolScore');
+            if (sc) sc.textContent = 0;
+            const t = document.getElementById('poolTable');
+            if (!t) return;
+            t.innerHTML = '';
+            const pp = [['4%','4%'],['50%','-3%'],['96%','4%'],['4%','96%'],['50%','103%'],['96%','96%']];
+            pp.forEach(function (p) {
+                const pk = document.createElement('span');
+                pk.className = 'pool-pocket';
+                pk.style.left = p[0];
+                pk.style.top = p[1];
+                t.appendChild(pk);
+            });
+            const cue = document.createElement('span');
+            cue.className = 'cue';
+            cue.id = 'cue';
+            t.appendChild(cue);
+            const colors = ['🔴','🟡','🔵','🟢','🟣','🟠','⚪','⚫'];
+            colors.forEach(function (c) {
+                const b = document.createElement('span');
+                b.className = 'pool-ball';
+                b.textContent = c;
+                b.style.left = (15 + Math.random() * 55) + '%';
+                b.style.top = (15 + Math.random() * 55) + '%';
+                b.onclick = function () { shoot(b); };
+                t.appendChild(b);
+            });
+        }
+        function shoot(ball) {
+            const cue = document.getElementById('cue');
+            if (cue) { cue.classList.remove('hit'); void cue.offsetWidth; cue.classList.add('hit'); }
+            const pp = [['4%','4%'],['50%','-3%'],['96%','4%'],['4%','96%'],['50%','103%'],['96%','96%']];
+            const p = pp[Math.floor(Math.random() * 6)];
+            ball.style.transition = 'left 0.4s ease, top 0.4s ease, opacity 0.4s ease, transform 0.4s ease';
+            ball.style.left = p[0];
+            ball.style.top = p[1];
+            ball.style.zIndex = 3;
+            setTimeout(function () {
+                ball.style.opacity = '0';
+                ball.style.transform = 'scale(0)';
+                poolScore++;
+                const sc = document.getElementById('poolScore');
+                if (sc) sc.textContent = poolScore;
+                playTone(600, 0.08);
+                if (poolScore >= 8) { toast('🎱 全进袋啦！赢啦！+经验'); addXp(25); }
+            }, 420);
+        }
+
+        // ===== 桑拿小游戏 =====
+        let saunaTemp = 20;
+        function heatSauna() {
+            saunaTemp += 10;
+            if (saunaTemp > 80) saunaTemp = 80;
+            const t = document.getElementById('saunaTemp');
+            const f = document.getElementById('saunaFill');
+            if (t) t.textContent = saunaTemp;
+            if (f) f.style.width = ((saunaTemp - 20) / 60 * 100) + '%';
+            playTone(300, 0.1);
+            if (saunaTemp >= 80) {
+                toast('♨️ 蒸桑拿好舒服！+经验');
+                addXp(30);
+                saunaTemp = 20;
+                setTimeout(function () { if (t) t.textContent = 20; if (f) f.style.width = '0%'; }, 1500);
+            }
+        }
+        resetPool();
+
+        // ===== KTV =====
+        let ktvCount = 0;
+        function sing() {
+            ktvCount++;
+            const el = document.getElementById('ktvCount');
+            if (el) el.textContent = ktvCount;
+            playTone(400 + ktvCount * 40, 0.15);
+            if (ktvCount >= 8) {
+                toast('🎤 唱完一首歌！好听！+经验');
+                addXp(25);
+                ktvCount = 0;
+                setTimeout(function () { if (el) el.textContent = 0; }, 1200);
+            }
+        }
+
+        // ===== 打牌（翻牌配对）=====
+        let cardFlipped = null, cardLock = false, cardMatched = 0;
+        function resetCards() {
+            cardFlipped = null; cardLock = false; cardMatched = 0;
+            const g = document.getElementById('cardGrid');
+            if (!g) return;
+            const emojis = ['🍓','🍇','🍉','🍓','🍇','🍉','🍒','🍒'];
+            for (let i = emojis.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [emojis[i], emojis[j]] = [emojis[j], emojis[i]]; }
+            g.innerHTML = '';
+            emojis.forEach(function (e, i) {
+                const c = document.createElement('div');
+                c.className = 'card';
+                c.dataset.emoji = e;
+                c.onclick = function () { flipCard(c); };
+                g.appendChild(c);
+            });
+        }
+        function flipCard(c) {
+            if (cardLock || c.classList.contains('flipped') || c.classList.contains('matched')) return;
+            c.textContent = c.dataset.emoji;
+            c.classList.add('flipped');
+            if (!cardFlipped) { cardFlipped = c; return; }
+            if (cardFlipped.dataset.emoji === c.dataset.emoji) {
+                cardFlipped.classList.add('matched'); c.classList.add('matched');
+                cardMatched += 2; cardFlipped = null;
+                playTone(700, 0.12);
+                if (cardMatched >= 8) { toast('🃏 全部配对成功！+经验'); addXp(25); }
+            } else {
+                cardLock = true;
+                setTimeout(function () {
+                    cardFlipped.textContent = ''; cardFlipped.classList.remove('flipped');
+                    c.textContent = ''; c.classList.remove('flipped');
+                    cardFlipped = null; cardLock = false;
+                }, 700);
+            }
+        }
+
+        // ===== 按摩 =====
+        let massagePower = 0;
+        function massage() {
+            massagePower += 15;
+            if (massagePower > 100) massagePower = 100;
+            const p = document.getElementById('massagePower');
+            const f = document.getElementById('massageFill');
+            if (p) p.textContent = massagePower;
+            if (f) f.style.width = massagePower + '%';
+            playTone(350, 0.1);
+            if (massagePower >= 100) {
+                toast('💆 按摩好舒服！+经验');
+                addXp(25);
+                massagePower = 0;
+                setTimeout(function () { if (p) p.textContent = 0; if (f) f.style.width = '0%'; }, 1500);
+            }
+        }
+
+        // ===== 洗浴搓背 =====
+        let scrubClean = 0;
+        function scrub() {
+            scrubClean += 20;
+            if (scrubClean > 100) scrubClean = 100;
+            const c = document.getElementById('scrubClean');
+            const f = document.getElementById('scrubFill');
+            if (c) c.textContent = scrubClean;
+            if (f) f.style.width = scrubClean + '%';
+            playTone(500, 0.08);
+            if (scrubClean >= 100) {
+                toast('🫧 洗得干干净净！+经验');
+                addXp(25);
+                scrubClean = 0;
+                setTimeout(function () { if (c) c.textContent = 0; if (f) f.style.width = '0%'; }, 1500);
+            }
+        }
+        resetCards();
+
         function initBubbles() {
             const scene = document.getElementById('bathScene');
             if (!scene) return;
