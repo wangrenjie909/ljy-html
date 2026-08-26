@@ -143,24 +143,33 @@
         }
         .nav-links {
             display: flex;
-            gap: 30px;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
             list-style: none;
             margin: 0;
             padding: 0;
         }
+        .nav-links li { margin: 0; }
         .nav-links a {
+            display: inline-block;
             color: #7a2050;
             text-decoration: none;
             font-weight: bold;
-            font-size: 20px;
-            padding: 10px 20px;
-            border-radius: 12px;
-            transition: all 0.3s;
+            font-size: 17px;
+            padding: 8px 16px;
+            border-radius: 30px;
+            background: rgba(255,255,255,0.35);
+            border: 2px solid rgba(255,255,255,0.6);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+            transition: all 0.25s;
         }
         .nav-links a:hover {
-            background: rgba(255,255,255,0.5);
+            background: rgba(255,255,255,0.7);
             color: #d84b8a;
-            transform: translateY(-2px);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 6px 16px rgba(255,150,200,0.5);
         }
         /* ===== Flexbox 三连卡片 ===== */
         .card-row {
@@ -1068,8 +1077,9 @@
         .char-clothes { position: absolute; bottom: 4px; left: 8px; font-size: 28px; z-index: 3; }
         .pool-table { position: relative; width: 100%; max-width: 360px; height: 200px; margin: 0 auto 8px; background: #2e7d32; border: 6px solid #6b4423; border-radius: 12px; }
         .pool-ball { position: absolute; font-size: 26px; cursor: pointer; transition: all 0.3s; }
-        .pool-pocket { position: absolute; width: 26px; height: 26px; background: #111; border-radius: 50%; transform: translate(-50%,-50%); z-index: 2; box-shadow: inset 0 2px 4px rgba(0,0,0,0.8); }
-        .cue { position: absolute; bottom: 8px; left: 50%; width: 5px; height: 70px; background: #8b5a2b; border-radius: 3px; transform: translateX(-50%); transform-origin: top center; z-index: 4; }
+        .pool-pocket { position: absolute; width: 26px; height: 26px; background: #111; border-radius: 50%; transform: translate(-50%,-50%); z-index: 2; box-shadow: inset 0 2px 4px rgba(0,0,0,0.8); pointer-events: none; }
+        .cue { position: absolute; bottom: 8px; left: 50%; width: 5px; height: 70px; background: #8b5a2b; border-radius: 3px; transform: translateX(-50%); transform-origin: top center; z-index: 4; pointer-events: none; }
+        .cue-ball { font-size: 30px; }
         .cue.hit { animation: poke 0.35s ease; }
         @keyframes poke { 0% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(-18px); } 100% { transform: translateX(-50%) translateY(0); } }
         .bath-tub.diamond { animation: diamondShine 1.5s infinite; }
@@ -1078,6 +1088,19 @@
         .card { aspect-ratio: 3/4; background: #ff9ec4; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 28px; transition: all 0.3s; }
         .card.flipped { background: #fff; }
         .card.matched { opacity: 0.4; pointer-events: none; }
+        .race-lane { display: flex; align-items: center; gap: 8px; margin: 8px 0; font-size: 14px; color: #7a2050; }
+        .race-bar { flex: 1; height: 16px; background: #ffe4f0; border-radius: 10px; overflow: hidden; }
+        .race-fill { height: 100%; width: 0%; background: linear-gradient(90deg,#ff9ec4,#ffd166); border-radius: 10px; transition: width 0.3s; }
+        .walk-area { position: relative; height: 90px; max-width: 320px; margin: 0 auto 8px; background: #ffe6f0; border-radius: 12px; overflow: hidden; }
+        .walker { position: absolute; top: 16px; left: 0; animation: walkMove 4s linear infinite alternate; }
+        .walker svg { width: 52px; height: 52px; }
+        @keyframes walkMove { from { left: 4%; } to { left: 84%; } }
+        .steam { font-size: 30px; opacity: 0; transition: opacity 0.4s; }
+        .steam.on { opacity: 1; animation: rise 2s infinite; }
+        .coaster-scene { position: relative; height: 120px; max-width: 360px; margin: 0 auto 8px; overflow: hidden; border-radius: 12px; background: #ffe6f0; }
+        .coaster-car { position: absolute; top: 50px; left: -40px; font-size: 40px; }
+        .coaster-car.go { animation: coasterRide 2.5s linear; }
+        @keyframes coasterRide { 0% { left: -40px; top: 50px; } 25% { left: 25%; top: 8px; } 50% { left: 50%; top: 50px; } 75% { left: 75%; top: 8px; } 100% { left: 105%; top: 50px; } }
 
         /* ===== 手机端适配 ===== */
         @media (max-width: 768px) {
@@ -1135,7 +1158,6 @@
             <li><a href="#" onclick="flipTo('toy');return false;">🧸 玩具商城</a></li>
             <li><a href="#" onclick="flipTo('craft');return false;">🎨 手工坊</a></li>
             <li><a href="#" onclick="flipTo('dessert');return false;">🍰 甜品店</a></li>
-            <li><a href="#" onclick="flipTo('restaurant');return false;">🍜 菜馆</a></li>
             <li><a href="#" onclick="flipTo('bath');return false;">🛁 洗浴房</a></li>
             <li><a href="#" onclick="flipTo('house');return false;">🏠 家</a></li>
             <li><a href="#" onclick="flipTo('work');return false;">🍪 打工</a></li>
@@ -1615,64 +1637,6 @@
     <div class="menu-panel" id="dessertMenu" style="display:none;"></div>
     </section><!-- /dessert -->
 
-    <!-- 🍜 菜馆 -->
-    <section id="section-restaurant" class="section">
-    <h2 style="text-align:center; z-index:1; position:relative; color:#e8709a; margin-top:40px; font-size:28px;">🍜 菜馆</h2>
-    <p style="text-align:center; z-index:1; position:relative; color:#7a2050; font-size:17px;">热腾腾的菜都摆上桌啦～（点菜扣金币）</p>
-    <div class="shop-scene" id="restScene">
-        <div class="waiter" id="rWaiter"></div>
-        <div class="food-plate" style="left:10%;top:40%;">🍜</div>
-        <div class="food-plate" style="left:52%;top:38%;">🥩</div>
-        <div class="food-plate" style="left:30%;top:62%;">🍖</div>
-        <div class="food-plate" style="left:72%;top:58%;">🍝</div>
-        <div class="chair" style="left:18%;top:46%;">🪑</div>
-        <div class="chair" style="left:60%;top:44%;">🪑</div>
-        <div class="chair" style="left:38%;top:68%;">🪑</div>
-        <div class="chair" style="left:80%;top:64%;">🪑</div>
-        <div class="bbq" style="left:8%;top:74%;">🍢</div>
-        <div class="hotpot" style="left:66%;top:74%;">🍲</div>
-    </div>
-    <div class="kitchen" id="kitchenArea" style="display:none;">
-        <h3 style="color:#e8734a;margin:0 0 6px;">👨‍🍳 后厨（只有老板能进）</h3>
-        <p style="margin:0 0 6px;color:#b06a8c;">顾客进不来，这里能真的烤出肉来～</p>
-        <div class="bbq-area">
-            <div class="bbq-fire" id="bbqFire">🔥</div>
-            <div class="bbq-meat" id="bbqMeat">🥩</div>
-        </div>
-        <div class="room-actions">
-            <button class="ride-btn primary" onclick="cookBBQ()">🔥 点火烤肉</button>
-        </div>
-        <div class="kitchen-tools"><span>🍢 烧烤架</span><span>🥘 热锅</span><span>🍲 火锅锅</span><span>🔪 菜刀</span><span>🥬 青菜筐</span></div>
-    </div>
-    <div class="review-box">
-        <h3 style="margin:0 0 4px;color:#d84b8a;">⭐ 给菜馆打分</h3>
-        <div class="stars" id="stars"><span onclick="rate(1)">⭐</span><span onclick="rate(2)">⭐</span><span onclick="rate(3)">⭐</span><span onclick="rate(4)">⭐</span><span onclick="rate(5)">⭐</span></div>
-        <input type="text" id="reviewText" placeholder="写点评论吧～">
-        <button class="ride-btn" onclick="submitReview()">📝 提交评价</button>
-        <div class="review-list" id="reviewList"></div>
-    </div>
-    <div class="review-box">
-        <h3 style="margin:0 0 4px;color:#d84b8a;">🪑 带人物入座吃饭</h3>
-        <button class="ride-btn primary" onclick="sitAndEat()">🍽️ 入座开动</button>
-        <div class="seat" id="seat"></div>
-    </div>
-    <div class="shop-grid">
-        <div class="shop-item"><span class="shop-icon">🍜</span><b>牛肉面</b><span class="shop-price">¥20</span><button onclick="orderMeal('牛肉面','🍜',20)">点餐</button></div>
-        <div class="shop-item"><span class="shop-icon">🍲</span><b>火锅</b><span class="shop-price">¥60</span><button onclick="orderMeal('火锅','🍲',60)">点餐</button></div>
-        <div class="shop-item"><span class="shop-icon">🍲</span><b>鸳鸯火锅</b><span class="shop-price">¥80</span><button onclick="orderMeal('鸳鸯火锅','🍲',80)">点餐</button></div>
-        <div class="shop-item"><span class="shop-icon">🍖</span><b>烤肉</b><span class="shop-price">¥50</span><button onclick="orderMeal('烤肉','🍖',50)">点餐</button></div>
-        <div class="shop-item"><span class="shop-icon">🍢</span><b>烤串</b><span class="shop-price">¥35</span><button onclick="orderMeal('烤串','🍢',35)">点餐</button></div>
-        <div class="shop-item"><span class="shop-icon">🥩</span><b>烤牛排</b><span class="shop-price">¥55</span><button onclick="orderMeal('烤牛排','🥩',55)">点餐</button></div>
-        <div class="shop-item"><span class="shop-icon">🥩</span><b>西餐牛排</b><span class="shop-price">¥120</span><button onclick="orderMeal('西餐牛排','🥩',120)">点餐</button></div>
-        <div class="shop-item"><span class="shop-icon">🍝</span><b>西餐意面</b><span class="shop-price">¥90</span><button onclick="orderMeal('西餐意面','🍝',90)">点餐</button></div>
-        <div class="shop-item"><span class="shop-icon">🍔</span><b>西餐汉堡</b><span class="shop-price">¥40</span><button onclick="orderMeal('西餐汉堡','🍔',40)">点餐</button></div>
-        <div class="shop-item"><span class="shop-icon">🍕</span><b>披萨</b><span class="shop-price">¥45</span><button onclick="orderMeal('披萨','🍕',45)">点餐</button></div>
-        <div class="shop-item"><span class="shop-icon">🧃</span><b>果汁</b><span class="shop-price">¥15</span><button onclick="orderMeal('果汁','🧃',15)">点餐</button></div>
-        <div class="shop-item"><span class="shop-icon">🥬</span><b>炒青菜</b><span class="shop-price">¥10</span><button onclick="orderMeal('炒青菜','🥬',10)">点餐</button></div>
-        <div class="shop-item"><span class="shop-icon">🥗</span><b>蔬菜沙拉</b><span class="shop-price">¥25</span><button onclick="orderMeal('蔬菜沙拉','🥗',25)">点餐</button></div>
-        <div class="shop-item"><span class="shop-icon">🍟</span><b>炸薯条</b><span class="shop-price">¥18</span><button onclick="orderMeal('炸薯条','🍟',18)">点餐</button></div>
-    </div>
-    </section><!-- /restaurant -->
 
     <!-- 🧸 玩具商城 -->
     <section id="section-toy" class="section">
@@ -1751,6 +1715,7 @@
         <h3>♨️ 桑拿房</h3>
         <div class="xp-bar"><div class="xp-fill" id="saunaFill"></div></div>
         <p style="color:#b06a8c;">温度：<b id="saunaTemp">20</b>℃</p>
+        <div class="steam" id="saunaSteam">♨️</div>
         <div class="room-actions"><button class="ride-btn primary" onclick="heatSauna()">🔥 加柴升温</button></div>
     </div>
 
@@ -1779,6 +1744,67 @@
         <div class="xp-bar"><div class="xp-fill" id="scrubFill"></div></div>
         <p style="color:#b06a8c;">干净度：<b id="scrubClean">0</b></p>
         <div class="room-actions"><button class="ride-btn primary" onclick="scrub()">🫧 搓一搓</button></div>
+    </div>
+
+    <div class="craft-room">
+        <h3>👨‍🍳 后厨烤肉</h3>
+        <div class="bbq-area">
+            <div class="bbq-fire" id="bbqFire">🔥</div>
+            <div class="bbq-meat" id="bbqMeat">🥩</div>
+        </div>
+        <div class="room-actions"><button class="ride-btn primary" onclick="cookBBQ()">🔥 点火烤肉</button></div>
+    </div>
+
+    <div class="craft-room">
+        <h3>🪑 带人物入座吃饭</h3>
+        <button class="ride-btn primary" onclick="sitAndEat()">🍽️ 入座开动</button>
+        <div class="seat" id="seat"></div>
+    </div>
+
+    <h3 class="cat-title">🍜 点餐（原菜馆的菜）</h3>
+    <div class="shop-grid">
+        <div class="shop-item"><span class="shop-icon">🍜</span><b>牛肉面</b><span class="shop-price">¥20</span><button onclick="orderMeal('牛肉面','🍜',20)">点</button></div>
+        <div class="shop-item"><span class="shop-icon">🍲</span><b>火锅</b><span class="shop-price">¥60</span><button onclick="orderMeal('火锅','🍲',60)">点</button></div>
+        <div class="shop-item"><span class="shop-icon">🍲</span><b>鸳鸯火锅</b><span class="shop-price">¥80</span><button onclick="orderMeal('鸳鸯火锅','🍲',80)">点</button></div>
+        <div class="shop-item"><span class="shop-icon">🍖</span><b>烤肉</b><span class="shop-price">¥50</span><button onclick="orderMeal('烤肉','🍖',50)">点</button></div>
+        <div class="shop-item"><span class="shop-icon">🍢</span><b>烤串</b><span class="shop-price">¥35</span><button onclick="orderMeal('烤串','🍢',35)">点</button></div>
+        <div class="shop-item"><span class="shop-icon">🥩</span><b>烤牛排</b><span class="shop-price">¥55</span><button onclick="orderMeal('烤牛排','🥩',55)">点</button></div>
+        <div class="shop-item"><span class="shop-icon">🥩</span><b>西餐牛排</b><span class="shop-price">¥120</span><button onclick="orderMeal('西餐牛排','🥩',120)">点</button></div>
+        <div class="shop-item"><span class="shop-icon">🍝</span><b>西餐意面</b><span class="shop-price">¥90</span><button onclick="orderMeal('西餐意面','🍝',90)">点</button></div>
+        <div class="shop-item"><span class="shop-icon">🍔</span><b>西餐汉堡</b><span class="shop-price">¥40</span><button onclick="orderMeal('西餐汉堡','🍔',40)">点</button></div>
+        <div class="shop-item"><span class="shop-icon">🍕</span><b>披萨</b><span class="shop-price">¥45</span><button onclick="orderMeal('披萨','🍕',45)">点</button></div>
+        <div class="shop-item"><span class="shop-icon">🧃</span><b>果汁</b><span class="shop-price">¥15</span><button onclick="orderMeal('果汁','🧃',15)">点</button></div>
+        <div class="shop-item"><span class="shop-icon">🥬</span><b>炒青菜</b><span class="shop-price">¥10</span><button onclick="orderMeal('炒青菜','🥬',10)">点</button></div>
+        <div class="shop-item"><span class="shop-icon">🥗</span><b>蔬菜沙拉</b><span class="shop-price">¥25</span><button onclick="orderMeal('蔬菜沙拉','🥗',25)">点</button></div>
+        <div class="shop-item"><span class="shop-icon">🍟</span><b>炸薯条</b><span class="shop-price">¥18</span><button onclick="orderMeal('炸薯条','🍟',18)">点</button></div>
+    </div>
+
+    <div class="craft-room">
+        <h3>🏃 跑酷大道（跟 AI 赛跑 1 分钟）</h3>
+        <div class="race-lane"><span>你</span><div class="race-bar"><div class="race-fill" id="youFill"></div></div></div>
+        <div class="race-lane"><span>AI</span><div class="race-bar"><div class="race-fill" id="aiFill"></div></div></div>
+        <p style="color:#b06a8c;">时间：<b id="raceTime">60</b> 秒　（猛点「跑」！）</p>
+        <div class="room-actions">
+            <button class="ride-btn primary" id="raceBtn" onclick="toggleRace()">🏁 开始赛跑</button>
+            <button class="ride-btn" onclick="raceStep('left')">👈 左</button>
+            <button class="ride-btn" onclick="raceStep('right')">👉 右</button>
+        </div>
+    </div>
+
+    <div class="craft-room">
+        <h3>🚶 人物散步（可快可慢）</h3>
+        <div class="walk-area"><div class="walker" id="walker"></div></div>
+        <div class="room-actions">
+            <button class="ride-btn" onclick="setWalk('slow')">🐢 慢走</button>
+            <button class="ride-btn" onclick="setWalk('normal')">🚶 正常</button>
+            <button class="ride-btn" onclick="setWalk('fast')">🏃 快跑</button>
+        </div>
+    </div>
+
+    <div class="craft-room">
+        <h3>🎢 过山车</h3>
+        <div class="coaster-scene"><div class="coaster-car" id="coasterCar2">🎢</div></div>
+        <div class="room-actions"><button class="ride-btn primary" onclick="launchCoaster()">🚀 发车</button></div>
     </div>
 
     <h3 class="cat-title">👑 会员等级</h3>
@@ -2470,6 +2496,10 @@
                 { name: '拼图', emoji: '🧩', price: 20, cat: 'toys' },
                 { name: '小火车玩具', emoji: '🚂', price: 45, cat: 'toys' },
                 { name: '迷你旋转木马', emoji: '🎠', price: 50, cat: 'toys' },
+                { name: '兔兔玩偶', emoji: '🐰', price: 60, cat: 'toys' },
+                { name: '猫猫玩偶', emoji: '🐱', price: 55, cat: 'toys' },
+                { name: '恐龙玩偶', emoji: '🦕', price: 70, cat: 'toys' },
+                { name: '独角兽玩偶', emoji: '🦄', price: 90, cat: 'toys' },
                 { name: '蝴蝶结发饰', emoji: '🎀', price: 8, cat: 'toys' },
                 { name: '手工手链', emoji: '📿', price: 20, cat: 'toys' },
                 { name: '糖果贴画', emoji: '🎨', price: 12, cat: 'toys' },
@@ -3223,35 +3253,50 @@
             cue.className = 'cue';
             cue.id = 'cue';
             t.appendChild(cue);
-            const colors = ['🔴','🟡','🔵','🟢','🟣','🟠','⚪','⚫'];
+            const cueBall = document.createElement('span');
+            cueBall.className = 'pool-ball cue-ball';
+            cueBall.textContent = '⚪';
+            cueBall.style.left = '50%';
+            cueBall.style.top = '72%';
+            cueBall.style.transition = 'left 0.2s ease, top 0.2s ease';
+            t.appendChild(cueBall);
+            const colors = ['🔴','🟡','🔵','🟢','🟣','🟠','⚫'];
             colors.forEach(function (c) {
                 const b = document.createElement('span');
                 b.className = 'pool-ball';
                 b.textContent = c;
-                b.style.left = (15 + Math.random() * 55) + '%';
-                b.style.top = (15 + Math.random() * 55) + '%';
+                b.style.left = (12 + Math.random() * 60) + '%';
+                b.style.top = (10 + Math.random() * 50) + '%';
+                b.style.transition = 'left 0.35s ease, top 0.35s ease, opacity 0.35s ease, transform 0.35s ease';
                 b.onclick = function () { shoot(b); };
                 t.appendChild(b);
             });
         }
         function shoot(ball) {
+            if (ball.classList.contains('matched')) return;
+            ball.classList.add('matched');
+            const t = document.getElementById('poolTable');
             const cue = document.getElementById('cue');
             if (cue) { cue.classList.remove('hit'); void cue.offsetWidth; cue.classList.add('hit'); }
+            const cueBall = t.querySelector('.cue-ball');
+            if (cueBall) { cueBall.style.left = ball.style.left; cueBall.style.top = ball.style.top; }
             const pp = [['4%','4%'],['50%','-3%'],['96%','4%'],['4%','96%'],['50%','103%'],['96%','96%']];
             const p = pp[Math.floor(Math.random() * 6)];
-            ball.style.transition = 'left 0.4s ease, top 0.4s ease, opacity 0.4s ease, transform 0.4s ease';
-            ball.style.left = p[0];
-            ball.style.top = p[1];
-            ball.style.zIndex = 3;
             setTimeout(function () {
-                ball.style.opacity = '0';
-                ball.style.transform = 'scale(0)';
-                poolScore++;
-                const sc = document.getElementById('poolScore');
-                if (sc) sc.textContent = poolScore;
-                playTone(600, 0.08);
-                if (poolScore >= 8) { toast('🎱 全进袋啦！赢啦！+经验'); addXp(25); }
-            }, 420);
+                ball.style.left = p[0];
+                ball.style.top = p[1];
+                ball.style.zIndex = 3;
+                setTimeout(function () {
+                    ball.style.opacity = '0';
+                    ball.style.transform = 'scale(0)';
+                    poolScore++;
+                    const sc = document.getElementById('poolScore');
+                    if (sc) sc.textContent = poolScore;
+                    playTone(600, 0.08);
+                    if (cueBall) { cueBall.style.left = '50%'; cueBall.style.top = '72%'; }
+                    if (poolScore >= 7) { toast('🎱 全进袋啦！赢啦！+经验'); addXp(25); }
+                }, 350);
+            }, 220);
         }
 
         // ===== 桑拿小游戏 =====
@@ -3263,6 +3308,8 @@
             const f = document.getElementById('saunaFill');
             if (t) t.textContent = saunaTemp;
             if (f) f.style.width = ((saunaTemp - 20) / 60 * 100) + '%';
+            const steam = document.getElementById('saunaSteam');
+            if (steam) steam.classList.toggle('on', saunaTemp >= 50);
             playTone(300, 0.1);
             if (saunaTemp >= 80) {
                 toast('♨️ 蒸桑拿好舒服！+经验');
@@ -3394,6 +3441,74 @@
             c.innerHTML = html;
         }
         renderToyShop();
+
+        // ===== 跑酷大道 =====
+        let racing = false, youDist = 0, aiDist = 0, raceTimeLeft = 60, raceTimer = null;
+        function toggleRace() {
+            if (racing) return;
+            racing = true;
+            youDist = 0; aiDist = 0; raceTimeLeft = 60;
+            expectLeft = true;
+            const btn = document.getElementById('raceBtn');
+            if (btn) btn.textContent = '🏁 比赛中...';
+            const rt = document.getElementById('raceTime');
+            if (rt) rt.textContent = 60;
+            updateRace();
+            raceTimer = setInterval(function () {
+                aiDist += 1.6 + Math.random() * 1.6;
+                raceTimeLeft--;
+                const r = document.getElementById('raceTime');
+                if (r) r.textContent = raceTimeLeft;
+                updateRace();
+                if (raceTimeLeft <= 0) {
+                    clearInterval(raceTimer);
+                    racing = false;
+                    const win = youDist >= aiDist;
+                    toast(win ? '🏆 你赢啦！' + Math.round(youDist) + ' vs ' + Math.round(aiDist) : '🤖 AI 赢啦！再试一次～');
+                    addXp(win ? 40 : 15);
+                    if (btn) btn.textContent = '🏁 开始赛跑';
+                }
+            }, 1000);
+        }
+        let expectLeft = true;
+        function raceStep(dir) {
+            if (!racing) { toast('🏁 先点开始赛跑哦～'); return; }
+            if (dir === 'left' && !expectLeft) { toast('👉 该点「右」啦！'); return; }
+            if (dir === 'right' && expectLeft) { toast('👈 该点「左」啦！'); return; }
+            expectLeft = !expectLeft;
+            youDist += 3;
+            playTone(500, 0.06);
+            updateRace();
+        }
+        function updateRace() {
+            const yf = document.getElementById('youFill');
+            const af = document.getElementById('aiFill');
+            if (yf) yf.style.width = Math.min(100, youDist) + '%';
+            if (af) af.style.width = Math.min(100, aiDist) + '%';
+        }
+
+        // ===== 人物散步 =====
+        let walkSpeed = 4;
+        function setWalk(s) {
+            walkSpeed = s === 'slow' ? 9 : s === 'fast' ? 2 : 4;
+            const w = document.getElementById('walker');
+            if (w) w.style.animationDuration = walkSpeed + 's';
+            toast(s === 'slow' ? '🐢 慢慢走～' : s === 'fast' ? '🏃 跑起来！' : '🚶 正常走～');
+        }
+        function initWalker() {
+            const w = document.getElementById('walker');
+            if (w) w.innerHTML = charSVG(getClothesStyle());
+        }
+        initWalker();
+
+        // ===== 过山车 =====
+        function launchCoaster() {
+            const car = document.getElementById('coasterCar2');
+            if (!car) return;
+            car.classList.remove('go'); void car.offsetWidth; car.classList.add('go');
+            playTone(400, 0.3);
+            setTimeout(function () { playTone(600, 0.3); }, 600);
+        }
     </script>
 
     <!-- 🔍 灯箱（第8课） -->
