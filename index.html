@@ -1101,6 +1101,17 @@
         .coaster-car { position: absolute; top: 50px; left: -40px; font-size: 40px; }
         .coaster-car.go { animation: coasterRide 2.5s linear; }
         @keyframes coasterRide { 0% { left: -40px; top: 50px; } 25% { left: 25%; top: 8px; } 50% { left: 50%; top: 50px; } 75% { left: 75%; top: 8px; } 100% { left: 105%; top: 50px; } }
+        .ride-row { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 8px; }
+        .ride-show { font-size: 60px; height: 80px; display: flex; align-items: center; justify-content: center; }
+        .ride-show.spin { animation: spin 2s linear infinite; }
+        .ride-show.drop { animation: dropRide 1.2s ease; }
+        .ride-show.bump { animation: bumpRide 0.5s infinite alternate; }
+        .ride-show.swing { animation: swingRide 1.4s ease-in-out infinite alternate; }
+        @keyframes dropRide { 0% { transform: translateY(0); } 40% { transform: translateY(-40px); } 60% { transform: translateY(0); } 80% { transform: translateY(-18px); } 100% { transform: translateY(0); } }
+        @keyframes bumpRide { from { transform: translateX(-22px); } to { transform: translateX(22px); } }
+        @keyframes swingRide { from { transform: rotate(-22deg); } to { transform: rotate(22deg); } }
+        .guest { position: absolute; font-size: 30px; z-index: 3; pointer-events: none; }
+        .guest-bubble { position: absolute; background: #fff; border-radius: 12px; padding: 3px 10px; font-size: 12px; z-index: 4; pointer-events: none; box-shadow: 0 2px 6px rgba(0,0,0,0.2); color: #7a2050; white-space: nowrap; }
 
         /* ===== 手机端适配 ===== */
         @media (max-width: 768px) {
@@ -1807,6 +1818,17 @@
         <div class="room-actions"><button class="ride-btn primary" onclick="launchCoaster()">🚀 发车</button></div>
     </div>
 
+    <div class="craft-room">
+        <h3>🎡 机动游戏</h3>
+        <div class="ride-row">
+            <button class="ride-btn" onclick="rideAni('ferris','🎡')">🎡 摩天轮</button>
+            <button class="ride-btn" onclick="rideAni('drop','🏗️')">🏗️ 跳楼机</button>
+            <button class="ride-btn" onclick="rideAni('bumper','🚗')">🚗 碰碰车</button>
+            <button class="ride-btn" onclick="rideAni('swing','🎢')">🎢 大摆锤</button>
+        </div>
+        <div class="ride-show" id="rideShow">🎡</div>
+    </div>
+
     <h3 class="cat-title">👑 会员等级</h3>
     <div class="room-actions">
         <button class="ride-btn primary" onclick="upgradeMember()">⬆️ 升级会员</button>
@@ -2345,7 +2367,7 @@
         };
         function charSVG(style) {
             const s = style || { kind: 'dress', color: '#ff9ec4' };
-            const head = '<circle cx="32" cy="20" r="12" fill="#ffd9b3"/><path d="M14 24 Q14 8 32 8 Q50 8 50 24 L45 24 Q45 14 32 14 Q19 14 19 24 Z" fill="#7a4a2b"/><circle cx="27" cy="20" r="2" fill="#3a2a1a"/><circle cx="37" cy="20" r="2" fill="#3a2a1a"/><path d="M28 26 Q32 30 36 26" fill="none" stroke="#3a2a1a" stroke-width="2" stroke-linecap="round"/>';
+            const head = '<circle cx="32" cy="20" r="12" fill="#ffd9b3"/><path d="M14 24 Q14 8 32 8 Q50 8 50 24 L45 24 Q45 14 32 14 Q19 14 19 24 Z" fill="#7a4a2b"/><circle cx="27" cy="20" r="2" fill="#3a2a1a"/><circle cx="37" cy="20" r="2" fill="#3a2a1a"/><path d="M29 25 Q32 29 35 25" fill="none" stroke="#3a2a1a" stroke-width="2" stroke-linecap="round"/><circle cx="24" cy="23" r="2.6" fill="#ff9eb0" opacity="0.55"/><circle cx="40" cy="23" r="2.6" fill="#ff9eb0" opacity="0.55"/>';
             let body = '';
             if (s.kind === 'pants') {
                 body = '<path d="M32 30 L25 46 L28 46 L32 38 L36 46 L39 46 L32 30 Z" fill="' + s.color + '"/><path d="M28 46 L27 56 L31 56 L32 48 Z" fill="' + s.color + '"/><path d="M36 46 L33 48 L33 56 L37 56 Z" fill="' + s.color + '"/><rect x="26" y="54" width="5" height="5" fill="#3a2a1a"/><rect x="33" y="54" width="5" height="5" fill="#3a2a1a"/>';
@@ -3509,6 +3531,46 @@
             playTone(400, 0.3);
             setTimeout(function () { playTone(600, 0.3); }, 600);
         }
+
+        // ===== 机动游戏 =====
+        function rideAni(type, emoji) {
+            const show = document.getElementById('rideShow');
+            if (!show) return;
+            show.textContent = emoji;
+            show.classList.remove('spin', 'drop', 'bump', 'swing');
+            void show.offsetWidth;
+            if (type === 'ferris') show.classList.add('spin');
+            else if (type === 'drop') show.classList.add('drop');
+            else if (type === 'bumper') show.classList.add('bump');
+            else show.classList.add('swing');
+            playTone(500, 0.2);
+        }
+
+        // ===== 客人来点单 =====
+        function initGuests(containerId) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            const guests = ['👩', '👨', '👧', '👦', '👵', '👴'];
+            const orders = ['我要一份火锅！', '来杯奶茶～', '我要烤肉！', '来份甜品～', '点一份牛排！', '来碗牛肉面！'];
+            setInterval(function () {
+                if (Math.random() < 0.55) return;
+                const g = document.createElement('div');
+                g.className = 'guest';
+                g.textContent = guests[Math.floor(Math.random() * guests.length)];
+                g.style.left = (5 + Math.random() * 75) + '%';
+                g.style.top = (8 + Math.random() * 55) + '%';
+                container.appendChild(g);
+                const b = document.createElement('div');
+                b.className = 'guest-bubble';
+                b.textContent = orders[Math.floor(Math.random() * orders.length)];
+                b.style.left = g.style.left;
+                b.style.top = (Math.max(0, parseInt(g.style.top) - 22)) + '%';
+                container.appendChild(b);
+                setTimeout(function () { g.remove(); b.remove(); }, 5000);
+            }, 2800);
+        }
+        initGuests('dessertScene');
+        initGuests('bathScene');
     </script>
 
     <!-- 🔍 灯箱（第8课） -->
